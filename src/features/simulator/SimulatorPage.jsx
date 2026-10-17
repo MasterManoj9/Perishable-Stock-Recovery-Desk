@@ -702,6 +702,19 @@ export function SimulatorPage({
               </p>
             </div>
 
+            {/* Business Feedback Mandate: Explicit unapproved margin separation when safety-blocked */}
+            {!isEligible && recommendation?.potentialUnitMargin > 0 && (
+              <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-900 space-y-1">
+                <div className="font-bold flex items-center gap-1.5 text-amber-900">
+                  <AlertTriangle className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                  <span>Unapproved Theoretical Margin</span>
+                </div>
+                <p className="text-[11px] leading-relaxed text-amber-800">
+                  This scenario would yield a theoretical margin of <strong>+₹{recommendation.potentialUnitMargin}/unit</strong>, but cannot be approved. Under food-safety regulations, economic attractiveness never overrides expiry or safety restrictions.
+                </p>
+              </div>
+            )}
+
             {/* Revenue & Cost Breakdown (Section 8 Mandate) */}
             <div className="grid grid-cols-2 gap-3 text-xs">
               <div className="p-3 bg-slate-50 border border-slate-200/80 rounded-xl">
@@ -767,7 +780,7 @@ export function SimulatorPage({
             <div className="pt-2">
               <button
                 onClick={() => setShowConfirmModal(true)}
-                disabled={!isEligible && activeBatch.expired === false}
+                disabled={isSaving}
                 className={`w-full py-3 px-4 rounded-xl text-xs font-bold text-white transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer ${
                   isEligible
                     ? 'bg-slate-900 hover:bg-slate-800 shadow-slate-900/10'

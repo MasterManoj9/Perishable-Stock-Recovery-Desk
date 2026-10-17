@@ -20,6 +20,10 @@ export const EligibilityStatus = {
   INVALID_RECORD: 'INVALID_RECORD'
 };
 
+const KNOWN_GOOD_CONDITIONS = new Set(['good', 'intact', 'normal', 'acceptable', 'fresh', '']);
+const KNOWN_DAMAGED_CONDITIONS = new Set(['damaged', 'compromised', 'spoiled', 'crushed', 'broken', 'leaking']);
+const COLD_CHAIN_EXCEPTIONS = new Set(['exception', 'unresolved', 'alert', 'broken', 'breached', 'violated', 'failure']);
+
 /**
  * Checks stock eligibility for a given batch.
  * 
@@ -46,32 +50,11 @@ export function checkEligibility(batch, referenceTime = Date.now()) {
     };
   }
 
-  // 2. Check stock condition (Damage gate)
-  const condition = (batch.condition || '').toLowerCase().trim();
-  const isDamaged = batch.damaged === true || condition === 'damaged' || condition === 'compromised';
-  if (isDamaged) {
-    return {
-      eligible: false,
-      sellableQuantity: 0,
-      status: EligibilityStatus.DAMAGED,
-      reason: 'Stock is damaged or packaging is compromised. Strictly blocked from recovery sale.',
-      requiresReview: false
-    };
-  }
+  // Safe reference time normalization
+  const refDate = referenceTime instanceof Date ? referenceTime : new Date(referenceTime);
+  const refMs = isNaN(refDate.getTime()) ? Date.now() : refDate.getTime();
 
-  // 3. Check cold-chain status
-  const coldChain = (batch.cold_chain_status || batch.coldChainStatus || batch.cold_chain || '').toLowerCase().trim();
-  if (coldChain === 'exception' || coldChain === 'unresolved' || coldChain === 'alert') {
-    return {
-      eligible: false,
-      sellableQuantity: 0,
-      status: EligibilityStatus.COLD_CHAIN_REVIEW,
-      reason: 'Unresolved cold-chain temperature exception. Stock blocked pending food-safety supervisor clearance.',
-      requiresReview: true
-    };
-  }
-
-  // 4. Check expiry boundary (both boolean flag from fixture and ISO timestamp)
+  // 2. Check expiry boundary (both boolean flag from fixture and ISO timestamp)
   // Direct boolean check (from official fixture B2)
   if (batch.expired === true) {
     return {
@@ -96,9 +79,8 @@ export function checkEligibility(batch, referenceTime = Date.now()) {
     }
 
     const expiryMs = new Date(batch.expiryAt).getTime();
-    const refMs = new Date(referenceTime).getTime();
 
-    // Expiry rule: at or after expiry boundary timestamp, stock is expired
+    // Expiry rule: at or after expiry boundary timestamp, stock is expired (refMs >= expiryMs)
     if (refMs >= expiryMs) {
       return {
         eligible: false,
@@ -108,6 +90,55 @@ export function checkEligibility(batch, referenceTime = Date.now()) {
         requiresReview: false
       };
     }
+  }
+
+  // 3. Check stock condition (Damage gate)
+  const condition = String(batch.condition || '').toLowerCase().trim();
+  const isDamaged = batch.damaged === true || KNOWN_DAMAGED_CONDITIONS.has(condition);
+  if (isDamaged) {
+    return {
+      eligible: false,
+      sellableQuantity: 0,
+      status: EligibilityStatus.DAMAGED,
+      reason: 'Stock is damaged or packaging is compromised. Strictly blocked from recovery sale.',
+      requiresReview: false
+    };
+  }
+
+  if (condition && !KNOWN_GOOD_CONDITIONS.has(condition)) {
+    return {
+      eligible: false,
+      sellableQuantity: 0,
+      status: EligibilityStatus.COLD_CHAIN_REVIEW,
+      reason: `Unrecognized stock condition "${batch.condition}". Stock blocked pending quality inspection.`,
+      requiresReview: true
+    };
+  }
+
+  // 4. Check cold-chain status
+  const coldChainRaw = batch.cold_chain_status || batch.coldChainStatus || batch.cold_chain;
+  const coldChain = String(coldChainRaw || '').toLowerCase().trim();
+
+  if (COLD_CHAIN_EXCEPTIONS.has(coldChain)) {
+    return {
+      eligible: false,
+      sellableQuantity: 0,
+      status: EligibilityStatus.COLD_CHAIN_REVIEW,
+      reason: 'Unresolved cold-chain temperature exception. Stock blocked pending food-safety supervisor clearance.',
+      requiresReview: true
+    };
+  }
+
+  // Missing cold-chain evidence when explicitly required
+  const requiresColdChain = batch.requiresColdChain === true || batch.requires_cold_chain === true;
+  if (requiresColdChain && (!coldChain || coldChain === 'missing' || coldChain === 'unrecorded' || coldChain === 'unknown')) {
+    return {
+      eligible: false,
+      sellableQuantity: 0,
+      status: EligibilityStatus.COLD_CHAIN_REVIEW,
+      reason: 'Missing cold-chain verification records. Perishable item blocked pending temperature log verification.',
+      requiresReview: true
+    };
   }
 
   // 5. Passed all safety gates
