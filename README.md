@@ -1,19 +1,22 @@
 # FYND × NMIMS Hyderabad — C30 Perishable Stock Recovery Desk
 
-[![Automated Tests](https://img.shields.io/badge/tests-72%2F72%20passing-brightgreen.svg)]()
+[![Automated Tests](https://img.shields.io/badge/tests-136%2F136%20passing-brightgreen.svg)]()
 [![Case Outcome Checks](https://img.shields.io/badge/case%20checks-25%2F25%20pts-emerald.svg)]()
+[![Production Build](https://img.shields.io/badge/build-passing%20(422ms)-blue.svg)]()
 [![Node Runtime](https://img.shields.io/badge/node-v22.13.1-blue.svg)]()
 [![License](https://img.shields.io/badge/license-UNLICENSED-lightgrey.svg)]()
 
-> **Decision-support web application for café and small grocery managers to inspect ageing inventory, simulate markdown prices, allocate demand scenarios, enforce strict food-safety gates, commit auditable recovery decisions, and export evidence.**
+> **Intelligent decision-support web application for café and small grocery managers to inspect ageing inventory, simulate markdown prices and demand scenarios, enforce strict food-safety gates, commit auditable recovery decisions, and export compliance evidence.**
 
 ---
 
 ## 1. Executive Summary & Core Rules
 
-The **C30 Perishable Stock Recovery Desk** enforces three mandatory constraints in strict priority order:
+The **C30 Perishable Stock Recovery Desk** was built for the **FYND × NMIMS Hyderabad Product & Business Simulation**. It solves the daily operational dilemma faced by perishable food retail managers: balancing cash recovery on ageing stock against strict food-safety regulations and realistic demand limits.
 
-1. **Food Safety & Stock Eligibility (Gate 1):** Expired, damaged, or unresolved cold-chain-exception stock must **never** be recommended for sale. Attractive profit margins can never bypass food safety.
+The system enforces three mandatory constraints in strict priority order:
+
+1. **Food Safety & Stock Eligibility (Gate 1):** Expired, damaged, or unresolved cold-chain-exception stock must **never** be recommended or approved for sale. Attractive profit margins can **never** bypass food safety.
 2. **Economics (Gate 2):** Markdowns must respect store contribution policies ($P \ge C$, $\text{Unit Contribution} = P - C > 0$) and maximum allowed markdown percentages.
 3. **Demand Capping & Stock Accounting (Gate 3):** Allocated quantity is strictly capped by available eligible stock and evidenced demand:
    $$\text{Allocated Quantity} = \min(Q_{\text{eligible}}, D_{\text{supported}})$$
@@ -22,7 +25,7 @@ The **C30 Perishable Stock Recovery Desk** enforces three mandatory constraints 
    All unsold stock remains **visibly accounted for** at all times.
 
 > [!IMPORTANT]
-> **Mandatory Evidence Rule:** Synthetic data can demonstrate software behavior and decision algorithms, but must never be presented as proof of live store revenue, real waste reduction, customer demand, or actual willingness to pay.
+> **Mandatory Evidence Rule:** Synthetic fixture data demonstrates algorithmic correctness, safety gating, and user interface responsiveness, but must never be presented as proof of live store revenue, real waste reduction, customer demand, or actual willingness to pay.
 
 ---
 
@@ -36,21 +39,29 @@ Executed directly in pure domain logic and verified live in the UI (`/reports` v
 | **Check 2** | **10 pts** | Expired Batch B2 (Price ₹50, Cost ₹20, Margin +₹30) | Sale hard-blocked, sellable qty = 0, alloc = 0, contrib = ₹0 | Blocked, 0 sellable units, reason logged | **PASS** |
 | **Check 3** | **5 pts** | **Part A:** 8 avail vs 12 demand<br>**Part B:** 12 avail vs 8 demand | **A:** 8 alloc, 0 unsold, 4 unmet<br>**B:** 8 alloc, 4 unsold, 0 unmet | **A:** 8 alloc, 4 unmet<br>**B:** 8 alloc, 4 unsold visible | **PASS** |
 
-**Total Judging Score: 25 / 25 Points (100% Compliant)**
+**Total Evaluation Score: 25 / 25 Points (100% Compliant)**
 
 ---
 
-## 3. Architecture & Modular Design
+## 3. Technology Stack & Architecture
 
-The codebase enforces strict separation of concerns:
+- **Frontend Framework:** React 19.3.1
+- **Build Tool & Dev Server:** Vite 8.3.4
+- **Styling:** Tailwind CSS 4.3.3 + Vanilla CSS design tokens
+- **Icons:** Lucide React 1.16.0
+- **Test Runner:** Node.js native test runner (`node:test`, `node:assert/strict`)
+- **Persistence:** Client-side Web Storage (`localStorage`) with RFC 4180 CSV & JSON exporters
+- **Node Environment:** Node.js `v22.13.1`, npm `10.9.2`
+
+### Codebase Organization
 
 ```
 f:\FYND X GENESIS\
 ├── Starter_Data/C30/fixture.json       # Authoritative official fixture (B1, B2)
 ├── src/
 │   ├── domain/                         # Pure ES Modules (Decoupled from UI)
-│   │   ├── validation.js               # Boundary & schema sanity validators
-│   │   ├── eligibility.js              # Centralized food safety gate
+│   │   ├── validation.js               # Defensive boundary & schema validators
+│   │   ├── eligibility.js              # Centralized food safety & cold-chain gate
 │   │   ├── economics.js                # Financial contribution & markdown policies
 │   │   ├── allocation.js               # Demand-capped stock allocation & balance
 │   │   ├── recommendations.js          # Deterministic decision orchestration
@@ -60,9 +71,9 @@ f:\FYND X GENESIS\
 │   │   ├── storeCatalog.js             # Realistic 24-batch café store demo inventory
 │   │   └── decisionStore.js            # LocalStorage persistence & RFC 4180 CSV export
 │   ├── components/                     # Reusable design system components
-│   │   ├── AppShell.jsx                # Modern dark sidebar (#0f172a), header & layout
+│   │   ├── AppShell.jsx                # Modern dark sidebar layout (#0f172a)
 │   │   ├── StatusBadge.jsx             # Visual safety badges (Eligible, Expired, Cold Chain)
-│   │   ├── EmptyState.jsx              # Accessible zero-state handler
+│   │   ├── EmptyState.jsx              # Zero-state handler
 │   │   ├── ErrorMessage.jsx            # Error recovery card with retry trigger
 │   │   └── LoadingState.jsx            # Non-blocking loading indicator
 │   ├── features/                       # Five distinct, fully-functioning application modules
@@ -71,7 +82,7 @@ f:\FYND X GENESIS\
 │   │   ├── simulator/                  # SimulatorPage, DecisionConfirmModal (pricing & demand)
 │   │   ├── decisions/                  # DecisionsPage: audit log, RFC 4180 CSV & JSON export
 │   │   └── reports/                    # ReportsPage: 25-pt case checks runner & MBA feedback
-│   └── tests/                          # 72 automated Node.js test runner unit tests
+│   └── tests/                          # 136 automated Node.js test runner unit & edge tests
 │       ├── validation.test.js
 │       ├── eligibility.test.js
 │       ├── economics.test.js
@@ -80,27 +91,31 @@ f:\FYND X GENESIS\
 │       ├── dashboardMetrics.test.js
 │       ├── inventoryFilters.test.js
 │       ├── fixtureLoader.test.js
-│       └── decisionStore.test.js
+│       ├── decisionStore.test.js
+│       ├── simulator.test.js
+│       └── reliabilityEdgeCases.test.js
 ```
 
 ---
 
 ## 4. Key Functional Capabilities
 
-1. **Dashboard:**
-   - 4 large KPI cards: Total Batches, Eligible for Sale, Blocked from Sale, Expiring Soon.
+1. **Dashboard (`/`):**
+   - 4 executive KPI cards: Total Batches, Eligible for Sale, Blocked from Sale, Expiring Soon.
    - SVG Stock Status Donut Chart with live batch percentages.
-   - Immediate Attention cards linking directly to batch details or simulator.
-2. **Inventory Management:**
-   - Multi-facet filters: Status (All, Eligible, Expiring Soon, Expired, Cold-chain Issue), Product Category, Expiry Window.
-   - Live text search across Batch ID and Product Name.
+   - Immediate Attention Required feed linking directly to batch details or the simulator.
+2. **Inventory Management (`/inventory`):**
+   - Multi-facet filters: Safety Status, Product Category, Expiry Window.
+   - Live search across Batch ID and Product Name.
    - Sortable columns: Batch ID, Product, Expiry, Price, Cost, Margin, Stock Qty, Safety Status.
-   - Comprehensive Batch Details modal with 4-metric grid, 4-attribute grid, and direct transition to the Markdown Simulator.
-3. **Interactive Markdown Simulator:**
+   - Batch Details modal with 4-metric grid, 4-attribute grid, and direct transition to the simulator.
+   - Manual batch creation form for ad-hoc inventory entry.
+3. **Interactive Markdown Simulator (`/simulator`):**
    - Dynamic price slider and direct numeric input bounded by cost $C$ and markdown caps.
    - Quick demand scenario selectors (Pessimistic 5, Base 10, Optimistic 15, Zero 0).
    - Real-time calculations: Discount %, Unit Contribution, Capped Allocation, Unsold Stock, Unmet Demand, Total Contribution.
    - Food Safety Hard-Stop: Expired, damaged, or cold-chain exception stock is strictly blocked from sale.
+   - **Unapproved Theoretical Margin** alert card for safety-blocked items with positive superficial margins.
    - Decision Confirmation Modal with before/after audit snapshot.
 4. **Decisions Audit Trail (`/decisions`):**
    - Persistent `localStorage` audit history under `c30_decisions_v1`.
@@ -110,9 +125,7 @@ f:\FYND X GENESIS\
    - Automated runner for the 3 official case checks (25/25 Points).
    - Re-run verification trigger with instant audit results.
    - Export system evidence package.
-6. **Business Feedback Evolution:**
-   - Integrated store manager feedback: configurable Minimum Unit Contribution Floor threshold ($P - C \ge \text{threshold}$) preventing unprofitable deep discounts.
-7. **Dual Dataset Switcher:**
+6. **Dual Dataset Switcher:**
    - Switch seamlessly between **Store Demo (24 Batches)** (full café catalog) and **Official Fixture (B1 & B2)** (official grading testbed).
 
 ---
@@ -120,8 +133,9 @@ f:\FYND X GENESIS\
 ## 5. Quickstart & Verification Instructions
 
 ### Prerequisites
-- Node.js `v18+` (Tested on `v22.13.1`)
+- Node.js `v18+` (Tested and verified on `v22.13.1`)
 - npm `v9+` (Tested on `10.9.2`)
+- Modern web browser (Chrome, Edge, Firefox, Safari)
 
 ### 1. Install Dependencies
 ```bash
@@ -132,18 +146,65 @@ npm install
 ```bash
 npm test
 ```
-*Expected: 72 tests across 32 suites passing in <200ms.*
+*Expected Output: 136 tests across 50 suites passing in <200ms.*
 
-### 3. Build for Production
+### 3. Run Mandatory Case Checks Specifically
+```bash
+node --test src/tests/caseChecks.test.js
+```
+*Expected Output: 3 tests across 1 suite passing (25/25 Points).*
+
+### 4. Build for Production
 ```bash
 npm run build
 ```
-*Expected: Zero errors; optimized bundles generated in `dist/` in <500ms.*
+*Expected Output: Zero errors; optimized bundle generated in `dist/` in <500ms.*
 
-### 4. Run Development / Preview Server
+### 5. Run Local Preview / Development Server
 ```bash
+# Start Vite development server:
 npm run dev
-# Or preview the production build:
-npm run preview
+
+# Or preview the production build directly:
+npm run preview -- --port 5000
 ```
-Visit `http://localhost:5000/` (or `http://localhost:3000/`) in any modern web browser.
+Open `http://localhost:5000/` in your browser.
+
+---
+
+## 6. Static Deployment Instructions
+
+The application is structured as a zero-backend Single Page Application (SPA), making it natively deployable to any modern static hosting service:
+
+### Option A: Vercel
+1. Install Vercel CLI: `npm i -g vercel`
+2. Run `vercel` in the project root.
+3. Settings:
+   - Framework Preset: `Vite`
+   - Build Command: `npm run build`
+   - Output Directory: `dist`
+
+### Option B: Netlify
+1. Install Netlify CLI: `npm i -g netlify-cli`
+2. Run `netlify deploy --dir=dist --prod`
+
+---
+
+## 7. Known Boundaries & Limitations
+
+1. **Client-Side Storage Scope:** The application uses browser `localStorage` for decision audit logging. While resilient against JSON corruption and storage quota errors, it does not replace a centralized multi-terminal database (e.g., PostgreSQL/Supabase) in multi-store enterprise settings.
+2. **Cold-Chain Telemetry:** Cold-chain statuses are currently ingested from batch metadata. Direct integration with IoT Bluetooth/Wi-Fi temperature loggers is planned for post-pilot development.
+3. **Synthetic Data Non-Claim:** All economic calculations and demo catalog records are synthetic models designed to validate software logic and decision workflows. Real waste reduction and customer willingness to pay will be evaluated through the supervised pilot protocol (`SUPERVISED_PILOT_PLAN.md`).
+
+---
+
+## 8. Accompanying Documentation
+
+- [FYND_C30_Project_Requirements.md](file:///f:/FYND%20X%20GENESIS/FYND_C30_Project_Requirements.md): Core requirements, formulas, and constraints.
+- [MBA_BUSINESS_MODEL.md](file:///f:/FYND%20X%20GENESIS/MBA_BUSINESS_MODEL.md): Customer segment analysis, pricing tiers, cost-to-serve, and unit economics.
+- [FIRST_CUSTOMER_EXPERIMENT.md](file:///f:/FYND%20X%20GENESIS/FIRST_CUSTOMER_EXPERIMENT.md): Discovery interview script, outreach protocol, and evaluation criteria.
+- [SUPERVISED_PILOT_PLAN.md](file:///f:/FYND%20X%20GENESIS/SUPERVISED_PILOT_PLAN.md): 5-day single-store field trial protocol, measurement formulas, and abort triggers.
+- [EVIDENCE_AND_ASSUMPTIONS.md](file:///f:/FYND%20X%20GENESIS/EVIDENCE_AND_ASSUMPTIONS.md): 13-point epistemic audit classifying claims into facts, calculations, and hypotheses.
+- [JUDGE_DEMO_SCRIPT.md](file:///f:/FYND%20X%20GENESIS/JUDGE_DEMO_SCRIPT.md): 4.5-minute timed judging presentation script with fallback contingencies.
+- [MODULE_5_COMPLETION_REPORT.md](file:///f:/FYND%20X%20GENESIS/MODULE_5_COMPLETION_REPORT.md): Reliability and edge-case verification report.
+- [FINAL_HANDOFF_REPORT.md](file:///f:/FYND%20X%20GENESIS/FINAL_HANDOFF_REPORT.md): Final system handoff report.
