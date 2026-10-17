@@ -140,6 +140,7 @@ export function App() {
               initialBatchId={simulatorBatchId}
               onRecordDecision={handleRecordDecision}
               onNavigateToDecisions={() => setCurrentPage('decisions')}
+              onNavigateToInventory={() => setCurrentPage('inventory')}
             />
           )}
 
