@@ -1,0 +1,33 @@
+{
+  "case_id": "C30",
+  "synthetic": true,
+  "data_version": "v3.2",
+  "currency": "INR unless explicitly stated",
+  "missing_values": "null means unknown, never zero",
+  "records": {
+    "batches": [
+      {
+        "id": "B1",
+        "qty": 10,
+        "sale_price_inr": 40,
+        "incremental_cost_inr": 25,
+        "expired": false
+      },
+      {
+        "id": "B2",
+        "qty": 20,
+        "sale_price_inr": 50,
+        "incremental_cost_inr": 20,
+        "expired": true
+      }
+    ],
+    "demand_assumption_units": 10,
+    "expected_B1_contribution_inr": 150
+  },
+  "public_checks": [
+    "Ten units sold at 40 with 25 incremental cost each yield 150 contribution.",
+    "Expired batches are not sellable even if the margin looks attractive.",
+    "Demand above available stock is capped; unsold units stay visible."
+  ],
+  "limit": "Small teaching fixture for a bounded prototype. Market demand, willingness to pay and production performance remain unproven."
+}

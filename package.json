@@ -1,0 +1,33 @@
+{
+  "name": "c30-perishable-stock-recovery-desk",
+  "version": "1.0.0",
+  "description": "FYND × NMIMS Hyderabad — C30 Perishable Stock Recovery Desk Decision Engine",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "node --test src/tests/*.test.js"
+  },
+  "keywords": [
+    "inventory",
+    "markdown-recovery",
+    "food-safety",
+    "c30"
+  ],
+  "author": "C30 Engineering Team",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "lucide-react": "^1.59.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@vitejs/plugin-react": "^6.1.2",
+    "autoprefixer": "^10.6.1",
+    "postcss": "^8.5.30",
+    "tailwindcss": "^4.3.3",
+    "vite": "^8.3.4"
+  }
+}
