@@ -5,14 +5,17 @@ import {
   X,
   FileCheck,
   ShieldCheck,
-  ArrowRight
+  ArrowRight,
+  Loader2
 } from 'lucide-react';
 
 export function DecisionConfirmModal({
   batch,
   recommendation,
   onConfirm,
-  onClose
+  onClose,
+  isSaving = false,
+  saveError = null
 }) {
   if (!batch || !recommendation) return null;
 
@@ -21,8 +24,15 @@ export function DecisionConfirmModal({
 
   return (
     <div
-      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+      onClick={(e) => {
+        if (!isSaving && e.target === e.currentTarget) {
+          onClose();
+        }
+      }}
       className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-950/60 backdrop-blur-xs animate-fadeIn"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="confirm-modal-title"
     >
       <div className="bg-white rounded-2xl border border-slate-200/90 shadow-2xl max-w-lg w-full overflow-hidden animate-scaleUp">
         {/* Header */}
@@ -34,13 +44,17 @@ export function DecisionConfirmModal({
               {isEligible ? <ShieldCheck className="w-5 h-5" /> : <AlertTriangle className="w-5 h-5" />}
             </div>
             <div>
-              <h3 className="text-lg font-bold text-slate-900 tracking-tight">Confirm Decision Action</h3>
+              <h3 id="confirm-modal-title" className="text-lg font-bold text-slate-900 tracking-tight">
+                Confirm Decision Action
+              </h3>
               <p className="text-xs text-slate-500">Review before committing to the decision audit log.</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"
+            disabled={isSaving}
+            className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors disabled:opacity-50 cursor-pointer"
+            aria-label="Close modal"
           >
             <X className="w-5 h-5" />
           </button>
@@ -48,6 +62,16 @@ export function DecisionConfirmModal({
 
         {/* Content */}
         <div className="p-6 space-y-5 text-sm">
+          {saveError && (
+            <div className="p-3.5 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-800 flex items-start gap-2.5">
+              <AlertTriangle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
+              <div>
+                <strong className="block">Save Error:</strong>
+                <span>{saveError}</span>
+              </div>
+            </div>
+          )}
+
           {/* Batch Snapshot */}
           <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200/80 flex items-center justify-between">
             <div>
@@ -116,19 +140,27 @@ export function DecisionConfirmModal({
         <div className="p-6 pt-3 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-3">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-200 rounded-xl transition-colors cursor-pointer"
+            disabled={isSaving}
+            className="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-200 rounded-xl transition-colors disabled:opacity-50 cursor-pointer"
           >
             Cancel
           </button>
           <button
-            onClick={() => {
-              onConfirm();
-              onClose();
-            }}
-            className="inline-flex items-center gap-2 px-5 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl shadow-xs transition-colors cursor-pointer"
+            onClick={onConfirm}
+            disabled={isSaving}
+            className="inline-flex items-center gap-2 px-5 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-400 rounded-xl shadow-xs transition-colors cursor-pointer"
           >
-            <span>Confirm & Record Action</span>
-            <ArrowRight className="w-4 h-4" />
+            {isSaving ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                <span>Recording...</span>
+              </>
+            ) : (
+              <>
+                <span>Confirm & Record Action</span>
+                <ArrowRight className="w-4 h-4" />
+              </>
+            )}
           </button>
         </div>
       </div>

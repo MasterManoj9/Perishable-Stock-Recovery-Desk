@@ -147,8 +147,13 @@ export function App() {
           {currentPage === 'decisions' && (
             <DecisionsPage
               decisions={decisions}
+              liveBatches={batches}
               onClearDecisions={handleClearDecisions}
               onNavigateToSimulator={() => setCurrentPage('simulator')}
+              onNavigateToInventory={(batchId) => {
+                if (batchId) setSelectedBatchId(batchId);
+                setCurrentPage('inventory');
+              }}
             />
           )}
 

@@ -31,6 +31,7 @@ import {
   roundCurrency
 } from '../../domain/economics.js';
 import { allocateStock, DemandStatus } from '../../domain/allocation.js';
+import { createDecisionRecord } from '../../data/decisionStore.js';
 import { DecisionConfirmModal } from './DecisionConfirmModal.jsx';
 import { StatusBadge } from '../../components/StatusBadge.jsx';
 
@@ -70,6 +71,8 @@ export function SimulatorPage({
   const [minContributionPolicy, setMinContributionPolicy] = useState(0); // Store policy threshold
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [toastMessage, setToastMessage] = useState(null);
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveError, setSaveError] = useState(null);
 
   // Reset inputs when activeBatch changes
   useEffect(() => {
@@ -182,30 +185,65 @@ export function SimulatorPage({
   const isDemandNegative = !isNaN(numericDemand) && numericDemand < 0;
 
   const handleCommitDecision = () => {
-    if (!recommendation) return;
+    if (isSaving || !activeBatch) return;
 
-    const decisionRecord = {
-      batchId: activeBatch.id,
-      productName: activeBatch.productName,
-      category: activeBatch.category,
-      originalPrice,
-      proposedPrice: isEligible ? numericPrice : originalPrice,
-      incrementalCost,
-      unitContribution,
-      allocatedQuantity: projectedSold,
-      unsoldQuantity,
-      unmetDemand: recommendation.unmetDemand,
-      totalContribution: projectedContributionTotal,
-      actionType: recommendation.recommendedAction,
-      eligible: isEligible,
-      explanation: recommendation.explanation
-    };
-
-    if (onRecordDecision) {
-      onRecordDecision(decisionRecord);
+    // 1. Confirm that the selected batch exists in the current data model
+    const batchExists = batches.some(b => b.id === activeBatch.id);
+    if (!batchExists) {
+      setSaveError(`Active batch ${activeBatch.id} no longer exists in current inventory.`);
+      return;
     }
-    setToastMessage(`Decision snapshot for ${activeBatch.id} committed to log!`);
-    setTimeout(() => setToastMessage(null), 4000);
+
+    // 2. Recheck mandatory safety & recalculate current result through pure domain engine
+    const freshRecommendation = generateRecommendation(
+      activeBatch,
+      {
+        proposedPrice: isNaN(numericPrice) ? null : numericPrice,
+        supportedDemand: isNaN(numericDemand) ? null : numericDemand
+      },
+      { minContributionPolicy: { minUnitContribution: Number(minContributionPolicy) } }
+    );
+
+    // 3. Prevent safety-blocked scenario from being saved as an approved markdown decision
+    if ((activeBatch.expired || !freshRecommendation.eligible) && freshRecommendation.recommendedAction === ActionType.RECOMMEND_MARKDOWN_SALE) {
+      setSaveError('Safety restriction enforced: Ineligible or expired stock cannot be approved for markdown sale.');
+      return;
+    }
+
+    try {
+      setIsSaving(true);
+      setSaveError(null);
+
+      // 4. Construct complete versioned decision record snapshot (v1.0.0)
+      const decisionRecord = createDecisionRecord({
+        batch: activeBatch,
+        scenario: {
+          proposedPrice: isEligible ? numericPrice : originalPrice,
+          markdownPercent: Number(markdownPercentInput) || 0,
+          demandMode,
+          supportedDemand: numericDemand,
+          demandEvidence: demandMode === 'FIXTURE' ? 'ASSUMPTION_FIXTURE' : demandMode === 'ZERO' ? 'ZERO_DEMAND' : demandMode === 'MISSING' ? 'UNSPECIFIED' : 'DEMAND_OBSERVED_HISTORICAL',
+          minContributionPolicy: { minUnitContribution: Number(minContributionPolicy) },
+          minAllowedPrice
+        },
+        recommendation: freshRecommendation,
+        managerName: 'Demo Manager'
+      });
+
+      // 5. Persist record via callback (which saves to localStorage and updates state)
+      if (onRecordDecision) {
+        onRecordDecision(decisionRecord);
+      }
+
+      setShowConfirmModal(false);
+      setToastMessage(`Decision snapshot for ${activeBatch.id} successfully recorded in audit log!`);
+      setTimeout(() => setToastMessage(null), 5000);
+    } catch (err) {
+      console.error('Save failed:', err);
+      setSaveError(err.message || 'Failed to persist decision record to storage.');
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -750,7 +788,14 @@ export function SimulatorPage({
           batch={activeBatch}
           recommendation={recommendation}
           onConfirm={handleCommitDecision}
-          onClose={() => setShowConfirmModal(false)}
+          onClose={() => {
+            if (!isSaving) {
+              setShowConfirmModal(false);
+              setSaveError(null);
+            }
+          }}
+          isSaving={isSaving}
+          saveError={saveError}
         />
       )}
     </div>
