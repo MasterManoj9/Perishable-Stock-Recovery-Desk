@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Filter, RotateCcw } from 'lucide-react';
+import { Filter, RotateCcw, Plus } from 'lucide-react';
 import { InventoryTable } from './InventoryTable.jsx';
 import { BatchDetails } from './BatchDetails.jsx';
 import { EmptyState } from '../../components/EmptyState.jsx';
@@ -9,7 +9,8 @@ export function InventoryPage({
   selectedBatchId = null,
   onSelectBatch,
   globalSearchQuery = '',
-  onOpenSimulator
+  onOpenSimulator,
+  onOpenAddBatch
 }) {
   const [statusFilter, setStatusFilter] = useState('ALL');
   const [productFilter, setProductFilter] = useState('ALL');
@@ -67,9 +68,21 @@ export function InventoryPage({
   return (
     <div className="space-y-6 animate-fadeIn">
       {/* Page Header */}
-      <div>
-        <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Inventory</h1>
-        <p className="text-sm text-slate-500 mt-1">View and manage all batches. Select a batch to see details and simulate markdowns.</p>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Inventory</h1>
+          <p className="text-sm text-slate-500 mt-1">View and manage all batches. Select a batch to see details and simulate markdowns.</p>
+        </div>
+
+        {onOpenAddBatch && (
+          <button
+            onClick={onOpenAddBatch}
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-slate-900 hover:bg-slate-800 text-white shadow-xs transition-colors cursor-pointer"
+          >
+            <Plus className="w-4 h-4 text-emerald-400" />
+            <span>Add Product to Inventory</span>
+          </button>
+        )}
       </div>
 
       {/* Filter Bar (From Mockup Image) */}

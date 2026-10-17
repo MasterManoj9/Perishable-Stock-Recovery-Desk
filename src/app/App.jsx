@@ -10,6 +10,7 @@ import { ErrorMessage } from '../components/ErrorMessage.jsx';
 import { loadOfficialFixture, loadStoreCatalogBatches } from '../data/fixtureLoader.js';
 import { getStoredDecisions, saveDecision, clearStoredDecisions } from '../data/decisionStore.js';
 import { BatchDetails } from '../features/inventory/BatchDetails.jsx';
+import { AddBatchModal } from '../features/inventory/AddBatchModal.jsx';
 
 export function App() {
   const [currentPage, setCurrentPage] = useState('dashboard');
@@ -22,6 +23,7 @@ export function App() {
   const [batches, setBatches] = useState([]);
   const [metadata, setMetadata] = useState({});
   const [decisions, setDecisions] = useState([]);
+  const [isAddBatchOpen, setIsAddBatchOpen] = useState(false);
 
   // Load stored decisions on mount
   useEffect(() => {
@@ -78,6 +80,10 @@ export function App() {
     setDecisions([]);
   };
 
+  const handleAddBatch = (newBatch) => {
+    setBatches(prev => [newBatch, ...prev]);
+  };
+
   const activeBatch = batches.find(b => b.id === selectedBatchId) || null;
 
   return (
@@ -113,6 +119,7 @@ export function App() {
               batches={batches}
               onSelectBatch={handleSelectBatch}
               onNavigateToInventory={() => setCurrentPage('inventory')}
+              onOpenAddBatch={() => setIsAddBatchOpen(true)}
             />
           )}
 
@@ -123,6 +130,7 @@ export function App() {
               onSelectBatch={setSelectedBatchId}
               globalSearchQuery={searchQuery}
               onOpenSimulator={handleOpenSimulator}
+              onOpenAddBatch={() => setIsAddBatchOpen(true)}
             />
           )}
 
@@ -169,6 +177,13 @@ export function App() {
               </div>
             </div>
           )}
+
+          {/* Add Product / Batch Modal */}
+          <AddBatchModal
+            isOpen={isAddBatchOpen}
+            onClose={() => setIsAddBatchOpen(false)}
+            onAddBatch={handleAddBatch}
+          />
         </>
       )}
     </AppShell>
