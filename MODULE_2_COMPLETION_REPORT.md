@@ -1,4 +1,4 @@
-# MODULE 2 — APP SHELL, DASHBOARD, AND INVENTORY UI COMPLETION REPORT
+﻿# MODULE 2 — APP SHELL, DASHBOARD, AND INVENTORY UI COMPLETION REPORT
 
 **Project:** FYND × NMIMS Hyderabad — C30 Perishable Stock Recovery Desk  
 **Module:** Module 2 — App Shell, Dashboard, and Inventory UI  
@@ -11,17 +11,17 @@
 
 | Component / Page | Location | Role & Functionality |
 | :--- | :--- | :--- |
-| **`App`** | [`src/app/App.jsx`](file:///f:/FYND%20X%20GENESIS/src/app/App.jsx) | Root state container; handles asynchronous fixture loading, retry on error, and active page switching. |
-| **`AppShell`** | [`src/components/AppShell.jsx`](file:///f:/FYND%20X%20GENESIS/src/components/AppShell.jsx) | Global layout with synthetic demonstration disclaimer banner, desktop sidebar navigation, and mobile hamburger navigation. Future navigation items (`Module 3`, `Module 5`, `Module 6`) are marked with badges and disabled to avoid dead buttons. |
-| **`DashboardPage`** | [`src/features/dashboard/DashboardPage.jsx`](file:///f:/FYND%20X%20GENESIS/src/features/dashboard/DashboardPage.jsx) | Executive manager view answering: What requires attention, Which batches are blocked, Which eligible batches to action next. Contains 4 summary cards reconciling with the fixture, priority blocked list, and cleared recovery list. |
-| **`InventoryPage`** | [`src/features/inventory/InventoryPage.jsx`](file:///f:/FYND%20X%20GENESIS/src/features/inventory/InventoryPage.jsx) | Main stock inspection desk; features live case-insensitive search (batch ID & product name), safety status filters, multi-column sorting, filter reset, and sticky batch inspection panel. |
-| **`InventoryTable`** | [`src/features/inventory/InventoryTable.jsx`](file:///f:/FYND%20X%20GENESIS/src/features/inventory/InventoryTable.jsx) | Semantic responsive table on desktop/tablet with mobile card alternative on screens `< 640px`. Features clear unit pricing, cost, base margin, and status badge. |
-| **`BatchDetails`** | [`src/features/inventory/BatchDetails.jsx`](file:///f:/FYND%20X%20GENESIS/src/features/inventory/BatchDetails.jsx) | Detailed inspection view showing food-safety gate outcome, full reasons, quantity on hand, price, incremental cost, sellable quantity, and safety checklist. |
-| **`StatusBadge`** | [`src/components/StatusBadge.jsx`](file:///f:/FYND%20X%20GENESIS/src/components/StatusBadge.jsx) | Accessible status chip with high-contrast icon and explanatory label (never color alone). |
-| **`PageHeader`** | [`src/components/PageHeader.jsx`](file:///f:/FYND%20X%20GENESIS/src/components/PageHeader.jsx) | Accessible semantic header with title, subtitle, and primary action slot. |
-| **`EmptyState`** | [`src/components/EmptyState.jsx`](file:///f:/FYND%20X%20GENESIS/src/components/EmptyState.jsx) | Reusable no-results component with contextual icon and clear action button. |
-| **`ErrorMessage`** | [`src/components/ErrorMessage.jsx`](file:///f:/FYND%20X%20GENESIS/src/components/ErrorMessage.jsx) | Accessible error alert box with retry button. |
-| **`LoadingState`** | [`src/components/LoadingState.jsx`](file:///f:/FYND%20X%20GENESIS/src/components/LoadingState.jsx) | Accessible loading indicator with `role="status"` and `aria-live="polite"`. |
+| **`App`** | [`src/app/App.jsx`](./src/app/App.jsx) | Root state container; handles asynchronous fixture loading, retry on error, and active page switching. |
+| **`AppShell`** | [`src/components/AppShell.jsx`](./src/components/AppShell.jsx) | Global layout with synthetic demonstration disclaimer banner, desktop sidebar navigation, and mobile hamburger navigation. Future navigation items (`Module 3`, `Module 5`, `Module 6`) are marked with badges and disabled to avoid dead buttons. |
+| **`DashboardPage`** | [`src/features/dashboard/DashboardPage.jsx`](./src/features/dashboard/DashboardPage.jsx) | Executive manager view answering: What requires attention, Which batches are blocked, Which eligible batches to action next. Contains 4 summary cards reconciling with the fixture, priority blocked list, and cleared recovery list. |
+| **`InventoryPage`** | [`src/features/inventory/InventoryPage.jsx`](./src/features/inventory/InventoryPage.jsx) | Main stock inspection desk; features live case-insensitive search (batch ID & product name), safety status filters, multi-column sorting, filter reset, and sticky batch inspection panel. |
+| **`InventoryTable`** | [`src/features/inventory/InventoryTable.jsx`](./src/features/inventory/InventoryTable.jsx) | Semantic responsive table on desktop/tablet with mobile card alternative on screens `< 640px`. Features clear unit pricing, cost, base margin, and status badge. |
+| **`BatchDetails`** | [`src/features/inventory/BatchDetails.jsx`](./src/features/inventory/BatchDetails.jsx) | Detailed inspection view showing food-safety gate outcome, full reasons, quantity on hand, price, incremental cost, sellable quantity, and safety checklist. |
+| **`StatusBadge`** | [`src/components/StatusBadge.jsx`](./src/components/StatusBadge.jsx) | Accessible status chip with high-contrast icon and explanatory label (never color alone). |
+| **`PageHeader`** | [`src/components/PageHeader.jsx`](./src/components/PageHeader.jsx) | Accessible semantic header with title, subtitle, and primary action slot. |
+| **`EmptyState`** | [`src/components/EmptyState.jsx`](./src/components/EmptyState.jsx) | Reusable no-results component with contextual icon and clear action button. |
+| **`ErrorMessage`** | [`src/components/ErrorMessage.jsx`](./src/components/ErrorMessage.jsx) | Accessible error alert box with retry button. |
+| **`LoadingState`** | [`src/components/LoadingState.jsx`](./src/components/LoadingState.jsx) | Accessible loading indicator with `role="status"` and `aria-live="polite"`. |
 
 ---
 
@@ -72,7 +72,7 @@
 | **Blocked / Review** | **1 batch** | Count with `eligibility.eligible === false` (`B2`, 20 units). |
 | **Simulated Recovery Potential** | **₹150** | Computed strictly on eligible stock under baseline demand assumption: $10 \text{ units} \times (₹40 - ₹25) = ₹150$. (Blocked batch `B2` is excluded). |
 
-All metrics are verified through automated tests in [`src/tests/dashboardMetrics.test.js`](file:///f:/FYND%20X%20GENESIS/src/tests/dashboardMetrics.test.js).
+All metrics are verified through automated tests in [`src/tests/dashboardMetrics.test.js`](./src/tests/dashboardMetrics.test.js).
 
 ---
 
@@ -95,7 +95,7 @@ All metrics are verified through automated tests in [`src/tests/dashboardMetrics
   - Clicking "Inspect" on any batch in Dashboard or Inventory opens the `BatchDetails` panel.
   - Correctly displays batch ID, product name, quantity, price, incremental cost, base margin, and safety reasons.
   - Close button resets `selectedBatchId` cleanly.
-  - Verified with automated tests in [`src/tests/inventoryFilters.test.js`](file:///f:/FYND%20X%20GENESIS/src/tests/inventoryFilters.test.js).
+  - Verified with automated tests in [`src/tests/inventoryFilters.test.js`](./src/tests/inventoryFilters.test.js).
 
 ---
 
@@ -152,7 +152,7 @@ dist/assets/index-BQGl0Poj.js   269.49 kB │ gzip: 81.19 kB
 | **Existing project structure and working code preserved** | **PASS** | `src/domain/` and all Module 1 tests preserved intact. |
 | **App shell and navigation function correctly** | **PASS** | Switching between Dashboard and Inventory verified in browser and unit tests. |
 | **Dashboard metrics derived from actual data** | **PASS** | Reconciled with fixture: 2 batches, 30 units, 1 eligible, 1 blocked, ₹150 contribution. |
-| **Dashboard metrics reconcile with underlying fixture** | **PASS** | Verified in [`src/tests/dashboardMetrics.test.js`](file:///f:/FYND%20X%20GENESIS/src/tests/dashboardMetrics.test.js). |
+| **Dashboard metrics reconcile with underlying fixture** | **PASS** | Verified in [`src/tests/dashboardMetrics.test.js`](./src/tests/dashboardMetrics.test.js). |
 | **Inventory fields accurately represent actual schema** | **PASS** | `id`, `qty`, `sale_price_inr`, `incremental_cost_inr`, `expired` mapped cleanly. |
 | **Eligibility status comes from shared domain engine** | **PASS** | Rendered directly from `checkEligibility()` output. |
 | **Blocked stock remains visible and explains why** | **PASS** | Batch B2 clearly visible in table and dashboard with explanation. |
@@ -168,7 +168,7 @@ dist/assets/index-BQGl0Poj.js   269.49 kB │ gzip: 81.19 kB
 | **Production build succeeds** | **PASS** | `vite build` completed in 397ms with zero errors. |
 | **No fake metrics or fabricated records** | **PASS** | Synthetic data warning banner displayed prominently; metrics strictly reconcile with fixture. |
 | **Official fixture remains unchanged** | **PASS** | `Starter_Data/C30/fixture.json` verified unchanged. |
-| **Completion report produced** | **PASS** | Saved to [`MODULE_2_COMPLETION_REPORT.md`](file:///f:/FYND%20X%20GENESIS/MODULE_2_COMPLETION_REPORT.md). |
+| **Completion report produced** | **PASS** | Saved to [`MODULE_2_COMPLETION_REPORT.md`](./MODULE_2_COMPLETION_REPORT.md). |
 
 ---
 

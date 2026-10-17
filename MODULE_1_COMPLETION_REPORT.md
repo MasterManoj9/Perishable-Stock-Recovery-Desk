@@ -1,4 +1,4 @@
-# MODULE 1 — CORE DECISION ENGINE AND AUTOMATED TESTS COMPLETION REPORT
+﻿# MODULE 1 — CORE DECISION ENGINE AND AUTOMATED TESTS COMPLETION REPORT
 
 **Project:** FYND × NMIMS Hyderabad — C30 Perishable Stock Recovery Desk  
 **Module:** Module 1 — Core Decision Engine and Automated Tests  
@@ -11,20 +11,20 @@
 
 | File Path | Type | Role & Responsibility |
 | :--- | :--- | :--- |
-| [`Starter_Data/C30/fixture.json`](file:///f:/FYND%20X%20GENESIS/Starter_Data/C30/fixture.json) | Data Fixture | Authoritative official fixture preserving exact schema (`B1`, `B2`, `demand_assumption_units`). |
-| [`FYND_C30_Project_Requirements.md`](file:///f:/FYND%20X%20GENESIS/FYND_C30_Project_Requirements.md) | Documentation | Preserves requirements, constraints, and formulas for project traceability. |
-| [`package.json`](file:///f:/FYND%20X%20GENESIS/package.json) | Configuration | Node.js ESM configuration with `"test": "node --test src/tests/*.test.js"`. |
-| [`src/domain/validation.js`](file:///f:/FYND%20X%20GENESIS/src/domain/validation.js) | Domain Logic | Defensive input and batch validation; enforces non-negative integers, valid currency, and `null` semantics. |
-| [`src/domain/eligibility.js`](file:///f:/FYND%20X%20GENESIS/src/domain/eligibility.js) | Domain Logic | Centralized food safety gate; evaluates `expired` flag, ISO timestamps, damaged condition, and cold-chain exceptions. |
-| [`src/domain/economics.js`](file:///f:/FYND%20X%20GENESIS/src/domain/economics.js) | Domain Logic | Financial contribution ($P - C$), total contribution ($\text{Unit} \times Q_{\text{alloc}}$), markdown limits, and minimum margin policies. |
-| [`src/domain/allocation.js`](file:///f:/FYND%20X%20GENESIS/src/domain/allocation.js) | Domain Logic | Demand-capped allocation ($\min(Q, D)$), unsold stock ($Q - Q_{\text{alloc}}$), unmet demand, and unknown-demand handling. |
-| [`src/domain/recommendations.js`](file:///f:/FYND%20X%20GENESIS/src/domain/recommendations.js) | Domain Logic | Orchestrates validation, safety gates, economics, and allocation into structured recommendation records. |
-| [`src/domain/caseChecksRunner.js`](file:///f:/FYND%20X%20GENESIS/src/domain/caseChecksRunner.js) | Domain / Test Engine | Single source of truth executing the 3 mandatory judging checks in exact printed order. |
-| [`src/tests/caseChecks.test.js`](file:///f:/FYND%20X%20GENESIS/src/tests/caseChecks.test.js) | Test Suite | Automated test suite verifying the 3 mandatory case checks in exact printed order. |
-| [`src/tests/validation.test.js`](file:///f:/FYND%20X%20GENESIS/src/tests/validation.test.js) | Test Suite | Boundary and type validation tests for batch fields and simulation parameters. |
-| [`src/tests/eligibility.test.js`](file:///f:/FYND%20X%20GENESIS/src/tests/eligibility.test.js) | Test Suite | Food safety gate tests: exact expiry boundary, damaged stock, cold-chain exception, immutability. |
-| [`src/tests/economics.test.js`](file:///f:/FYND%20X%20GENESIS/src/tests/economics.test.js) | Test Suite | Economics tests: unit contribution, total contribution, discount percentages, rounding, minimum contribution policy. |
-| [`src/tests/allocation.test.js`](file:///f:/FYND%20X%20GENESIS/src/tests/allocation.test.js) | Test Suite | Demand capping tests (both directions), zero/unknown demand, integrated recommendation tests. |
+| [`Starter_Data/C30/fixture.json`](./Starter_Data/C30/fixture.json) | Data Fixture | Authoritative official fixture preserving exact schema (`B1`, `B2`, `demand_assumption_units`). |
+| [`FYND_C30_Project_Requirements.md`](./FYND_C30_Project_Requirements.md) | Documentation | Preserves requirements, constraints, and formulas for project traceability. |
+| [`package.json`](./package.json) | Configuration | Node.js ESM configuration with `"test": "node --test src/tests/*.test.js"`. |
+| [`src/domain/validation.js`](./src/domain/validation.js) | Domain Logic | Defensive input and batch validation; enforces non-negative integers, valid currency, and `null` semantics. |
+| [`src/domain/eligibility.js`](./src/domain/eligibility.js) | Domain Logic | Centralized food safety gate; evaluates `expired` flag, ISO timestamps, damaged condition, and cold-chain exceptions. |
+| [`src/domain/economics.js`](./src/domain/economics.js) | Domain Logic | Financial contribution ($P - C$), total contribution ($\text{Unit} \times Q_{\text{alloc}}$), markdown limits, and minimum margin policies. |
+| [`src/domain/allocation.js`](./src/domain/allocation.js) | Domain Logic | Demand-capped allocation ($\min(Q, D)$), unsold stock ($Q - Q_{\text{alloc}}$), unmet demand, and unknown-demand handling. |
+| [`src/domain/recommendations.js`](./src/domain/recommendations.js) | Domain Logic | Orchestrates validation, safety gates, economics, and allocation into structured recommendation records. |
+| [`src/domain/caseChecksRunner.js`](./src/domain/caseChecksRunner.js) | Domain / Test Engine | Single source of truth executing the 3 mandatory judging checks in exact printed order. |
+| [`src/tests/caseChecks.test.js`](./src/tests/caseChecks.test.js) | Test Suite | Automated test suite verifying the 3 mandatory case checks in exact printed order. |
+| [`src/tests/validation.test.js`](./src/tests/validation.test.js) | Test Suite | Boundary and type validation tests for batch fields and simulation parameters. |
+| [`src/tests/eligibility.test.js`](./src/tests/eligibility.test.js) | Test Suite | Food safety gate tests: exact expiry boundary, damaged stock, cold-chain exception, immutability. |
+| [`src/tests/economics.test.js`](./src/tests/economics.test.js) | Test Suite | Economics tests: unit contribution, total contribution, discount percentages, rounding, minimum contribution policy. |
+| [`src/tests/allocation.test.js`](./src/tests/allocation.test.js) | Test Suite | Demand capping tests (both directions), zero/unknown demand, integrated recommendation tests. |
 
 ---
 
@@ -211,7 +211,7 @@ The 3 mandatory judging checks were executed via `runMandatoryCaseChecks()`:
 | **Additional relevant edge-case tests pass** | **PASS** | 46 total tests passing across all domain edge cases. |
 | **All tests and build verified** | **PASS** | `npm test` exit code 0; all suites green. |
 | **Diff contains no unrelated or destructive changes** | **PASS** | Only pure domain logic, tests, and authoritative fixture created. |
-| **Module completion report produced** | **PASS** | Written to [`MODULE_1_COMPLETION_REPORT.md`](file:///f:/FYND%20X%20GENESIS/MODULE_1_COMPLETION_REPORT.md). |
+| **Module completion report produced** | **PASS** | Written to [`MODULE_1_COMPLETION_REPORT.md`](./MODULE_1_COMPLETION_REPORT.md). |
 
 ---
 

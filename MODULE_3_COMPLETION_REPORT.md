@@ -1,4 +1,4 @@
-# MODULE 3 — INTERACTIVE MARKDOWN SIMULATOR COMPLETION REPORT
+﻿# MODULE 3 — INTERACTIVE MARKDOWN SIMULATOR COMPLETION REPORT
 
 **Project:** FYND × NMIMS Hyderabad — C30 Perishable Stock Recovery Desk  
 **Module:** Module 3 — Interactive Markdown Simulator  
@@ -19,10 +19,10 @@ Every calculation is strictly routed through the pure domain engine created in M
 
 | File Path | Type | Role & Responsibility in Module 3 |
 | :--- | :--- | :--- |
-| [`src/features/simulator/SimulatorPage.jsx`](file:///f:/FYND%20X%20GENESIS/src/features/simulator/SimulatorPage.jsx) | UI Component | Primary simulator view featuring batch context header, dual-linked price and markdown % controls, non-clamping validation cards, demand scenario selectors (Fixture, High, Zero, Missing), real-time revenue/cost/contribution breakdown, and plain-language recommendation. |
-| [`src/app/App.jsx`](file:///f:/FYND%20X%20GENESIS/src/app/App.jsx) | Application Container | Connected `onNavigateToInventory` back navigation and selected batch state passing from Inventory to Simulator. |
-| [`src/tests/simulator.test.js`](file:///f:/FYND%20X%20GENESIS/src/tests/simulator.test.js) | Automated Test Suite | 19 comprehensive automated tests verifying pricing validation, boundary conditions, demand capping, unsold stock visibility, contribution policies, food safety hard-stops, and immutability. |
-| [`MODULE_3_COMPLETION_REPORT.md`](file:///f:/FYND%20X%20GENESIS/MODULE_3_COMPLETION_REPORT.md) | Documentation | Formal evidence-backed completion report. |
+| [`src/features/simulator/SimulatorPage.jsx`](./src/features/simulator/SimulatorPage.jsx) | UI Component | Primary simulator view featuring batch context header, dual-linked price and markdown % controls, non-clamping validation cards, demand scenario selectors (Fixture, High, Zero, Missing), real-time revenue/cost/contribution breakdown, and plain-language recommendation. |
+| [`src/app/App.jsx`](./src/app/App.jsx) | Application Container | Connected `onNavigateToInventory` back navigation and selected batch state passing from Inventory to Simulator. |
+| [`src/tests/simulator.test.js`](./src/tests/simulator.test.js) | Automated Test Suite | 19 comprehensive automated tests verifying pricing validation, boundary conditions, demand capping, unsold stock visibility, contribution policies, food safety hard-stops, and immutability. |
+| [`MODULE_3_COMPLETION_REPORT.md`](./MODULE_3_COMPLETION_REPORT.md) | Documentation | Formal evidence-backed completion report. |
 
 ---
 
@@ -75,15 +75,15 @@ Zero business logic is reimplemented in React. All calculations are executed by 
 
 | Domain Function | Source Module | Role in Simulator |
 | :--- | :--- | :--- |
-| `validateSimulationParams()` | [`src/domain/validation.js`](file:///f:/FYND%20X%20GENESIS/src/domain/validation.js) | Validates proposed price bounds, allowed markdown limit, and non-negative integer demand. |
-| `checkEligibility()` | [`src/domain/eligibility.js`](file:///f:/FYND%20X%20GENESIS/src/domain/eligibility.js) | Central food safety gate evaluating expiry flags, ISO timestamps, damage condition, and cold chain exceptions. |
-| `calculateUnitContribution()` | [`src/domain/economics.js`](file:///f:/FYND%20X%20GENESIS/src/domain/economics.js) | Computes $P - C$ rounded to 2 decimal places in INR. |
-| `calculateTotalContribution()` | [`src/domain/economics.js`](file:///f:/FYND%20X%20GENESIS/src/domain/economics.js) | Computes $\text{Unit} \times Q_{\text{alloc}}$ strictly for allocated units. |
-| `calculateDiscountPercent()` | [`src/domain/economics.js`](file:///f:/FYND%20X%20GENESIS/src/domain/economics.js) | Computes $((P_{\text{orig}} - P_{\text{prop}}) / P_{\text{orig}}) \times 100$. |
-| `checkAllowedMarkdownLimit()` | [`src/domain/economics.js`](file:///f:/FYND%20X%20GENESIS/src/domain/economics.js) | Validates proposed price against allowed markdown percentage cap. |
-| `checkMinimumContribution()` | [`src/domain/economics.js`](file:///f:/FYND%20X%20GENESIS/src/domain/economics.js) | Validates $P \ge C$ and optional store margin floor thresholds. |
-| `allocateStock()` | [`src/domain/allocation.js`](file:///f:/FYND%20X%20GENESIS/src/domain/allocation.js) | Computes bounded allocation $\min(Q, D)$ and unsold stock $Q - Q_{\text{alloc}}$. |
-| `generateRecommendation()` | [`src/domain/recommendations.js`](file:///f:/FYND%20X%20GENESIS/src/domain/recommendations.js) | Integrates all sub-engines into structured recommendation with plain-language explanation. |
+| `validateSimulationParams()` | [`src/domain/validation.js`](./src/domain/validation.js) | Validates proposed price bounds, allowed markdown limit, and non-negative integer demand. |
+| `checkEligibility()` | [`src/domain/eligibility.js`](./src/domain/eligibility.js) | Central food safety gate evaluating expiry flags, ISO timestamps, damage condition, and cold chain exceptions. |
+| `calculateUnitContribution()` | [`src/domain/economics.js`](./src/domain/economics.js) | Computes $P - C$ rounded to 2 decimal places in INR. |
+| `calculateTotalContribution()` | [`src/domain/economics.js`](./src/domain/economics.js) | Computes $\text{Unit} \times Q_{\text{alloc}}$ strictly for allocated units. |
+| `calculateDiscountPercent()` | [`src/domain/economics.js`](./src/domain/economics.js) | Computes $((P_{\text{orig}} - P_{\text{prop}}) / P_{\text{orig}}) \times 100$. |
+| `checkAllowedMarkdownLimit()` | [`src/domain/economics.js`](./src/domain/economics.js) | Validates proposed price against allowed markdown percentage cap. |
+| `checkMinimumContribution()` | [`src/domain/economics.js`](./src/domain/economics.js) | Validates $P \ge C$ and optional store margin floor thresholds. |
+| `allocateStock()` | [`src/domain/allocation.js`](./src/domain/allocation.js) | Computes bounded allocation $\min(Q, D)$ and unsold stock $Q - Q_{\text{alloc}}$. |
+| `generateRecommendation()` | [`src/domain/recommendations.js`](./src/domain/recommendations.js) | Integrates all sub-engines into structured recommendation with plain-language explanation. |
 
 ---
 
@@ -101,7 +101,7 @@ npm test
 - **Failed:** 0
 - **Duration:** 146.5 ms
 
-### Focused Module 3 Tests Breakdown ([`src/tests/simulator.test.js`](file:///f:/FYND%20X%20GENESIS/src/tests/simulator.test.js)):
+### Focused Module 3 Tests Breakdown ([`src/tests/simulator.test.js`](./src/tests/simulator.test.js)):
 1. `accepts valid markdown within permitted range`: **PASS**
 2. `accepts zero markdown (selling at full original price)`: **PASS**
 3. `accepts maximum permitted markdown price boundary`: **PASS**
@@ -126,7 +126,7 @@ npm test
 
 ## 6. Verification of the 3 Mandatory Business Case Checks
 
-Executed via [`src/domain/caseChecksRunner.js`](file:///f:/FYND%20X%20GENESIS/src/domain/caseChecksRunner.js):
+Executed via [`src/domain/caseChecksRunner.js`](./src/domain/caseChecksRunner.js):
 
 1. **Check 1 — Contribution Calculation (10 Points):**  
    10 units sold @ ₹40 with ₹25 incremental cost $\rightarrow$ Unit Contribution = ₹15, Total Contribution = ₹150. **[PASS: 10/10 pts]**

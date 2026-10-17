@@ -200,11 +200,58 @@ The application is structured as a zero-backend Single Page Application (SPA), m
 
 ## 8. Accompanying Documentation
 
-- [FYND_C30_Project_Requirements.md](file:///f:/FYND%20X%20GENESIS/FYND_C30_Project_Requirements.md): Core requirements, formulas, and constraints.
-- [MBA_BUSINESS_MODEL.md](file:///f:/FYND%20X%20GENESIS/MBA_BUSINESS_MODEL.md): Customer segment analysis, pricing tiers, cost-to-serve, and unit economics.
-- [FIRST_CUSTOMER_EXPERIMENT.md](file:///f:/FYND%20X%20GENESIS/FIRST_CUSTOMER_EXPERIMENT.md): Discovery interview script, outreach protocol, and evaluation criteria.
-- [SUPERVISED_PILOT_PLAN.md](file:///f:/FYND%20X%20GENESIS/SUPERVISED_PILOT_PLAN.md): 5-day single-store field trial protocol, measurement formulas, and abort triggers.
-- [EVIDENCE_AND_ASSUMPTIONS.md](file:///f:/FYND%20X%20GENESIS/EVIDENCE_AND_ASSUMPTIONS.md): 13-point epistemic audit classifying claims into facts, calculations, and hypotheses.
-- [JUDGE_DEMO_SCRIPT.md](file:///f:/FYND%20X%20GENESIS/JUDGE_DEMO_SCRIPT.md): 4.5-minute timed judging presentation script with fallback contingencies.
-- [MODULE_5_COMPLETION_REPORT.md](file:///f:/FYND%20X%20GENESIS/MODULE_5_COMPLETION_REPORT.md): Reliability and edge-case verification report.
-- [FINAL_HANDOFF_REPORT.md](file:///f:/FYND%20X%20GENESIS/FINAL_HANDOFF_REPORT.md): Final system handoff report.
+- [FYND_C30_Project_Requirements.md](./FYND_C30_Project_Requirements.md): Core requirements, formulas, and constraints.
+- [GAP_AUDIT_REPORT.md](./GAP_AUDIT_REPORT.md): Complete cross-module project gap audit and baseline verification report.
+- [MBA_BUSINESS_MODEL.md](./MBA_BUSINESS_MODEL.md): Customer segment analysis, pricing tiers, cost-to-serve, and unit economics.
+- [FIRST_CUSTOMER_EXPERIMENT.md](./FIRST_CUSTOMER_EXPERIMENT.md): Discovery interview script, outreach protocol, and evaluation criteria.
+- [SUPERVISED_PILOT_PLAN.md](./SUPERVISED_PILOT_PLAN.md): 5-day single-store field trial protocol, measurement formulas, and abort triggers.
+- [EVIDENCE_AND_ASSUMPTIONS.md](./EVIDENCE_AND_ASSUMPTIONS.md): 13-point epistemic audit classifying claims into facts, calculations, and hypotheses.
+- [JUDGE_DEMO_SCRIPT.md](./JUDGE_DEMO_SCRIPT.md): 4.5-minute timed judging presentation script with fallback contingencies.
+- [MODULE_5_BUSINESS_FEEDBACK_EVIDENCE.md](./MODULE_5_BUSINESS_FEEDBACK_EVIDENCE.md): Before-and-after evidence for food-safety precedence over margin.
+- [MODULE_5_COMPLETION_REPORT.md](./MODULE_5_COMPLETION_REPORT.md): Reliability and edge-case verification report.
+- [MODULE_6_COMPLETION_REPORT.md](./MODULE_6_COMPLETION_REPORT.md): MBA integration, commercial model, and deployment completion report.
+- [FINAL_HANDOFF_REPORT.md](./FINAL_HANDOFF_REPORT.md): Final master system handoff report.
+
+---
+
+## 9. Troubleshooting & Common Operational Issues
+
+### 9.1 Port In Use (`EADDRINUSE: 5000` or `5173`)
+If port 5000 or the default Vite port is already occupied by another process:
+```bash
+# Start dev server on an alternate port:
+npm run dev -- --port 3000
+
+# Or start preview server on an alternate port:
+npm run preview -- --port 3000
+```
+
+### 9.2 Resetting Local Browser Decision History
+If `localStorage` contains test records from previous manual testing sessions that you want to reset:
+1. Navigate to the **Decisions (`/decisions`)** page in the application.
+2. Click the red **"Clear History"** button in the top action bar to reset storage cleanly.
+3. Or open browser Developer Tools (F12) -> Console and run:
+   ```javascript
+   localStorage.removeItem('c30_decisions_v1'); location.reload();
+   ```
+
+### 9.3 Test Runner on Windows / PowerShell
+All automated tests use the Node.js native test runner (`node --test`):
+```bash
+# Run all tests:
+npm test
+
+# Run a specific test suite:
+node --test src/tests/caseChecks.test.js
+node --test src/tests/reliabilityEdgeCases.test.js
+```
+*Note: Ensure Node.js v18.0.0 or higher is installed (tested on v22.13.1).*
+
+### 9.4 Production Build Verification
+To ensure the production bundle builds without errors and serves correctly:
+```bash
+npm run build
+npm run preview -- --port 5000
+```
+Then visit `http://localhost:5000/` to test the minified production assets.
+

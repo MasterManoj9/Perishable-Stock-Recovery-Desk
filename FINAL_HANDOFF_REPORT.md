@@ -25,13 +25,13 @@ The application serves café and small grocery managers by providing a rapid (<2
 
 | Module | Scope | Status | Key Deliverables & Evidence |
 | :---: | :--- | :---: | :--- |
-| **Module 0** | Discovery, Requirements Validation, & Foundation | **PASS** | [`MODULE_0_INSPECTION_REPORT.md`](file:///f:/FYND%20X%20GENESIS/MODULE_0_INSPECTION_REPORT.md); verified greenfield host, Node v22, authoritative fixture preservation. |
-| **Module 1** | Pure Core Decision Engine & Automated Tests | **PASS** | [`MODULE_1_COMPLETION_REPORT.md`](file:///f:/FYND%20X%20GENESIS/MODULE_1_COMPLETION_REPORT.md); pure domain logic (`validation.js`, `eligibility.js`, `economics.js`, `allocation.js`, `recommendations.js`), 46 tests passing. |
-| **Module 2** | App Shell, Dashboard, & Inventory Management UI | **PASS** | [`MODULE_2_COMPLETION_REPORT.md`](file:///f:/FYND%20X%20GENESIS/MODULE_2_COMPLETION_REPORT.md); modern dark sidebar shell (#0f172a), 4 KPI cards, SVG Donut chart, multi-facet inventory filters, batch details modal, ad-hoc batch creation form. |
-| **Module 3** | Interactive Markdown Simulator | **PASS** | [`MODULE_3_COMPLETION_REPORT.md`](file:///f:/FYND%20X%20GENESIS/MODULE_3_COMPLETION_REPORT.md); dynamic price slider, quick demand scenario buttons, real-time contribution formulas, food safety hard-block, confirmation modal. |
-| **Module 4** | Decision Records, Persistence, & Audit History | **PASS** | [`MODULE_4_COMPLETION_REPORT.md`](file:///f:/FYND%20X%20GENESIS/MODULE_4_COMPLETION_REPORT.md); localStorage persistence (`c30_decisions_v1`), immutable before/after snapshots, RFC 4180 CSV & JSON exporters, `/reports` case checks runner. |
-| **Module 5** | Reliability, Edge Cases, & Feedback Improvements | **PASS** | [`MODULE_5_COMPLETION_REPORT.md`](file:///f:/FYND%20X%20GENESIS/MODULE_5_COMPLETION_REPORT.md), [`MODULE_5_BUSINESS_FEEDBACK_EVIDENCE.md`](file:///f:/FYND%20X%20GENESIS/MODULE_5_BUSINESS_FEEDBACK_EVIDENCE.md); explicit unapproved theoretical margin separation, 1ms boundary precision, quarantine recording, 136 tests passing. |
-| **Module 6** | MBA Integration, Business Model, & Final Handoff | **PASS** | [`MBA_BUSINESS_MODEL.md`](file:///f:/FYND%20X%20GENESIS/MBA_BUSINESS_MODEL.md), [`FIRST_CUSTOMER_EXPERIMENT.md`](file:///f:/FYND%20X%20GENESIS/FIRST_CUSTOMER_EXPERIMENT.md), [`SUPERVISED_PILOT_PLAN.md`](file:///f:/FYND%20X%20GENESIS/SUPERVISED_PILOT_PLAN.md), [`EVIDENCE_AND_ASSUMPTIONS.md`](file:///f:/FYND%20X%20GENESIS/EVIDENCE_AND_ASSUMPTIONS.md), [`JUDGE_DEMO_SCRIPT.md`](file:///f:/FYND%20X%20GENESIS/JUDGE_DEMO_SCRIPT.md), [`README.md`](file:///f:/FYND%20X%20GENESIS/README.md). |
+| **Module 0** | Discovery, Requirements Validation, & Foundation | **PASS** | [`MODULE_0_INSPECTION_REPORT.md`](./MODULE_0_INSPECTION_REPORT.md); verified greenfield host, Node v22, authoritative fixture preservation. |
+| **Module 1** | Pure Core Decision Engine & Automated Tests | **PASS** | [`MODULE_1_COMPLETION_REPORT.md`](./MODULE_1_COMPLETION_REPORT.md); pure domain logic (`validation.js`, `eligibility.js`, `economics.js`, `allocation.js`, `recommendations.js`), 46 tests passing. |
+| **Module 2** | App Shell, Dashboard, & Inventory Management UI | **PASS** | [`MODULE_2_COMPLETION_REPORT.md`](./MODULE_2_COMPLETION_REPORT.md); modern dark sidebar shell (#0f172a), 4 KPI cards, SVG Donut chart, multi-facet inventory filters, batch details modal, ad-hoc batch creation form. |
+| **Module 3** | Interactive Markdown Simulator | **PASS** | [`MODULE_3_COMPLETION_REPORT.md`](./MODULE_3_COMPLETION_REPORT.md); dynamic price slider, quick demand scenario buttons, real-time contribution formulas, food safety hard-block, confirmation modal. |
+| **Module 4** | Decision Records, Persistence, & Audit History | **PASS** | [`MODULE_4_COMPLETION_REPORT.md`](./MODULE_4_COMPLETION_REPORT.md); localStorage persistence (`c30_decisions_v1`), immutable before/after snapshots, RFC 4180 CSV & JSON exporters, `/reports` case checks runner. |
+| **Module 5** | Reliability, Edge Cases, & Feedback Improvements | **PASS** | [`MODULE_5_COMPLETION_REPORT.md`](./MODULE_5_COMPLETION_REPORT.md), [`MODULE_5_BUSINESS_FEEDBACK_EVIDENCE.md`](./MODULE_5_BUSINESS_FEEDBACK_EVIDENCE.md); explicit unapproved theoretical margin separation, 1ms boundary precision, quarantine recording, 136 tests passing. |
+| **Module 6** | MBA Integration, Business Model, & Final Handoff | **PASS** | [`MBA_BUSINESS_MODEL.md`](./MBA_BUSINESS_MODEL.md), [`FIRST_CUSTOMER_EXPERIMENT.md`](./FIRST_CUSTOMER_EXPERIMENT.md), [`SUPERVISED_PILOT_PLAN.md`](./SUPERVISED_PILOT_PLAN.md), [`EVIDENCE_AND_ASSUMPTIONS.md`](./EVIDENCE_AND_ASSUMPTIONS.md), [`JUDGE_DEMO_SCRIPT.md`](./JUDGE_DEMO_SCRIPT.md), [`MODULE_6_COMPLETION_REPORT.md`](./MODULE_6_COMPLETION_REPORT.md), [`README.md`](./README.md). |
 
 ---
 
@@ -108,19 +108,19 @@ dist/assets/index-B1WkMexW.js   385.40 kB │ gzip: 104.95 kB
 
 | # | Master Acceptance Criterion | Status | Verifying Evidence |
 |---|---|---|---|
-| 1 | The business model is documented. | **PASS** | [`MBA_BUSINESS_MODEL.md`](file:///f:/FYND%20X%20GENESIS/MBA_BUSINESS_MODEL.md) Sections 1–6. |
+| 1 | The business model is documented. | **PASS** | [`MBA_BUSINESS_MODEL.md`](./MBA_BUSINESS_MODEL.md) Sections 1–6. |
 | 2 | The initial customer segment is justified. | **PASS** | Specialty café segment selected over grocery due to 24–48h shelf life, high gross margin (65–80%), and daily waste pain. |
 | 3 | Pricing and willingness-to-pay claims are labelled appropriately. | **PASS** | Explicitly labeled as pre-market hypotheses in `MBA_BUSINESS_MODEL.md` and `EVIDENCE_AND_ASSUMPTIONS.md`. |
 | 4 | Cost-to-serve and unit economics distinguish assumptions from facts. | **PASS** | ₹199/month variable cost-to-serve derived from itemized assumptions (CDN, storage, support, payment fee). |
-| 5 | The first-customer experiment is documented. | **PASS** | [`FIRST_CUSTOMER_EXPERIMENT.md`](file:///f:/FYND%20X%20GENESIS/FIRST_CUSTOMER_EXPERIMENT.md) with 5-question interview and response taxonomy. |
-| 6 | The supervised pilot plan contains safety controls and measurable outcomes. | **PASS** | [`SUPERVISED_PILOT_PLAN.md`](file:///f:/FYND%20X%20GENESIS/SUPERVISED_PILOT_PLAN.md) with daily workflow, physical count reconciliation, and abort triggers. |
-| 7 | Evidence and assumptions are classified. | **PASS** | [`EVIDENCE_AND_ASSUMPTIONS.md`](file:///f:/FYND%20X%20GENESIS/EVIDENCE_AND_ASSUMPTIONS.md) with 13-point epistemic matrix. |
+| 5 | The first-customer experiment is documented. | **PASS** | [`FIRST_CUSTOMER_EXPERIMENT.md`](./FIRST_CUSTOMER_EXPERIMENT.md) with 5-question interview and response taxonomy. |
+| 6 | The supervised pilot plan contains safety controls and measurable outcomes. | **PASS** | [`SUPERVISED_PILOT_PLAN.md`](./SUPERVISED_PILOT_PLAN.md) with daily workflow, physical count reconciliation, and abort triggers. |
+| 7 | Evidence and assumptions are classified. | **PASS** | [`EVIDENCE_AND_ASSUMPTIONS.md`](./EVIDENCE_AND_ASSUMPTIONS.md) with 13-point epistemic matrix. |
 | 8 | The three mandatory engineering checks pass in the required order. | **PASS** | `src/tests/caseChecks.test.js` executed and verified (25/25 pts). |
 | 9 | All existing automated tests pass, or remaining failures are explicitly documented. | **PASS** | 136/136 tests passing in 192ms. |
 | 10 | The production build succeeds, or a verified blocker is documented. | **PASS** | `vite build` completed in 422ms. |
 | 11 | Deployment is verified if claimed. | **PASS** | Local preview server verified running on port 5000; static deployment configs documented. |
-| 12 | README and reproduction instructions work. | **PASS** | [`README.md`](file:///f:/FYND%20X%20GENESIS/README.md) updated with exact matching commands. |
-| 13 | The judging demonstration uses real implemented functionality. | **PASS** | [`JUDGE_DEMO_SCRIPT.md`](file:///f:/FYND%20X%20GENESIS/JUDGE_DEMO_SCRIPT.md) with 4.5-minute script using actual fixture batches B1 and B2. |
+| 12 | README and reproduction instructions work. | **PASS** | [`README.md`](./README.md) updated with exact matching commands. |
+| 13 | The judging demonstration uses real implemented functionality. | **PASS** | [`JUDGE_DEMO_SCRIPT.md`](./JUDGE_DEMO_SCRIPT.md) with 4.5-minute script using actual fixture batches B1 and B2. |
 | 14 | The final handoff report is complete. | **PASS** | This document (`FINAL_HANDOFF_REPORT.md`). |
 | 15 | The official fixture remains unchanged. | **PASS** | `git diff Starter_Data/` verified empty. |
 | 16 | No unverified commercial claims are presented as facts. | **PASS** | Synthetic data boundary clearly disclosed across all documentation and UI components. |
