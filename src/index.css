@@ -1,7 +1,113 @@
 @import "tailwindcss";
 
 @layer base {
+  :root {
+    color-scheme: light;
+    /* FYND Soft Peach & Warm Cream Palette */
+    --bg-page: #FFF1E8;
+    --bg-surface: #FFF8F3;
+    --bg-card: #FFFFFF;
+    --text-primary: #302722;
+    --text-secondary: #76675F;
+    --border-color: #EEDDD2;
+    --primary-accent: #D97757;
+    --primary-accent-hover: #C86545;
+    --secondary-accent: #E7A78A;
+  }
+
   body {
-    @apply bg-slate-50 text-slate-900 antialiased font-sans;
+    background-color: var(--bg-page);
+    color: var(--text-primary);
+    @apply antialiased font-sans transition-colors duration-200;
+  }
+}
+
+/* ==========================================================================
+   FYND REFINED PEACH PALETTE SURFACES & UTILITIES
+   ========================================================================== */
+
+/* Main content panels */
+.bg-peach-page {
+  background-color: #FFF1E8;
+}
+
+.bg-peach-surface {
+  background-color: #FFF8F3;
+}
+
+.bg-peach-card {
+  background-color: #FFFFFF;
+}
+
+.border-peach-subtle {
+  border-color: #EEDDD2;
+}
+
+.text-peach-primary {
+  color: #302722;
+}
+
+.text-peach-secondary {
+  color: #76675F;
+}
+
+.text-peach-accent {
+  color: #D97757;
+}
+
+.bg-peach-accent {
+  background-color: #D97757;
+}
+
+.bg-peach-accent:hover {
+  background-color: #C86545;
+}
+
+/* Subtle warm card shadow */
+.shadow-peach-sm {
+  box-shadow: 0 1px 3px 0 rgba(48, 39, 34, 0.04), 0 1px 2px -1px rgba(48, 39, 34, 0.04);
+}
+
+.shadow-peach-md {
+  box-shadow: 0 4px 6px -1px rgba(48, 39, 34, 0.06), 0 2px 4px -2px rgba(48, 39, 34, 0.04);
+}
+
+/* Restrained transitions for product cards (150-250ms, no excessive movement) */
+.product-card-interactive {
+  transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+}
+
+.product-card-interactive:hover {
+  border-color: #D97757;
+  box-shadow: 0 6px 16px -2px rgba(217, 119, 87, 0.12), 0 2px 6px -1px rgba(48, 39, 34, 0.06);
+  transform: translateY(-2px);
+}
+
+/* Button press feedback */
+button:not(:disabled):active {
+  transform: scale(0.985);
+  transition: transform 100ms ease;
+}
+
+/* Accessible focus rings */
+*:focus-visible {
+  outline: 2px solid #D97757 !important;
+  outline-offset: 2px !important;
+}
+
+/* Tasteful subtle glass effect */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Respect user's reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

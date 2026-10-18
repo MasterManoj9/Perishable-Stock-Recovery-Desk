@@ -1,0 +1,21 @@
+Topic,Details
+Purpose,Synthetic 90-day dataset for a C30 demand-forecasting and inventory / raw-material procurement prototype.
+Historical date range,2026-07-20 through 2026-10-17 inclusive (90 days). Forecast horizon: 2026-10-18 through 2026-10-24.
+Locations,Four illustrative locations: two cafés (CAFE01/CAFE02) and two grocery shops (GROC01/GROC02). Names are invented.
+Products,Five café prepared-food items per café and five grocery SKUs per grocery shop.
+Data status,"All store names, footfall, sales, stock movements, ingredient usage, batch records and purchase orders in this workbook are synthetic. They are NOT actual business records."
+Demand vs. sales,"Estimated_Demand_Units is latent simulated customer demand. Units_Sold is capped by eligible stock. Lost_Demand_Units = demand minus sales, to represent potential lost sales. Real stores generally need to estimate lost demand during stockouts."
+Footfall,Footfall_Visits is illustrative customer visits per location per day. Transactions_or_Bills is a simulated count of transactions / bills.
+Cafe stock input/output,"Cafe Stock_Input_Units means prepared/production input of the finished menu item. For cafes, raw material consumption is derived from Units_Sold × Cafe_Recipe_BOM."
+Grocery stock input/output,Grocery Stock_Input_Units means supplier deliveries of the SKU. Stock_Output_Units equals units sold plus waste/expired/damaged write-offs.
+Inventory balance,For each product-day: Opening_Stock + Stock_Input = Stock_Output + Closing_Stock. Waste is included in stock output and is separate from sold units.
+Café recipe / BOM,"Recipes and portion quantities are illustrative assumptions, not recipes observed from a real café. Confirm recipes, yield loss, packaging and prep yield before using operationally."
+Demand forecast,"Next seven days use the average of up to four previous observations with the same weekday. Lower/upper values are indicative spread bands, not a validated prediction interval."
+Raw material buying,"Material requirement forecast = product demand forecast × recipe quantities. Buy quantities cover supplier lead time + a 7-day review period + 2-day safety stock, minus on-hand and open PO quantity; order rounded to pack size / MOQ."
+Grocery restock,"Grocery restock uses estimated demand from the same-weekday baseline and considers lead time, 2-day safety stock, on-hand, open POs, pack size and MOQ."
+Purchase recommendations,"Recommendations are decision support only. They do NOT place orders. Human confirmation is needed for physical counts, approved suppliers, budget, shelf life, cold chain, pack sizes and delivery timing."
+Expiry rules,Expired batches are blocked from sale in the dataset logic. Near-expiry items are surfaced for supervisor review; never discount an expired or unsafe product.
+Model evaluation,Forecast_Backtest_* evaluates a simple same-weekday forecast on the last 14 days using synthetic estimated demand. It is not a real-world accuracy benchmark.
+Economics,"Unit contribution = sales revenue less item-level unit cost only. It excludes labour, rent, electricity, delivery, platform fees, taxes and other operating costs."
+Use in assignment,"Label the workbook as a synthetic prototype. Do not claim observed customer demand, real revenue reduction, actual waste reduction or a completed customer pilot."
+Suggested next step,"Replace illustrative inputs with the official C30 fixture and consented, anonymised store data; run the same workflow as a supervised pilot."

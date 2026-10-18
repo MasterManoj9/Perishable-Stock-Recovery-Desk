@@ -1,0 +1,11 @@
+Product_ID,Business_Type,Product_Name,Category,Sell_Unit,Selling_Price_INR,Unit_Cost_INR,Unit_Contribution_Before_Overheads_INR,Shelf_Life_Days,Lead_Time_Days,Order_Pack_Size_Units,Demand_Penetration_Assumption,Weekend_Demand_Factor,Promotion_Uplift_Assumption,Stock_Input_Definition
+CAF01,Cafe,Butter Croissant,Fresh bakery,piece,110,23,87,2,0,12,0.135,1.06,0.14,Cafe input means prepared units; grocery input means supplier receipts
+CAF02,Cafe,Blueberry Muffin,Fresh bakery,piece,95,22,73,2,0,12,0.1,1.12,0.15,Cafe input means prepared units; grocery input means supplier receipts
+CAF03,Cafe,Vegetable Sandwich,Prepared food,piece,140,24,116,1,0,8,0.105,0.96,0.12,Cafe input means prepared units; grocery input means supplier receipts
+CAF04,Cafe,Paneer Wrap,Prepared food,piece,165,36,129,1,0,8,0.075,1.02,0.12,Cafe input means prepared units; grocery input means supplier receipts
+CAF05,Cafe,Chocolate Brownie,Dessert,piece,90,25,65,3,0,12,0.075,1.1,0.15,Cafe input means prepared units; grocery input means supplier receipts
+GRO01,Grocery,Milk 1 L,Dairy,pack,68,54,14,7,1,12,0.135,1.1,0.08,Retail SKU replenishment
+GRO02,Grocery,Bread Loaf,Bakery,loaf,45,31,14,3,1,10,0.095,1.15,0.12,Retail SKU replenishment
+GRO03,Grocery,Eggs (6-pack),Eggs,pack,55,42,13,14,2,12,0.068,1.08,0.06,Retail SKU replenishment
+GRO04,Grocery,Curd 500 g,Dairy,pack,38,27,11,5,1,12,0.078,1.07,0.08,Retail SKU replenishment
+GRO05,Grocery,Bananas 1 kg,Produce,kg pack,55,32,23,5,1,5,0.092,1.17,0.1,Retail SKU replenishment

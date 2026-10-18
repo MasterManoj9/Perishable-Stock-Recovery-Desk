@@ -8,6 +8,12 @@ export default defineConfig({
     tailwindcss()
   ],
   server: {
-    port: 3000
+    port: 3000,
+    proxy: {
+      '/api/forecast': {
+        target: 'http://127.0.0.1:8000',
+        changeOrigin: true
+      }
+    }
   }
 });

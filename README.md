@@ -1,12 +1,13 @@
 # FYND × NMIMS Hyderabad — C30 Perishable Stock Recovery Desk
 
-[![Automated Tests](https://img.shields.io/badge/tests-136%2F136%20passing-brightgreen.svg)]()
+[![Automated Tests](https://img.shields.io/badge/tests-145%2F145%20passing-brightgreen.svg)]()
 [![Case Outcome Checks](https://img.shields.io/badge/case%20checks-25%2F25%20pts-emerald.svg)]()
-[![Production Build](https://img.shields.io/badge/build-passing%20(422ms)-blue.svg)]()
+[![Production Build](https://img.shields.io/badge/build-passing%20(735ms)-blue.svg)]()
+[![Database](https://img.shields.io/badge/database-Supabase%20PostgreSQL-3ECF8E.svg)]()
 [![Node Runtime](https://img.shields.io/badge/node-v22.13.1-blue.svg)]()
 [![License](https://img.shields.io/badge/license-UNLICENSED-lightgrey.svg)]()
 
-> **Intelligent decision-support web application for café and small grocery managers to inspect ageing inventory, simulate markdown prices and demand scenarios, enforce strict food-safety gates, commit auditable recovery decisions, and export compliance evidence.**
+> **Intelligent decision-support & recovery platform for café and small grocery managers to inspect ageing inventory, simulate markdown prices and demand scenarios, enforce strict food-safety gates, commit auditable recovery decisions, and sell discounted near-expiry products directly to customers with community food donations and real-time business insights.**
 
 ---
 
@@ -16,7 +17,7 @@ The **C30 Perishable Stock Recovery Desk** was built for the **FYND × NMIMS Hyd
 
 The system enforces three mandatory constraints in strict priority order:
 
-1. **Food Safety & Stock Eligibility (Gate 1):** Expired, damaged, or unresolved cold-chain-exception stock must **never** be recommended or approved for sale. Attractive profit margins can **never** bypass food safety.
+1. **Food Safety & Stock Eligibility (Gate 1):** Expired, damaged, or unresolved cold-chain-exception stock must **never** be recommended, displayed for sale, or purchasable by customers. Attractive profit margins can **never** bypass food safety. Enforced at domain, API, and database Row Level Security (RLS) layers.
 2. **Economics (Gate 2):** Markdowns must respect store contribution policies ($P \ge C$, $\text{Unit Contribution} = P - C > 0$) and maximum allowed markdown percentages.
 3. **Demand Capping & Stock Accounting (Gate 3):** Allocated quantity is strictly capped by available eligible stock and evidenced demand:
    $$\text{Allocated Quantity} = \min(Q_{\text{eligible}}, D_{\text{supported}})$$
@@ -43,21 +44,29 @@ Executed directly in pure domain logic and verified live in the UI (`/reports` v
 
 ---
 
-## 3. Technology Stack & Architecture
+## 3. Technology Stack & Full-Stack Architecture
 
-- **Frontend Framework:** React 19.3.1
-- **Build Tool & Dev Server:** Vite 8.3.4
-- **Styling:** Tailwind CSS 4.3.3 + Vanilla CSS design tokens
+- **Frontend Framework:** React 19.3.1 (JavaScript, ES Modules)
+- **Build Tool & Dev Server:** Vite 8.3.4 (HMR, minified production build in ~735ms)
+- **Styling:** Tailwind CSS 4.3.3 + Custom CSS Tokens (Sleek dark theme `#0f172a`, glassmorphism, accent colors)
+- **Charts & Visualizations:** Recharts 2.15.4 (Area Charts, Responsive Containers, Pie & Donut Charts)
 - **Icons:** Lucide React 1.16.0
-- **Test Runner:** Node.js native test runner (`node:test`, `node:assert/strict`)
-- **Persistence:** Client-side Web Storage (`localStorage`) with RFC 4180 CSV & JSON exporters
-- **Node Environment:** Node.js `v22.13.1`, npm `10.9.2`
+- **Database Backend:** Supabase PostgreSQL 15+ with Row Level Security (RLS) policies
+- **Monetary Representation:** Integer paise (`BIGINT` in DB, e.g. ₹40.00 = 4000 paise) preventing floating-point rounding errors
+- **Payments:** Razorpay Checkout simulation with idempotent stock deductions and webhook verification
+- **Test Runner:** Node.js native test runner (`node:test`, `node:assert/strict`) — 145 tests, 50 suites
+- **Dual Runtime Support:** Client-side Web Storage fallback (`localStorage`) + cloud Supabase PostgreSQL adapter
 
 ### Codebase Organization
 
 ```
 f:\FYND X GENESIS\
-├── Starter_Data/C30/fixture.json       # Authoritative official fixture (B1, B2)
+├── Starter_Data/C30/fixture.json       # Authoritative official fixture (B1, B2) — UNTOUCHED
+├── supabase/                           # Production PostgreSQL Migrations
+│   └── migrations/
+│       ├── 001_initial_schema.sql      # 12 core tables with integer paise & foreign keys
+│       ├── 002_row_level_security.sql  # Food safety RLS policies & role isolation
+│       └── 003_seed_data.sql           # Store profile, products, & C30 test fixtures
 ├── src/
 │   ├── domain/                         # Pure ES Modules (Decoupled from UI)
 │   │   ├── validation.js               # Defensive boundary & schema validators
@@ -67,22 +76,41 @@ f:\FYND X GENESIS\
 │   │   ├── recommendations.js          # Deterministic decision orchestration
 │   │   └── caseChecksRunner.js         # Single source of truth for the 3 case checks
 │   ├── data/
-│   │   ├── fixtureLoader.js            # Normalization layer (supports 24B & official 2B)
+│   │   ├── fixtureLoader.js            # Normalization layer (24-batch demo & official fixture)
 │   │   ├── storeCatalog.js             # Realistic 24-batch café store demo inventory
-│   │   └── decisionStore.js            # LocalStorage persistence & RFC 4180 CSV export
+│   │   ├── decisionStore.js            # Decision audit log & RFC 4180 CSV export
+│   │   ├── orderStore.js               # Orders, payments, donations, feedback, analytics
+│   │   └── supabaseAdapter.js          # Unified cloud/local storage database bridge
+│   ├── lib/
+│   │   ├── auth.js                     # Authentication context & user session provider
+│   │   ├── cartContext.js              # Customer cart provider with quantity bounds
+│   │   ├── notificationContext.js      # Real-time multi-role notification store
+│   │   ├── paymentGateway.js           # Razorpay checkout & payment processing engine
+│   │   └── supabase.js                 # Supabase client initializer
 │   ├── components/                     # Reusable design system components
-│   │   ├── AppShell.jsx                # Modern dark sidebar layout (#0f172a)
+│   │   ├── AppShell.jsx                # Manager dark sidebar shell with role switcher
+│   │   ├── ProtectedRoute.jsx          # Role-based route authorization guard
 │   │   ├── StatusBadge.jsx             # Visual safety badges (Eligible, Expired, Cold Chain)
 │   │   ├── EmptyState.jsx              # Zero-state handler
 │   │   ├── ErrorMessage.jsx            # Error recovery card with retry trigger
 │   │   └── LoadingState.jsx            # Non-blocking loading indicator
-│   ├── features/                       # Five distinct, fully-functioning application modules
-│   │   ├── dashboard/                  # DashboardPage: 4 KPIs, SVG Donut, Attention list
-│   │   ├── inventory/                  # InventoryPage, InventoryTable, BatchDetails modal
-│   │   ├── simulator/                  # SimulatorPage, DecisionConfirmModal (pricing & demand)
-│   │   ├── decisions/                  # DecisionsPage: audit log, RFC 4180 CSV & JSON export
-│   │   └── reports/                    # ReportsPage: 25-pt case checks runner & MBA feedback
-│   └── tests/                          # 136 automated Node.js test runner unit & edge tests
+│   ├── features/
+│   │   ├── dashboard/                  # Manager Dashboard: KPIs, Donut chart, Attention feed
+│   │   ├── inventory/                  # Inventory Table, multi-facet filters, Batch modal
+│   │   ├── simulator/                  # Markdown Simulator, price slider, confirm modal
+│   │   ├── decisions/                  # Decision audit log, RFC 4180 CSV & JSON export
+│   │   ├── reports/                    # 25-pt case checks runner & MBA feedback
+│   │   ├── insights/                   # Business Insights: Recharts analytics, 6 date filters
+│   │   ├── notifications/              # Manager operational alert center
+│   │   ├── feedback/                   # Customer reviews & manager response portal
+│   │   └── customer/                   # Customer Experience:
+│   │       ├── ShopPage.jsx            # Discounted catalog with safety gating
+│   │       ├── CartPage.jsx            # Cart with ₹1 food donation & Razorpay checkout
+│   │       ├── OrdersPage.jsx          # Customer order history & tracking
+│   │       ├── CustomerFeedbackPage.jsx# Customer star ratings & category reviews
+│   │       ├── CustomerNotificationsPage.jsx # In-app customer alerts
+│   │       └── CustomerShell.jsx       # Customer header with "Manager Desk" toggle
+│   └── tests/                          # 145 automated unit & integration tests
 │       ├── validation.test.js
 │       ├── eligibility.test.js
 │       ├── economics.test.js
@@ -93,14 +121,17 @@ f:\FYND X GENESIS\
 │       ├── fixtureLoader.test.js
 │       ├── decisionStore.test.js
 │       ├── simulator.test.js
-│       └── reliabilityEdgeCases.test.js
+│       ├── reliabilityEdgeCases.test.js
+│       ├── businessInsights.test.js    # Analytics date filters, repeat purchases, waste ratios
+│       └── orderAndDonation.test.js    # Price snapshots, donation verification, feedback constraints
 ```
 
 ---
 
 ## 4. Key Functional Capabilities
 
-1. **Dashboard (`/`):**
+### 4.1 Manager Decision Desk
+1. **Executive Dashboard (`/`):**
    - 4 executive KPI cards: Total Batches, Eligible for Sale, Blocked from Sale, Expiring Soon.
    - SVG Stock Status Donut Chart with live batch percentages.
    - Immediate Attention Required feed linking directly to batch details or the simulator.
@@ -111,22 +142,55 @@ f:\FYND X GENESIS\
    - Batch Details modal with 4-metric grid, 4-attribute grid, and direct transition to the simulator.
    - Manual batch creation form for ad-hoc inventory entry.
 3. **Interactive Markdown Simulator (`/simulator`):**
-   - Dynamic price slider and direct numeric input bounded by cost $C$ and markdown caps.
+   - Dynamic price slider and numeric input bounded by cost $C$ and markdown caps.
    - Quick demand scenario selectors (Pessimistic 5, Base 10, Optimistic 15, Zero 0).
    - Real-time calculations: Discount %, Unit Contribution, Capped Allocation, Unsold Stock, Unmet Demand, Total Contribution.
    - Food Safety Hard-Stop: Expired, damaged, or cold-chain exception stock is strictly blocked from sale.
    - **Unapproved Theoretical Margin** alert card for safety-blocked items with positive superficial margins.
    - Decision Confirmation Modal with before/after audit snapshot.
 4. **Decisions Audit Trail (`/decisions`):**
-   - Persistent `localStorage` audit history under `c30_decisions_v1`.
+   - Persistent audit history with immutable before/after snapshots.
    - Export Decision Audit Log as **RFC 4180-compliant CSV** with field escaping.
    - Export Decision Audit Log as formatted **JSON**.
 5. **Reports & Case Checks Center (`/reports`):**
    - Automated runner for the 3 official case checks (25/25 Points).
    - Re-run verification trigger with instant audit results.
    - Export system evidence package.
-6. **Dual Dataset Switcher:**
-   - Switch seamlessly between **Store Demo (24 Batches)** (full café catalog) and **Official Fixture (B1 & B2)** (official grading testbed).
+6. **Business Insights & Analytics (`/insights`):**
+   - Real-time analytics dashboard powered by **Recharts**:
+     - Revenue & Recovery Trend (Area Chart) tracking gross recovery vs. original value.
+     - Food Safety & Waste Breakdown (Pie Chart) segmenting sold recovery, expired loss, and damaged discard.
+   - 6 Quick Date-Range Presets: Weekly (7D), Monthly (30D), Last 3 Months (90D), Last 6 Months (180D), Last 1 Year (365D), All Time.
+   - 4 Summary KPI Cards: Gross Sales, Net Recovery Contribution, Verified Food Donations, Total Food Rescued.
+   - Top Month Indicator and Repeat Customer Purchase Rate metric.
+   - Top Recovered Products performance leaderboard.
+7. **Manager Alert Center (`/notifications`):**
+   - Live operational alerts for newly placed customer recovery orders.
+   - Verified ₹1 community food donation notifications.
+   - Critical inventory alerts for expiring and quarantined stock.
+8. **Feedback & Reviews (`/feedback`):**
+   - Review incoming customer ratings and experience comments.
+   - Multi-category ratings (Freshness, Packaging, Value).
+   - Manager reply submission portal updating customer orders in real time.
+
+### 4.2 Customer Recovery Shopping Experience
+1. **Discounted Catalog (`/shop`):**
+   - Browse near-expiry perishable products marked down for rapid recovery.
+   - Strict food safety filtering: Expired (`B2`) and damaged (`B3`) batches are **never** visible to customers.
+   - Visual tags displaying remaining shelf life ("Expires in 6h"), original price, discounted price, and % off.
+2. **Cart & Community Donation (`/cart`):**
+   - Line-item quantity controls strictly bounded by available batch stock.
+   - **₹1 Community Food Recovery Donation:** Optional checkbox adding exactly 100 paise to support local hunger relief NGOs.
+   - Immutable price snapshotting: Cart items lock in the exact markdown price at checkout time.
+3. **Razorpay Checkout Flow:**
+   - Simulated payment modal with Card, UPI, and Netbanking options.
+   - Idempotent stock deduction: Confirmed payments atomically deduct stock from the inventory catalog.
+   - Immediate order confirmation with unique `ORD-...` tracking identifiers.
+4. **Order History (`/orders`):**
+   - View past recovery purchases, delivery statuses, and payment receipts.
+   - Direct button to submit post-purchase feedback and star ratings.
+5. **Customer Notifications (`/customer-notifications`):**
+   - Real-time alerts on payment confirmation, order fulfillment, and manager responses to customer feedback.
 
 ---
 
@@ -146,19 +210,25 @@ npm install
 ```bash
 npm test
 ```
-*Expected Output: 136 tests across 50 suites passing in <200ms.*
+*Expected Output: 145 tests across 50 suites passing in <250ms (0 failures, 0 skipped).*
 
-### 3. Run Mandatory Case Checks Specifically
+### 3. Run Specific Test Suites
 ```bash
+# Run mandatory 25-point case checks:
 node --test src/tests/caseChecks.test.js
+
+# Run Business Insights analytics tests:
+node --test src/tests/businessInsights.test.js
+
+# Run Order, Payment, and Donation tests:
+node --test src/tests/orderAndDonation.test.js
 ```
-*Expected Output: 3 tests across 1 suite passing (25/25 Points).*
 
 ### 4. Build for Production
 ```bash
 npm run build
 ```
-*Expected Output: Zero errors; optimized bundle generated in `dist/` in <500ms.*
+*Expected Output: Zero errors; optimized bundle generated in `dist/` in <800ms.*
 
 ### 5. Run Local Preview / Development Server
 ```bash
@@ -168,90 +238,80 @@ npm run dev
 # Or preview the production build directly:
 npm run preview -- --port 5000
 ```
-Open `http://localhost:5000/` in your browser.
+Open `http://localhost:5000/` in your browser. Use the header button to switch seamlessly between **Manager Desk** and **Customer Shop**.
 
 ---
 
-## 6. Static Deployment Instructions
+## 6. Database Configuration (Supabase PostgreSQL)
 
-The application is structured as a zero-backend Single Page Application (SPA), making it natively deployable to any modern static hosting service:
+The platform is designed with a hybrid persistence architecture:
+1. **Local Mode (Default):** Runs immediately out of the box with zero configuration using browser `localStorage` and memory caching. Ideal for hackathon judging, grading, and offline demonstrations.
+2. **Cloud Mode (Supabase):** Connects to a managed Supabase PostgreSQL instance with full Row Level Security (RLS).
 
-### Option A: Vercel
-1. Install Vercel CLI: `npm i -g vercel`
-2. Run `vercel` in the project root.
-3. Settings:
-   - Framework Preset: `Vite`
-   - Build Command: `npm run build`
-   - Output Directory: `dist`
-
-### Option B: Netlify
-1. Install Netlify CLI: `npm i -g netlify-cli`
-2. Run `netlify deploy --dir=dist --prod`
-
----
-
-## 7. Known Boundaries & Limitations
-
-1. **Client-Side Storage Scope:** The application uses browser `localStorage` for decision audit logging. While resilient against JSON corruption and storage quota errors, it does not replace a centralized multi-terminal database (e.g., PostgreSQL/Supabase) in multi-store enterprise settings.
-2. **Cold-Chain Telemetry:** Cold-chain statuses are currently ingested from batch metadata. Direct integration with IoT Bluetooth/Wi-Fi temperature loggers is planned for post-pilot development.
-3. **Synthetic Data Non-Claim:** All economic calculations and demo catalog records are synthetic models designed to validate software logic and decision workflows. Real waste reduction and customer willingness to pay will be evaluated through the supervised pilot protocol (`SUPERVISED_PILOT_PLAN.md`).
+To connect to live Supabase:
+1. Follow the step-by-step instructions in [`SUPABASE_SETUP.md`](./SUPABASE_SETUP.md).
+2. Execute the migrations in order:
+   - `supabase/migrations/001_initial_schema.sql`
+   - `supabase/migrations/002_row_level_security.sql`
+   - `supabase/migrations/003_seed_data.sql`
+3. Create a `.env` file with your credentials:
+   ```env
+   VITE_SUPABASE_URL=https://your-project.supabase.co
+   VITE_SUPABASE_ANON_KEY=your-anon-key-here
+   ```
 
 ---
 
-## 8. Accompanying Documentation
+## 7. Accompanying Documentation
 
+### Technical Architecture & Full-Stack Upgrades
+- [DATABASE_SCHEMA.md](./DATABASE_SCHEMA.md): Complete PostgreSQL ERD, 12 table schemas, foreign keys, and integer paise convention.
+- [SUPABASE_SETUP.md](./SUPABASE_SETUP.md): Step-by-step Supabase cloud provisioning, migration runbook, and environment setup.
+- [SECURITY_AND_RLS.md](./SECURITY_AND_RLS.md): Row Level Security defense-in-depth model, customer isolation, and safety gating.
+- [SUPABASE_MIGRATION_PLAN.md](./SUPABASE_MIGRATION_PLAN.md): Complete data migration and architecture roadmap.
+- [FEATURE_GAP_AUDIT.md](./FEATURE_GAP_AUDIT.md): Comprehensive feature audit matrix comparing prototype vs. production full-stack implementation.
+- [PAYMENT_GATEWAY_SETUP.md](./PAYMENT_GATEWAY_SETUP.md): Razorpay checkout integration, payment verification, and idempotent stock updates.
+- [BUSINESS_INSIGHTS_METHODOLOGY.md](./BUSINESS_INSIGHTS_METHODOLOGY.md): Financial analytics formulas, repeat purchase rate, and recovery ratios.
+- [TESTING_REPORT.md](./TESTING_REPORT.md): Complete test suite verification report (145/145 passing tests, 25/25 case checks).
+
+### Business Model & Commercial Readiness
 - [FYND_C30_Project_Requirements.md](./FYND_C30_Project_Requirements.md): Core requirements, formulas, and constraints.
-- [GAP_AUDIT_REPORT.md](./GAP_AUDIT_REPORT.md): Complete cross-module project gap audit and baseline verification report.
 - [MBA_BUSINESS_MODEL.md](./MBA_BUSINESS_MODEL.md): Customer segment analysis, pricing tiers, cost-to-serve, and unit economics.
 - [FIRST_CUSTOMER_EXPERIMENT.md](./FIRST_CUSTOMER_EXPERIMENT.md): Discovery interview script, outreach protocol, and evaluation criteria.
 - [SUPERVISED_PILOT_PLAN.md](./SUPERVISED_PILOT_PLAN.md): 5-day single-store field trial protocol, measurement formulas, and abort triggers.
 - [EVIDENCE_AND_ASSUMPTIONS.md](./EVIDENCE_AND_ASSUMPTIONS.md): 13-point epistemic audit classifying claims into facts, calculations, and hypotheses.
 - [JUDGE_DEMO_SCRIPT.md](./JUDGE_DEMO_SCRIPT.md): 4.5-minute timed judging presentation script with fallback contingencies.
-- [MODULE_5_BUSINESS_FEEDBACK_EVIDENCE.md](./MODULE_5_BUSINESS_FEEDBACK_EVIDENCE.md): Before-and-after evidence for food-safety precedence over margin.
-- [MODULE_5_COMPLETION_REPORT.md](./MODULE_5_COMPLETION_REPORT.md): Reliability and edge-case verification report.
-- [MODULE_6_COMPLETION_REPORT.md](./MODULE_6_COMPLETION_REPORT.md): MBA integration, commercial model, and deployment completion report.
 - [FINAL_HANDOFF_REPORT.md](./FINAL_HANDOFF_REPORT.md): Final master system handoff report.
 
 ---
 
-## 9. Troubleshooting & Common Operational Issues
+## 8. Troubleshooting & Common Operational Issues
 
-### 9.1 Port In Use (`EADDRINUSE: 5000` or `5173`)
-If port 5000 or the default Vite port is already occupied by another process:
+### 8.1 Port In Use (`EADDRINUSE: 5000` or `5173`)
+If port 5000 or the default Vite port is already occupied:
 ```bash
-# Start dev server on an alternate port:
 npm run dev -- --port 3000
-
-# Or start preview server on an alternate port:
 npm run preview -- --port 3000
 ```
 
-### 9.2 Resetting Local Browser Decision History
-If `localStorage` contains test records from previous manual testing sessions that you want to reset:
-1. Navigate to the **Decisions (`/decisions`)** page in the application.
-2. Click the red **"Clear History"** button in the top action bar to reset storage cleanly.
-3. Or open browser Developer Tools (F12) -> Console and run:
+### 8.2 Switching Between Manager Desk and Customer Shop
+- Click the **"Switch to Customer Shop"** / **"Manager Desk"** badge located in the navigation header at any time.
+- State is preserved seamlessly across switches.
+
+### 8.3 Resetting Demo Data
+If test orders or simulated decisions need to be cleared:
+1. In the **Decisions (`/decisions`)** page, click **"Clear History"**.
+2. Or run in browser console:
    ```javascript
-   localStorage.removeItem('c30_decisions_v1'); location.reload();
+   localStorage.clear(); location.reload();
    ```
 
-### 9.3 Test Runner on Windows / PowerShell
-All automated tests use the Node.js native test runner (`node --test`):
-```bash
-# Run all tests:
-npm test
-
-# Run a specific test suite:
-node --test src/tests/caseChecks.test.js
-node --test src/tests/reliabilityEdgeCases.test.js
-```
-*Note: Ensure Node.js v18.0.0 or higher is installed (tested on v22.13.1).*
-
-### 9.4 Production Build Verification
-To ensure the production bundle builds without errors and serves correctly:
+### 8.4 Production Build Verification
+To verify production bundle build and preview:
 ```bash
 npm run build
 npm run preview -- --port 5000
 ```
-Then visit `http://localhost:5000/` to test the minified production assets.
+Then visit `http://localhost:5000/` to test minified production assets.
+
 

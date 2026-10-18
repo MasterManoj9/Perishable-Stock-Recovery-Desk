@@ -16,11 +16,36 @@ const PAYMENTS_KEY = 'c30_payments';
 const DONATIONS_KEY = 'c30_donations';
 const FEEDBACK_KEY = 'c30_feedback';
 
+const memoryStore = {};
+
+function getItem(key) {
+  try {
+    if (typeof localStorage !== 'undefined') {
+      return localStorage.getItem(key);
+    }
+    return memoryStore[key] || null;
+  } catch {
+    return memoryStore[key] || null;
+  }
+}
+
+function setItem(key, value) {
+  try {
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem(key, value);
+    } else {
+      memoryStore[key] = value;
+    }
+  } catch {
+    memoryStore[key] = value;
+  }
+}
+
 // ─── Orders ─────────────────────────────────────────────────────
 
 export function getOrders(userId = null) {
   try {
-    const raw = localStorage.getItem(ORDERS_KEY);
+    const raw = getItem(ORDERS_KEY);
     const orders = raw ? JSON.parse(raw) : [];
     if (userId) return orders.filter(o => o.customerId === userId);
     return orders;
@@ -71,7 +96,7 @@ export function createOrder({
 
   const orders = getOrders();
   orders.unshift(order);
-  localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
+  setItem(ORDERS_KEY, JSON.stringify(orders));
 
   return order;
 }
@@ -85,7 +110,7 @@ export function updateOrderStatus(orderId, status, paymentStatus = null) {
   if (paymentStatus) orders[idx].paymentStatus = paymentStatus;
   orders[idx].updated_at = new Date().toISOString();
 
-  localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
+  setItem(ORDERS_KEY, JSON.stringify(orders));
   return orders[idx];
 }
 
@@ -93,7 +118,7 @@ export function updateOrderStatus(orderId, status, paymentStatus = null) {
 
 export function getPayments() {
   try {
-    const raw = localStorage.getItem(PAYMENTS_KEY);
+    const raw = getItem(PAYMENTS_KEY);
     return raw ? JSON.parse(raw) : [];
   } catch {
     return [];
@@ -129,7 +154,7 @@ export function recordPayment({
   };
 
   payments.unshift(payment);
-  localStorage.setItem(PAYMENTS_KEY, JSON.stringify(payments));
+  setItem(PAYMENTS_KEY, JSON.stringify(payments));
 
   return payment;
 }
@@ -138,7 +163,7 @@ export function recordPayment({
 
 export function getDonations() {
   try {
-    const raw = localStorage.getItem(DONATIONS_KEY);
+    const raw = getItem(DONATIONS_KEY);
     return raw ? JSON.parse(raw) : [];
   } catch {
     return [];
@@ -174,7 +199,7 @@ export function recordDonation({
   };
 
   donations.unshift(donation);
-  localStorage.setItem(DONATIONS_KEY, JSON.stringify(donations));
+  setItem(DONATIONS_KEY, JSON.stringify(donations));
 
   return donation;
 }
@@ -183,7 +208,7 @@ export function recordDonation({
 
 export function getFeedback(filterFn = null) {
   try {
-    const raw = localStorage.getItem(FEEDBACK_KEY);
+    const raw = getItem(FEEDBACK_KEY);
     const feedback = raw ? JSON.parse(raw) : [];
     return filterFn ? feedback.filter(filterFn) : feedback;
   } catch {
@@ -224,7 +249,7 @@ export function submitFeedback({
 
   const allFeedback = getFeedback();
   allFeedback.unshift(feedback);
-  localStorage.setItem(FEEDBACK_KEY, JSON.stringify(allFeedback));
+  setItem(FEEDBACK_KEY, JSON.stringify(allFeedback));
 
   return feedback;
 }
@@ -238,33 +263,78 @@ export function respondToFeedback(feedbackId, response) {
   allFeedback[idx].status = 'reviewed';
   allFeedback[idx].updated_at = new Date().toISOString();
 
-  localStorage.setItem(FEEDBACK_KEY, JSON.stringify(allFeedback));
+  setItem(FEEDBACK_KEY, JSON.stringify(allFeedback));
   return allFeedback[idx];
 }
 
 // ─── Analytics Helpers ──────────────────────────────────────────
 
-export function getOrderAnalytics(dateRange = null) {
-  let orders = getOrders().filter(o => o.paymentStatus === 'success' || o.status === 'confirmed');
+export function getOrderAnalytics(dateRangeOrPreset = 'all', activeBatches = []) {
+  const allOrders = getOrders();
+  let orders = allOrders.filter(o => o.paymentStatus === 'success' || o.status === 'confirmed');
   
-  if (dateRange) {
-    const { start, end } = dateRange;
+  const now = new Date();
+  let startDate = null;
+
+  if (typeof dateRangeOrPreset === 'string') {
+    switch (dateRangeOrPreset) {
+      case 'weekly':
+        startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+        break;
+      case 'monthly':
+        startDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+        break;
+      case 'last_3m':
+        startDate = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
+        break;
+      case 'last_6m':
+        startDate = new Date(now.getTime() - 180 * 24 * 60 * 60 * 1000);
+        break;
+      case 'last_1y':
+        startDate = new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000);
+        break;
+      case 'all':
+      default:
+        startDate = null;
+        break;
+    }
+    if (startDate) {
+      orders = orders.filter(o => new Date(o.created_at) >= startDate);
+    }
+  } else if (dateRangeOrPreset && typeof dateRangeOrPreset === 'object') {
+    const { start, end } = dateRangeOrPreset;
     orders = orders.filter(o => {
       const d = new Date(o.created_at);
-      return d >= new Date(start) && d <= new Date(end);
+      return (!start || d >= new Date(start)) && (!end || d <= new Date(end));
     });
   }
 
   const totalOrders = orders.length;
-  const totalRevenue = orders.reduce((s, o) => s + o.subtotal, 0);
+  const grossSales = orders.reduce((s, o) => s + o.subtotal, 0);
+  const totalRevenue = grossSales;
   const totalUnits = orders.reduce((s, o) => 
     s + o.items.reduce((is, i) => is + i.quantity, 0), 0
   );
   const avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
-  const totalDonations = getDonations().reduce((s, d) => s + d.amount, 0);
+  
+  // Donations
+  let donations = getDonations();
+  if (startDate) {
+    donations = donations.filter(d => new Date(d.created_at) >= startDate);
+  }
+  const totalDonations = donations.reduce((s, d) => s + d.amount, 0);
+
   const totalDiscountGiven = orders.reduce((s, o) => 
-    s + o.items.reduce((is, i) => is + ((i.originalPriceSnapshot - i.priceSnapshot) * i.quantity), 0), 0
+    s + o.items.reduce((is, i) => is + (((i.originalPriceSnapshot || i.priceSnapshot) - i.priceSnapshot) * i.quantity), 0), 0
   );
+
+  // Cancellation and pending counts from all orders in period
+  let periodAllOrders = allOrders;
+  if (startDate) {
+    periodAllOrders = periodAllOrders.filter(o => new Date(o.created_at) >= startDate);
+  }
+  const cancelledCount = periodAllOrders.filter(o => o.status === 'cancelled').length;
+  const pendingCount = periodAllOrders.filter(o => o.paymentStatus === 'pending').length;
 
   // Product breakdown
   const productMap = {};
@@ -274,6 +344,7 @@ export function getOrderAnalytics(dateRange = null) {
         productMap[item.productId] = {
           productId: item.productId,
           productName: item.productName,
+          category: item.category || 'General',
           unitsSold: 0,
           revenue: 0,
           orderCount: 0
@@ -286,6 +357,7 @@ export function getOrderAnalytics(dateRange = null) {
   });
 
   const products = Object.values(productMap).sort((a, b) => b.revenue - a.revenue);
+  const bestProduct = products.length > 0 ? products[0] : null;
 
   // Monthly breakdown
   const monthlyMap = {};
@@ -301,31 +373,60 @@ export function getOrderAnalytics(dateRange = null) {
   });
 
   const monthly = Object.values(monthlyMap).sort((a, b) => a.month.localeCompare(b.month));
+  const bestMonth = monthly.length > 0
+    ? [...monthly].sort((a, b) => b.revenue - a.revenue)[0]
+    : null;
 
   // Repeat purchase analysis
   const customerPurchases = {};
   orders.forEach(o => {
-    if (!customerPurchases[o.customerId]) {
-      customerPurchases[o.customerId] = [];
+    if (o.customerId) {
+      if (!customerPurchases[o.customerId]) {
+        customerPurchases[o.customerId] = [];
+      }
+      customerPurchases[o.customerId].push(o);
     }
-    customerPurchases[o.customerId].push(o);
   });
 
   const repeatCustomers = Object.values(customerPurchases).filter(p => p.length > 1).length;
   const uniqueCustomers = Object.keys(customerPurchases).length;
-  const repeatRate = uniqueCustomers > 0 ? (repeatCustomers / uniqueCustomers * 100) : 0;
+  const repeatRate = uniqueCustomers > 0 ? Math.round((repeatCustomers / uniqueCustomers) * 100) : 0;
+
+  // Waste & Recovery Insights from activeBatches
+  const totalAvailableStock = activeBatches.reduce((s, b) => s + (b.qty || 0), 0);
+  const expiredStock = activeBatches.filter(b => b.expired || (b.expiryAt && new Date(b.expiryAt) <= now))
+    .reduce((s, b) => s + (b.qty || 0), 0);
+  const damagedStock = activeBatches.filter(b => b.condition === 'damaged')
+    .reduce((s, b) => s + (b.qty || 0), 0);
+  const quarantinedStock = activeBatches.filter(b => b.coldChainStatus === 'exception')
+    .reduce((s, b) => s + (b.qty || 0), 0);
+  const eligibleUnsoldStock = activeBatches.filter(b => !b.expired && b.condition !== 'damaged' && b.coldChainStatus !== 'exception')
+    .reduce((s, b) => s + (b.qty || 0), 0);
 
   return {
     totalOrders,
+    grossSales: Math.round(grossSales * 100) / 100,
     totalRevenue: Math.round(totalRevenue * 100) / 100,
     totalUnits,
     avgOrderValue: Math.round(avgOrderValue * 100) / 100,
     totalDonations: Math.round(totalDonations * 100) / 100,
     totalDiscountGiven: Math.round(totalDiscountGiven * 100) / 100,
+    cancelledCount,
+    pendingCount,
     products,
+    bestProduct,
     monthly,
+    bestMonth,
     repeatCustomers,
     uniqueCustomers,
-    repeatRate: Math.round(repeatRate * 100) / 100
+    repeatRate,
+    wasteInsights: {
+      unitsRecoveredSold: totalUnits,
+      eligibleUnsoldStock,
+      expiredStock,
+      damagedStock,
+      quarantinedStock,
+      totalTrackedStock: totalAvailableStock + totalUnits
+    }
   };
 }

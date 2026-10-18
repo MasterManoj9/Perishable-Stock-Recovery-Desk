@@ -1,0 +1,21 @@
+Location_ID,Location_Name,Product_ID,Product_Name,Holdout_Days,MAE_Units,WAPE_Pct,Method_and_Limitation
+CAFE01,Campus Corner Cafe (synthetic),CAF01,Butter Croissant,14,3.64,25.63,14-day holdout; four previous same-weekday observations; synthetic latent demand
+CAFE01,Campus Corner Cafe (synthetic),CAF02,Blueberry Muffin,14,3.21,35.16,14-day holdout; four previous same-weekday observations; synthetic latent demand
+CAFE01,Campus Corner Cafe (synthetic),CAF03,Vegetable Sandwich,14,2.57,25.71,14-day holdout; four previous same-weekday observations; synthetic latent demand
+CAFE01,Campus Corner Cafe (synthetic),CAF04,Paneer Wrap,14,2.93,48.81,14-day holdout; four previous same-weekday observations; synthetic latent demand
+CAFE01,Campus Corner Cafe (synthetic),CAF05,Chocolate Brownie,14,2.64,36.27,14-day holdout; four previous same-weekday observations; synthetic latent demand
+CAFE02,Neighbourhood Brew Cafe (synthetic),CAF01,Butter Croissant,14,2.79,27.08,14-day holdout; four previous same-weekday observations; synthetic latent demand
+CAFE02,Neighbourhood Brew Cafe (synthetic),CAF02,Blueberry Muffin,14,2.14,25.86,14-day holdout; four previous same-weekday observations; synthetic latent demand
+CAFE02,Neighbourhood Brew Cafe (synthetic),CAF03,Vegetable Sandwich,14,1.5,18.92,14-day holdout; four previous same-weekday observations; synthetic latent demand
+CAFE02,Neighbourhood Brew Cafe (synthetic),CAF04,Paneer Wrap,14,2.21,41.33,14-day holdout; four previous same-weekday observations; synthetic latent demand
+CAFE02,Neighbourhood Brew Cafe (synthetic),CAF05,Chocolate Brownie,14,2.43,33.01,14-day holdout; four previous same-weekday observations; synthetic latent demand
+GROC01,Green Basket Grocery (synthetic),GRO01,Milk 1 L,14,4.5,19.03,14-day holdout; four previous same-weekday observations; synthetic latent demand
+GROC01,Green Basket Grocery (synthetic),GRO02,Bread Loaf,14,3.64,22.17,14-day holdout; four previous same-weekday observations; synthetic latent demand
+GROC01,Green Basket Grocery (synthetic),GRO03,Eggs (6-pack),14,2.79,22.54,14-day holdout; four previous same-weekday observations; synthetic latent demand
+GROC01,Green Basket Grocery (synthetic),GRO04,Curd 500 g,14,3.57,28.74,14-day holdout; four previous same-weekday observations; synthetic latent demand
+GROC01,Green Basket Grocery (synthetic),GRO05,Bananas 1 kg,14,3.5,20.16,14-day holdout; four previous same-weekday observations; synthetic latent demand
+GROC02,Metro Mini Mart (synthetic),GRO01,Milk 1 L,14,4.43,23.57,14-day holdout; four previous same-weekday observations; synthetic latent demand
+GROC02,Metro Mini Mart (synthetic),GRO02,Bread Loaf,14,2.0,17.61,14-day holdout; four previous same-weekday observations; synthetic latent demand
+GROC02,Metro Mini Mart (synthetic),GRO03,Eggs (6-pack),14,1.86,23.64,14-day holdout; four previous same-weekday observations; synthetic latent demand
+GROC02,Metro Mini Mart (synthetic),GRO04,Curd 500 g,14,2.21,23.31,14-day holdout; four previous same-weekday observations; synthetic latent demand
+GROC02,Metro Mini Mart (synthetic),GRO05,Bananas 1 kg,14,2.86,25.64,14-day holdout; four previous same-weekday observations; synthetic latent demand

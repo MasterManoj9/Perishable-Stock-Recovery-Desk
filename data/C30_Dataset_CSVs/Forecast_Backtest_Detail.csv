@@ -1,0 +1,281 @@
+Test_Date,Location_ID,Location_Name,Product_ID,Product_Name,Actual_Estimated_Demand_Units,Forecast_Demand_Units,Forecast_Error_Actual_minus_Forecast,Absolute_Error_Units
+2026-10-04T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF01,Butter Croissant,11,8,3,3
+2026-10-05T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF01,Butter Croissant,15,16,-1,1
+2026-10-06T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF01,Butter Croissant,13,10,3,3
+2026-10-07T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF01,Butter Croissant,17,12,5,5
+2026-10-08T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF01,Butter Croissant,15,11,4,4
+2026-10-09T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF01,Butter Croissant,13,10,3,3
+2026-10-10T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF01,Butter Croissant,9,10,-1,1
+2026-10-11T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF01,Butter Croissant,12,9,3,3
+2026-10-12T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF01,Butter Croissant,12,16,-4,4
+2026-10-13T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF01,Butter Croissant,16,12,4,4
+2026-10-14T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF01,Butter Croissant,15,12,3,3
+2026-10-15T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF01,Butter Croissant,21,12,9,9
+2026-10-16T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF01,Butter Croissant,17,11,6,6
+2026-10-17T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF01,Butter Croissant,13,11,2,2
+2026-10-04T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF02,Blueberry Muffin,11,8,3,3
+2026-10-05T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF02,Blueberry Muffin,6,10,-4,4
+2026-10-06T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF02,Blueberry Muffin,8,12,-4,4
+2026-10-07T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF02,Blueberry Muffin,11,12,-1,1
+2026-10-08T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF02,Blueberry Muffin,5,8,-3,3
+2026-10-09T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF02,Blueberry Muffin,8,9,-1,1
+2026-10-10T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF02,Blueberry Muffin,7,10,-3,3
+2026-10-11T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF02,Blueberry Muffin,11,8,3,3
+2026-10-12T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF02,Blueberry Muffin,14,9,5,5
+2026-10-13T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF02,Blueberry Muffin,10,12,-2,2
+2026-10-14T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF02,Blueberry Muffin,5,10,-5,5
+2026-10-15T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF02,Blueberry Muffin,15,8,7,7
+2026-10-16T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF02,Blueberry Muffin,10,9,1,1
+2026-10-17T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF02,Blueberry Muffin,7,10,-3,3
+2026-10-04T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF03,Vegetable Sandwich,7,8,-1,1
+2026-10-05T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF03,Vegetable Sandwich,8,8,0,0
+2026-10-06T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF03,Vegetable Sandwich,11,11,0,0
+2026-10-07T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF03,Vegetable Sandwich,12,13,-1,1
+2026-10-08T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF03,Vegetable Sandwich,13,9,4,4
+2026-10-09T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF03,Vegetable Sandwich,12,8,4,4
+2026-10-10T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF03,Vegetable Sandwich,4,8,-4,4
+2026-10-11T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF03,Vegetable Sandwich,11,7,4,4
+2026-10-12T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF03,Vegetable Sandwich,13,8,5,5
+2026-10-13T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF03,Vegetable Sandwich,16,10,6,6
+2026-10-14T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF03,Vegetable Sandwich,9,11,-2,2
+2026-10-15T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF03,Vegetable Sandwich,9,9,0,0
+2026-10-16T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF03,Vegetable Sandwich,12,10,2,2
+2026-10-17T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF03,Vegetable Sandwich,3,6,-3,3
+2026-10-04T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF04,Paneer Wrap,4,9,-5,5
+2026-10-05T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF04,Paneer Wrap,7,9,-2,2
+2026-10-06T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF04,Paneer Wrap,3,10,-7,7
+2026-10-07T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF04,Paneer Wrap,10,8,2,2
+2026-10-08T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF04,Paneer Wrap,5,4,1,1
+2026-10-09T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF04,Paneer Wrap,10,7,3,3
+2026-10-10T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF04,Paneer Wrap,4,6,-2,2
+2026-10-11T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF04,Paneer Wrap,7,7,0,0
+2026-10-12T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF04,Paneer Wrap,10,9,1,1
+2026-10-13T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF04,Paneer Wrap,10,8,2,2
+2026-10-14T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF04,Paneer Wrap,2,8,-6,6
+2026-10-15T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF04,Paneer Wrap,6,5,1,1
+2026-10-16T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF04,Paneer Wrap,4,8,-4,4
+2026-10-17T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF04,Paneer Wrap,2,7,-5,5
+2026-10-04T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF05,Chocolate Brownie,10,7,3,3
+2026-10-05T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF05,Chocolate Brownie,5,6,-1,1
+2026-10-06T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF05,Chocolate Brownie,5,8,-3,3
+2026-10-07T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF05,Chocolate Brownie,9,9,0,0
+2026-10-08T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF05,Chocolate Brownie,5,9,-4,4
+2026-10-09T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF05,Chocolate Brownie,12,7,5,5
+2026-10-10T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF05,Chocolate Brownie,5,5,0,0
+2026-10-11T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF05,Chocolate Brownie,7,6,1,1
+2026-10-12T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF05,Chocolate Brownie,8,5,3,3
+2026-10-13T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF05,Chocolate Brownie,11,8,3,3
+2026-10-14T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF05,Chocolate Brownie,4,9,-5,5
+2026-10-15T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF05,Chocolate Brownie,11,7,4,4
+2026-10-16T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF05,Chocolate Brownie,7,9,-2,2
+2026-10-17T00:00:00,CAFE01,Campus Corner Cafe (synthetic),CAF05,Chocolate Brownie,3,6,-3,3
+2026-10-04T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF01,Butter Croissant,14,13,1,1
+2026-10-05T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF01,Butter Croissant,12,11,1,1
+2026-10-06T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF01,Butter Croissant,7,10,-3,3
+2026-10-07T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF01,Butter Croissant,10,10,0,0
+2026-10-08T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF01,Butter Croissant,10,11,-1,1
+2026-10-09T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF01,Butter Croissant,6,11,-5,5
+2026-10-10T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF01,Butter Croissant,21,12,9,9
+2026-10-11T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF01,Butter Croissant,12,12,0,0
+2026-10-12T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF01,Butter Croissant,13,10,3,3
+2026-10-13T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF01,Butter Croissant,6,10,-4,4
+2026-10-14T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF01,Butter Croissant,10,10,0,0
+2026-10-15T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF01,Butter Croissant,7,10,-3,3
+2026-10-16T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF01,Butter Croissant,6,10,-4,4
+2026-10-17T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF01,Butter Croissant,10,15,-5,5
+2026-10-04T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF02,Blueberry Muffin,11,10,1,1
+2026-10-05T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF02,Blueberry Muffin,9,8,1,1
+2026-10-06T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF02,Blueberry Muffin,9,8,1,1
+2026-10-07T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF02,Blueberry Muffin,7,6,1,1
+2026-10-08T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF02,Blueberry Muffin,6,8,-2,2
+2026-10-09T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF02,Blueberry Muffin,0,8,-8,8
+2026-10-10T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF02,Blueberry Muffin,13,11,2,2
+2026-10-11T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF02,Blueberry Muffin,10,10,0,0
+2026-10-12T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF02,Blueberry Muffin,12,8,4,4
+2026-10-13T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF02,Blueberry Muffin,8,8,0,0
+2026-10-14T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF02,Blueberry Muffin,11,6,5,5
+2026-10-15T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF02,Blueberry Muffin,7,7,0,0
+2026-10-16T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF02,Blueberry Muffin,4,6,-2,2
+2026-10-17T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF02,Blueberry Muffin,9,12,-3,3
+2026-10-04T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF03,Vegetable Sandwich,7,10,-3,3
+2026-10-05T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF03,Vegetable Sandwich,9,9,0,0
+2026-10-06T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF03,Vegetable Sandwich,11,8,3,3
+2026-10-07T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF03,Vegetable Sandwich,11,8,3,3
+2026-10-08T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF03,Vegetable Sandwich,7,8,-1,1
+2026-10-09T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF03,Vegetable Sandwich,7,8,-1,1
+2026-10-10T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF03,Vegetable Sandwich,10,10,0,0
+2026-10-11T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF03,Vegetable Sandwich,10,9,1,1
+2026-10-12T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF03,Vegetable Sandwich,8,8,0,0
+2026-10-13T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF03,Vegetable Sandwich,5,8,-3,3
+2026-10-14T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF03,Vegetable Sandwich,7,8,-1,1
+2026-10-15T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF03,Vegetable Sandwich,5,7,-2,2
+2026-10-16T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF03,Vegetable Sandwich,6,7,-1,1
+2026-10-17T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF03,Vegetable Sandwich,8,10,-2,2
+2026-10-04T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF04,Paneer Wrap,9,6,3,3
+2026-10-05T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF04,Paneer Wrap,4,9,-5,5
+2026-10-06T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF04,Paneer Wrap,2,6,-4,4
+2026-10-07T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF04,Paneer Wrap,4,5,-1,1
+2026-10-08T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF04,Paneer Wrap,6,4,2,2
+2026-10-09T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF04,Paneer Wrap,9,7,2,2
+2026-10-10T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF04,Paneer Wrap,5,6,-1,1
+2026-10-11T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF04,Paneer Wrap,5,6,-1,1
+2026-10-12T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF04,Paneer Wrap,3,6,-3,3
+2026-10-13T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF04,Paneer Wrap,8,4,4,4
+2026-10-14T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF04,Paneer Wrap,4,6,-2,2
+2026-10-15T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF04,Paneer Wrap,6,5,1,1
+2026-10-16T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF04,Paneer Wrap,6,6,0,0
+2026-10-17T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF04,Paneer Wrap,4,6,-2,2
+2026-10-04T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF05,Chocolate Brownie,5,8,-3,3
+2026-10-05T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF05,Chocolate Brownie,5,4,1,1
+2026-10-06T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF05,Chocolate Brownie,7,6,1,1
+2026-10-07T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF05,Chocolate Brownie,8,4,4,4
+2026-10-08T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF05,Chocolate Brownie,9,7,2,2
+2026-10-09T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF05,Chocolate Brownie,7,6,1,1
+2026-10-10T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF05,Chocolate Brownie,17,6,11,11
+2026-10-11T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF05,Chocolate Brownie,8,8,0,0
+2026-10-12T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF05,Chocolate Brownie,6,4,2,2
+2026-10-13T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF05,Chocolate Brownie,6,5,1,1
+2026-10-14T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF05,Chocolate Brownie,8,5,3,3
+2026-10-15T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF05,Chocolate Brownie,3,8,-5,5
+2026-10-16T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF05,Chocolate Brownie,6,6,0,0
+2026-10-17T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),CAF05,Chocolate Brownie,8,8,0,0
+2026-10-04T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO01,Milk 1 L,32,26,6,6
+2026-10-05T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO01,Milk 1 L,27,19,8,8
+2026-10-06T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO01,Milk 1 L,24,24,0,0
+2026-10-07T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO01,Milk 1 L,22,20,2,2
+2026-10-08T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO01,Milk 1 L,23,22,1,1
+2026-10-09T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO01,Milk 1 L,25,18,7,7
+2026-10-10T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO01,Milk 1 L,25,28,-3,3
+2026-10-11T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO01,Milk 1 L,30,25,5,5
+2026-10-12T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO01,Milk 1 L,14,21,-7,7
+2026-10-13T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO01,Milk 1 L,28,23,5,5
+2026-10-14T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO01,Milk 1 L,19,20,-1,1
+2026-10-15T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO01,Milk 1 L,27,21,6,6
+2026-10-16T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO01,Milk 1 L,13,20,-7,7
+2026-10-17T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO01,Milk 1 L,22,27,-5,5
+2026-10-04T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO02,Bread Loaf,25,22,3,3
+2026-10-05T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO02,Bread Loaf,14,15,-1,1
+2026-10-06T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO02,Bread Loaf,19,15,4,4
+2026-10-07T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO02,Bread Loaf,15,18,-3,3
+2026-10-08T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO02,Bread Loaf,8,14,-6,6
+2026-10-09T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO02,Bread Loaf,20,14,6,6
+2026-10-10T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO02,Bread Loaf,18,21,-3,3
+2026-10-11T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO02,Bread Loaf,20,23,-3,3
+2026-10-12T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO02,Bread Loaf,13,16,-3,3
+2026-10-13T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO02,Bread Loaf,21,16,5,5
+2026-10-14T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO02,Bread Loaf,5,16,-11,11
+2026-10-15T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO02,Bread Loaf,13,13,0,0
+2026-10-16T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO02,Bread Loaf,16,15,1,1
+2026-10-17T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO02,Bread Loaf,23,21,2,2
+2026-10-04T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO03,Eggs (6-pack),20,16,4,4
+2026-10-05T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO03,Eggs (6-pack),14,9,5,5
+2026-10-06T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO03,Eggs (6-pack),12,10,2,2
+2026-10-07T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO03,Eggs (6-pack),9,11,-2,2
+2026-10-08T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO03,Eggs (6-pack),16,10,6,6
+2026-10-09T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO03,Eggs (6-pack),10,11,-1,1
+2026-10-10T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO03,Eggs (6-pack),16,14,2,2
+2026-10-11T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO03,Eggs (6-pack),10,16,-6,6
+2026-10-12T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO03,Eggs (6-pack),8,10,-2,2
+2026-10-13T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO03,Eggs (6-pack),12,10,2,2
+2026-10-14T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO03,Eggs (6-pack),10,10,0,0
+2026-10-15T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO03,Eggs (6-pack),14,10,4,4
+2026-10-16T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO03,Eggs (6-pack),8,10,-2,2
+2026-10-17T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO03,Eggs (6-pack),14,15,-1,1
+2026-10-04T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO04,Curd 500 g,21,18,3,3
+2026-10-05T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO04,Curd 500 g,9,14,-5,5
+2026-10-06T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO04,Curd 500 g,14,12,2,2
+2026-10-07T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO04,Curd 500 g,11,13,-2,2
+2026-10-08T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO04,Curd 500 g,12,14,-2,2
+2026-10-09T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO04,Curd 500 g,16,8,8,8
+2026-10-10T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO04,Curd 500 g,17,14,3,3
+2026-10-11T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO04,Curd 500 g,10,20,-10,10
+2026-10-12T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO04,Curd 500 g,5,12,-7,7
+2026-10-13T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO04,Curd 500 g,10,13,-3,3
+2026-10-14T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO04,Curd 500 g,13,11,2,2
+2026-10-15T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO04,Curd 500 g,10,12,-2,2
+2026-10-16T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO04,Curd 500 g,11,11,0,0
+2026-10-17T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO04,Curd 500 g,15,16,-1,1
+2026-10-04T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO05,Bananas 1 kg,36,20,16,16
+2026-10-05T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO05,Bananas 1 kg,15,14,1,1
+2026-10-06T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO05,Bananas 1 kg,24,16,8,8
+2026-10-07T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO05,Bananas 1 kg,17,14,3,3
+2026-10-08T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO05,Bananas 1 kg,15,15,0,0
+2026-10-09T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO05,Bananas 1 kg,12,12,0,0
+2026-10-10T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO05,Bananas 1 kg,14,19,-5,5
+2026-10-11T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO05,Bananas 1 kg,22,23,-1,1
+2026-10-12T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO05,Bananas 1 kg,8,14,-6,6
+2026-10-13T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO05,Bananas 1 kg,19,17,2,2
+2026-10-14T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO05,Bananas 1 kg,11,12,-1,1
+2026-10-15T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO05,Bananas 1 kg,19,15,4,4
+2026-10-16T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO05,Bananas 1 kg,11,12,-1,1
+2026-10-17T00:00:00,GROC01,Green Basket Grocery (synthetic),GRO05,Bananas 1 kg,20,19,1,1
+2026-10-04T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO01,Milk 1 L,21,18,3,3
+2026-10-05T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO01,Milk 1 L,20,14,6,6
+2026-10-06T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO01,Milk 1 L,18,14,4,4
+2026-10-07T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO01,Milk 1 L,22,18,4,4
+2026-10-08T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO01,Milk 1 L,22,13,9,9
+2026-10-09T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO01,Milk 1 L,11,13,-2,2
+2026-10-10T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO01,Milk 1 L,25,21,4,4
+2026-10-11T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO01,Milk 1 L,22,20,2,2
+2026-10-12T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO01,Milk 1 L,17,16,1,1
+2026-10-13T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO01,Milk 1 L,5,16,-11,11
+2026-10-14T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO01,Milk 1 L,25,20,5,5
+2026-10-15T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO01,Milk 1 L,20,16,4,4
+2026-10-16T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO01,Milk 1 L,17,14,3,3
+2026-10-17T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO01,Milk 1 L,18,22,-4,4
+2026-10-04T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO02,Bread Loaf,15,16,-1,1
+2026-10-05T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO02,Bread Loaf,8,12,-4,4
+2026-10-06T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO02,Bread Loaf,10,12,-2,2
+2026-10-07T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO02,Bread Loaf,10,10,0,0
+2026-10-08T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO02,Bread Loaf,9,11,-2,2
+2026-10-09T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO02,Bread Loaf,10,11,-1,1
+2026-10-10T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO02,Bread Loaf,15,18,-3,3
+2026-10-11T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO02,Bread Loaf,15,14,1,1
+2026-10-12T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO02,Bread Loaf,8,10,-2,2
+2026-10-13T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO02,Bread Loaf,13,10,3,3
+2026-10-14T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO02,Bread Loaf,11,10,1,1
+2026-10-15T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO02,Bread Loaf,13,11,2,2
+2026-10-16T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO02,Bread Loaf,10,10,0,0
+2026-10-17T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO02,Bread Loaf,12,18,-6,6
+2026-10-04T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO03,Eggs (6-pack),9,6,3,3
+2026-10-05T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO03,Eggs (6-pack),9,8,1,1
+2026-10-06T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO03,Eggs (6-pack),7,9,-2,2
+2026-10-07T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO03,Eggs (6-pack),9,8,1,1
+2026-10-08T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO03,Eggs (6-pack),6,7,-1,1
+2026-10-09T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO03,Eggs (6-pack),3,6,-3,3
+2026-10-10T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO03,Eggs (6-pack),11,14,-3,3
+2026-10-11T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO03,Eggs (6-pack),5,6,-1,1
+2026-10-12T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO03,Eggs (6-pack),11,9,2,2
+2026-10-13T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO03,Eggs (6-pack),8,8,0,0
+2026-10-14T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO03,Eggs (6-pack),8,8,0,0
+2026-10-15T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO03,Eggs (6-pack),6,7,-1,1
+2026-10-16T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO03,Eggs (6-pack),10,6,4,4
+2026-10-17T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO03,Eggs (6-pack),8,12,-4,4
+2026-10-04T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO04,Curd 500 g,15,15,0,0
+2026-10-05T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO04,Curd 500 g,9,8,1,1
+2026-10-06T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO04,Curd 500 g,10,8,2,2
+2026-10-07T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO04,Curd 500 g,13,8,5,5
+2026-10-08T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO04,Curd 500 g,11,10,1,1
+2026-10-09T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO04,Curd 500 g,3,8,-5,5
+2026-10-10T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO04,Curd 500 g,12,10,2,2
+2026-10-11T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO04,Curd 500 g,15,15,0,0
+2026-10-12T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO04,Curd 500 g,9,8,1,1
+2026-10-13T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO04,Curd 500 g,6,9,-3,3
+2026-10-14T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO04,Curd 500 g,5,10,-5,5
+2026-10-15T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO04,Curd 500 g,7,11,-4,4
+2026-10-16T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO04,Curd 500 g,8,7,1,1
+2026-10-17T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO04,Curd 500 g,10,11,-1,1
+2026-10-04T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO05,Bananas 1 kg,9,14,-5,5
+2026-10-05T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO05,Bananas 1 kg,5,10,-5,5
+2026-10-06T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO05,Bananas 1 kg,14,12,2,2
+2026-10-07T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO05,Bananas 1 kg,5,12,-7,7
+2026-10-08T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO05,Bananas 1 kg,11,10,1,1
+2026-10-09T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO05,Bananas 1 kg,13,11,2,2
+2026-10-10T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO05,Bananas 1 kg,15,15,0,0
+2026-10-11T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO05,Bananas 1 kg,13,13,0,0
+2026-10-12T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO05,Bananas 1 kg,15,9,6,6
+2026-10-13T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO05,Bananas 1 kg,8,11,-3,3
+2026-10-14T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO05,Bananas 1 kg,13,12,1,1
+2026-10-15T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO05,Bananas 1 kg,8,11,-3,3
+2026-10-16T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO05,Bananas 1 kg,10,12,-2,2
+2026-10-17T00:00:00,GROC02,Metro Mini Mart (synthetic),GRO05,Bananas 1 kg,17,14,3,3

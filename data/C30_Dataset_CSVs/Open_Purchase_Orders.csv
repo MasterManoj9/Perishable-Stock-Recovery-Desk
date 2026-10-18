@@ -1,0 +1,8 @@
+PO_ID,PO_Type,Location_ID,Location_Name,Item_ID,Item_Name,Order_Date,Expected_Arrival_Date,Open_Quantity,Unit,PO_Status,Data_Status
+PO-GROC02-GRO01-20261017,Grocery finished goods,GROC02,Metro Mini Mart (synthetic),GRO01,Milk 1 L,2026-10-17T00:00:00,2026-10-18T00:00:00,108,pack,Open / in transit,Synthetic purchase order for simulation only
+PO-GROC02-GRO05-20261017,Grocery finished goods,GROC02,Metro Mini Mart (synthetic),GRO05,Bananas 1 kg,2026-10-17T00:00:00,2026-10-18T00:00:00,70,kg pack,Open / in transit,Synthetic purchase order for simulation only
+RMPO-CAFE01-RM01-20261016,Cafe raw material,CAFE01,Campus Corner Cafe (synthetic),RM01,Frozen croissant dough,2026-10-16T00:00:00,2026-10-18T00:00:00,120,piece,Open / in transit,Synthetic purchase order for simulation only
+RMPO-CAFE01-RM03-20261016,Cafe raw material,CAFE01,Campus Corner Cafe (synthetic),RM03,Muffin premix,2026-10-16T00:00:00,2026-10-18T00:00:00,6000,g,Open / in transit,Synthetic purchase order for simulation only
+RMPO-CAFE02-RM12-20261017,Cafe raw material,CAFE02,Neighbourhood Brew Cafe (synthetic),RM12,Paneer,2026-10-17T00:00:00,2026-10-18T00:00:00,3000,g,Open / in transit,Synthetic purchase order for simulation only
+RMPO-CAFE02-RM14-20261017,Cafe raw material,CAFE02,Neighbourhood Brew Cafe (synthetic),RM14,Brownie batter,2026-10-17T00:00:00,2026-10-18T00:00:00,6000,g,Open / in transit,Synthetic purchase order for simulation only
+RMPO-CAFE02-RM15-20261017,Cafe raw material,CAFE02,Neighbourhood Brew Cafe (synthetic),RM15,Cocoa powder,2026-10-17T00:00:00,2026-10-20T00:00:00,500,g,Open / in transit,Synthetic purchase order for simulation only

@@ -1,0 +1,26 @@
+C30 | 90-Day Demand Forecast & Inventory Procurement Prototype,Unnamed: 1,Unnamed: 2,Unnamed: 3,Unnamed: 4,Unnamed: 5,Unnamed: 6,Unnamed: 7,Unnamed: 8,Unnamed: 9,Unnamed: 10
+Synthetic data: 20 Jul–17 Oct 2026 history | 18–24 Oct 2026 forecast | 2 cafés + 2 groceries,,,,,,,,,,
+,,,,,,,,,,
+Portfolio KPI,Value,,,,,,,,,
+Illustrative locations,4,,,,,,,,,
+Historical days,90,,,,,,,,,
+90-day footfall visits,40753,,,,,,,,,
+90-day sales revenue (INR),1402180,,,,,,,,,
+Contribution before overheads (INR),786249,,,,,,,,,
+Waste value at item cost (INR),209417,,,,,,,,,
+Estimated lost demand units,1881,,,,,,,,,
+Stockout product-days,402,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+Location Summary,,,,,,,,,,
+Location_ID,Location_Name,Business_Type,90d_Footfall,90d_Revenue_INR,90d_Contribution_INR,Waste_Value_INR,Stockout Product-Days,,,
+CAFE01,Campus Corner Cafe (synthetic),Cafe,8158,420985,330979,11246,172,,,
+CAFE02,Neighbourhood Brew Cafe (synthetic),Cafe,6660,357110,280964,9158,167,,,
+GROC01,Green Basket Grocery (synthetic),Grocery,14452,358660,99963,104181,33,,,
+GROC02,Metro Mini Mart (synthetic),Grocery,11483,265425,74343,84832,30,,Location,Revenue INR
+,,,,,,,,,Campus Corner Cafe,420985
+,,,,,,,,,Neighbourhood Brew Cafe,357110
+,,,,,,,,,Green Basket Grocery,358660
+,,,,,,,,,Metro Mini Mart,265425
+,,,,,,,,,,
+,,,,,,,,,"For decision support only. Purchase quantities are recommendations, not live orders. Verify physical counts, expiry, supplier terms and budget before purchasing.",

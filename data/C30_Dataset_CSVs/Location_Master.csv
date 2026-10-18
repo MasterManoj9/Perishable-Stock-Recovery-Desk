@@ -1,0 +1,5 @@
+Location_ID,Location_Name,Business_Type,Footfall_Base_Assumption,Weekend_Factor_Assumption,Transaction_Rate_Assumption,Data_Status,Notes
+CAFE01,Campus Corner Cafe (synthetic),Cafe,94,0.72,0.72,Synthetic,Illustrative location profile; not a real named business
+CAFE02,Neighbourhood Brew Cafe (synthetic),Cafe,68,1.2,0.77,Synthetic,Illustrative location profile; not a real named business
+GROC01,Green Basket Grocery (synthetic),Grocery,148,1.18,0.83,Synthetic,Illustrative location profile; not a real named business
+GROC02,Metro Mini Mart (synthetic),Grocery,112,1.25,0.81,Synthetic,Illustrative location profile; not a real named business

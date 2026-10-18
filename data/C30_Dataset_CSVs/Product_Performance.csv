@@ -1,0 +1,21 @@
+Location_ID,Location_Name,Business_Type,Product_ID,Product_Name,90d_Estimated_Demand_Units,90d_Units_Sold,90d_Lost_Demand_Units,90d_Waste_Units,90d_Sales_Revenue_INR,90d_COGS_INR,90d_Contribution_Before_Overheads_INR,Waste_Value_at_Unit_Cost_INR,Stockout_Product_Days,Selling_Price_INR,Unit_Cost_INR,Data_Status
+CAFE01,Campus Corner Cafe (synthetic),Cafe,CAF01,Butter Croissant,1123,984,139,20,108240,22632,85608,460,34,110,23,Synthetic 90-day product-level record
+CAFE01,Campus Corner Cafe (synthetic),Cafe,CAF02,Blueberry Muffin,860,749,111,28,71155,16478,54677,616,35,95,22,Synthetic 90-day product-level record
+CAFE01,Campus Corner Cafe (synthetic),Cafe,CAF03,Vegetable Sandwich,847,723,124,201,101220,17352,83868,4824,38,140,24,Synthetic 90-day product-level record
+CAFE01,Campus Corner Cafe (synthetic),Cafe,CAF04,Paneer Wrap,637,554,83,136,91410,19944,71466,4896,32,165,36,Synthetic 90-day product-level record
+CAFE01,Campus Corner Cafe (synthetic),Cafe,CAF05,Chocolate Brownie,634,544,90,18,48960,13600,35360,450,33,90,25,Synthetic 90-day product-level record
+CAFE02,Neighbourhood Brew Cafe (synthetic),Cafe,CAF01,Butter Croissant,964,838,126,23,92180,19274,72906,529,29,110,23,Synthetic 90-day product-level record
+CAFE02,Neighbourhood Brew Cafe (synthetic),Cafe,CAF02,Blueberry Muffin,703,620,83,22,58900,13640,45260,484,30,95,22,Synthetic 90-day product-level record
+CAFE02,Neighbourhood Brew Cafe (synthetic),Cafe,CAF03,Vegetable Sandwich,758,643,115,168,90020,15432,74588,4032,34,140,24,Synthetic 90-day product-level record
+CAFE02,Neighbourhood Brew Cafe (synthetic),Cafe,CAF04,Paneer Wrap,537,450,87,108,74250,16200,58050,3888,38,165,36,Synthetic 90-day product-level record
+CAFE02,Neighbourhood Brew Cafe (synthetic),Cafe,CAF05,Chocolate Brownie,553,464,89,9,41760,11600,30160,225,36,90,25,Synthetic 90-day product-level record
+GROC01,Green Basket Grocery (synthetic),Grocery,GRO01,Milk 1 L,2030,2030,0,273,138040,109620,28420,14742,0,68,54,Synthetic 90-day product-level record
+GROC01,Green Basket Grocery (synthetic),Grocery,GRO02,Bread Loaf,1425,1132,293,1672,50940,35092,15848,51832,20,45,31,Synthetic 90-day product-level record
+GROC01,Green Basket Grocery (synthetic),Grocery,GRO03,Eggs (6-pack),1020,1020,0,14,56100,42840,13260,588,0,55,42,Synthetic 90-day product-level record
+GROC01,Green Basket Grocery (synthetic),Grocery,GRO04,Curd 500 g,1163,1035,128,641,39330,27945,11385,17307,8,38,27,Synthetic 90-day product-level record
+GROC01,Green Basket Grocery (synthetic),Grocery,GRO05,Bananas 1 kg,1424,1350,74,616,74250,43200,31050,19712,5,55,32,Synthetic 90-day product-level record
+GROC02,Metro Mini Mart (synthetic),Grocery,GRO01,Milk 1 L,1502,1484,18,278,100912,80136,20776,15012,1,68,54,Synthetic 90-day product-level record
+GROC02,Metro Mini Mart (synthetic),Grocery,GRO02,Bread Loaf,1083,846,237,1415,38070,26226,11844,43865,21,45,31,Synthetic 90-day product-level record
+GROC02,Metro Mini Mart (synthetic),Grocery,GRO03,Eggs (6-pack),726,726,0,7,39930,30492,9438,294,0,55,42,Synthetic 90-day product-level record
+GROC02,Metro Mini Mart (synthetic),Grocery,GRO04,Curd 500 g,835,796,39,423,30248,21492,8756,11421,4,38,27,Synthetic 90-day product-level record
+GROC02,Metro Mini Mart (synthetic),Grocery,GRO05,Bananas 1 kg,1068,1023,45,445,56265,32736,23529,14240,4,55,32,Synthetic 90-day product-level record

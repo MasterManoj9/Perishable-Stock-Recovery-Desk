@@ -1,0 +1,211 @@
+Forecast_Date,Location_ID,Location_Name,Material_ID,Material_Name,Base_Unit,Forecast_Required_Quantity,Calculation
+2026-10-18T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM01,Frozen croissant dough,piece,10.0,Sum of forecast menu sales × recipe quantity
+2026-10-19T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM01,Frozen croissant dough,piece,16.0,Sum of forecast menu sales × recipe quantity
+2026-10-20T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM01,Frozen croissant dough,piece,14.0,Sum of forecast menu sales × recipe quantity
+2026-10-21T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM01,Frozen croissant dough,piece,13.0,Sum of forecast menu sales × recipe quantity
+2026-10-22T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM01,Frozen croissant dough,piece,14.0,Sum of forecast menu sales × recipe quantity
+2026-10-23T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM01,Frozen croissant dough,piece,14.0,Sum of forecast menu sales × recipe quantity
+2026-10-24T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM01,Frozen croissant dough,piece,12.0,Sum of forecast menu sales × recipe quantity
+2026-10-18T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM02,Butter,g,140.0,Sum of forecast menu sales × recipe quantity
+2026-10-19T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM02,Butter,g,170.0,Sum of forecast menu sales × recipe quantity
+2026-10-20T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM02,Butter,g,205.0,Sum of forecast menu sales × recipe quantity
+2026-10-21T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM02,Butter,g,185.0,Sum of forecast menu sales × recipe quantity
+2026-10-22T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM02,Butter,g,190.0,Sum of forecast menu sales × recipe quantity
+2026-10-23T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM02,Butter,g,190.0,Sum of forecast menu sales × recipe quantity
+2026-10-24T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM02,Butter,g,120.0,Sum of forecast menu sales × recipe quantity
+2026-10-18T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM03,Muffin premix,g,640.0,Sum of forecast menu sales × recipe quantity
+2026-10-19T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM03,Muffin premix,g,880.0,Sum of forecast menu sales × recipe quantity
+2026-10-20T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM03,Muffin premix,g,880.0,Sum of forecast menu sales × recipe quantity
+2026-10-21T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM03,Muffin premix,g,640.0,Sum of forecast menu sales × recipe quantity
+2026-10-22T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM03,Muffin premix,g,640.0,Sum of forecast menu sales × recipe quantity
+2026-10-23T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM03,Muffin premix,g,720.0,Sum of forecast menu sales × recipe quantity
+2026-10-24T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM03,Muffin premix,g,720.0,Sum of forecast menu sales × recipe quantity
+2026-10-18T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM04,Blueberries,g,120.0,Sum of forecast menu sales × recipe quantity
+2026-10-19T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM04,Blueberries,g,165.0,Sum of forecast menu sales × recipe quantity
+2026-10-20T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM04,Blueberries,g,165.0,Sum of forecast menu sales × recipe quantity
+2026-10-21T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM04,Blueberries,g,120.0,Sum of forecast menu sales × recipe quantity
+2026-10-22T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM04,Blueberries,g,120.0,Sum of forecast menu sales × recipe quantity
+2026-10-23T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM04,Blueberries,g,135.0,Sum of forecast menu sales × recipe quantity
+2026-10-24T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM04,Blueberries,g,135.0,Sum of forecast menu sales × recipe quantity
+2026-10-18T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM05,Eggs,piece,6.4,Sum of forecast menu sales × recipe quantity
+2026-10-19T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM05,Eggs,piece,7.9,Sum of forecast menu sales × recipe quantity
+2026-10-20T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM05,Eggs,piece,9.1,Sum of forecast menu sales × recipe quantity
+2026-10-21T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM05,Eggs,piece,7.2,Sum of forecast menu sales × recipe quantity
+2026-10-22T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM05,Eggs,piece,7.2,Sum of forecast menu sales × recipe quantity
+2026-10-23T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM05,Eggs,piece,7.7,Sum of forecast menu sales × recipe quantity
+2026-10-24T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM05,Eggs,piece,6.1,Sum of forecast menu sales × recipe quantity
+2026-10-18T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM06,Milk,ml,200.0,Sum of forecast menu sales × recipe quantity
+2026-10-19T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM06,Milk,ml,275.0,Sum of forecast menu sales × recipe quantity
+2026-10-20T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM06,Milk,ml,275.0,Sum of forecast menu sales × recipe quantity
+2026-10-21T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM06,Milk,ml,200.0,Sum of forecast menu sales × recipe quantity
+2026-10-22T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM06,Milk,ml,200.0,Sum of forecast menu sales × recipe quantity
+2026-10-23T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM06,Milk,ml,225.0,Sum of forecast menu sales × recipe quantity
+2026-10-24T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM06,Milk,ml,225.0,Sum of forecast menu sales × recipe quantity
+2026-10-18T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM07,Bread slices,slice,16.0,Sum of forecast menu sales × recipe quantity
+2026-10-19T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM07,Bread slices,slice,20.0,Sum of forecast menu sales × recipe quantity
+2026-10-20T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM07,Bread slices,slice,24.0,Sum of forecast menu sales × recipe quantity
+2026-10-21T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM07,Bread slices,slice,20.0,Sum of forecast menu sales × recipe quantity
+2026-10-22T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM07,Bread slices,slice,16.0,Sum of forecast menu sales × recipe quantity
+2026-10-23T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM07,Bread slices,slice,22.0,Sum of forecast menu sales × recipe quantity
+2026-10-24T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM07,Bread slices,slice,10.0,Sum of forecast menu sales × recipe quantity
+2026-10-18T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM08,Cheese,g,160.0,Sum of forecast menu sales × recipe quantity
+2026-10-19T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM08,Cheese,g,200.0,Sum of forecast menu sales × recipe quantity
+2026-10-20T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM08,Cheese,g,240.0,Sum of forecast menu sales × recipe quantity
+2026-10-21T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM08,Cheese,g,200.0,Sum of forecast menu sales × recipe quantity
+2026-10-22T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM08,Cheese,g,160.0,Sum of forecast menu sales × recipe quantity
+2026-10-23T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM08,Cheese,g,220.0,Sum of forecast menu sales × recipe quantity
+2026-10-24T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM08,Cheese,g,100.0,Sum of forecast menu sales × recipe quantity
+2026-10-18T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM09,Mixed vegetables,g,610.0,Sum of forecast menu sales × recipe quantity
+2026-10-19T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM09,Mixed vegetables,g,850.0,Sum of forecast menu sales × recipe quantity
+2026-10-20T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM09,Mixed vegetables,g,880.0,Sum of forecast menu sales × recipe quantity
+2026-10-21T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM09,Mixed vegetables,g,745.0,Sum of forecast menu sales × recipe quantity
+2026-10-22T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM09,Mixed vegetables,g,610.0,Sum of forecast menu sales × recipe quantity
+2026-10-23T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM09,Mixed vegetables,g,795.0,Sum of forecast menu sales × recipe quantity
+2026-10-24T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM09,Mixed vegetables,g,460.0,Sum of forecast menu sales × recipe quantity
+2026-10-18T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM10,Sandwich spread,g,96.0,Sum of forecast menu sales × recipe quantity
+2026-10-19T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM10,Sandwich spread,g,120.0,Sum of forecast menu sales × recipe quantity
+2026-10-20T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM10,Sandwich spread,g,144.0,Sum of forecast menu sales × recipe quantity
+2026-10-21T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM10,Sandwich spread,g,120.0,Sum of forecast menu sales × recipe quantity
+2026-10-22T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM10,Sandwich spread,g,96.0,Sum of forecast menu sales × recipe quantity
+2026-10-23T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM10,Sandwich spread,g,132.0,Sum of forecast menu sales × recipe quantity
+2026-10-24T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM10,Sandwich spread,g,60.0,Sum of forecast menu sales × recipe quantity
+2026-10-18T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM11,Tortilla wraps,piece,6.0,Sum of forecast menu sales × recipe quantity
+2026-10-19T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM11,Tortilla wraps,piece,10.0,Sum of forecast menu sales × recipe quantity
+2026-10-20T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM11,Tortilla wraps,piece,8.0,Sum of forecast menu sales × recipe quantity
+2026-10-21T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM11,Tortilla wraps,piece,7.0,Sum of forecast menu sales × recipe quantity
+2026-10-22T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM11,Tortilla wraps,piece,6.0,Sum of forecast menu sales × recipe quantity
+2026-10-23T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM11,Tortilla wraps,piece,7.0,Sum of forecast menu sales × recipe quantity
+2026-10-24T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM11,Tortilla wraps,piece,6.0,Sum of forecast menu sales × recipe quantity
+2026-10-18T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM12,Paneer,g,420.0,Sum of forecast menu sales × recipe quantity
+2026-10-19T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM12,Paneer,g,700.0,Sum of forecast menu sales × recipe quantity
+2026-10-20T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM12,Paneer,g,560.0,Sum of forecast menu sales × recipe quantity
+2026-10-21T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM12,Paneer,g,490.0,Sum of forecast menu sales × recipe quantity
+2026-10-22T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM12,Paneer,g,420.0,Sum of forecast menu sales × recipe quantity
+2026-10-23T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM12,Paneer,g,490.0,Sum of forecast menu sales × recipe quantity
+2026-10-24T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM12,Paneer,g,420.0,Sum of forecast menu sales × recipe quantity
+2026-10-18T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM13,Sauce,ml,90.0,Sum of forecast menu sales × recipe quantity
+2026-10-19T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM13,Sauce,ml,150.0,Sum of forecast menu sales × recipe quantity
+2026-10-20T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM13,Sauce,ml,120.0,Sum of forecast menu sales × recipe quantity
+2026-10-21T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM13,Sauce,ml,105.0,Sum of forecast menu sales × recipe quantity
+2026-10-22T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM13,Sauce,ml,90.0,Sum of forecast menu sales × recipe quantity
+2026-10-23T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM13,Sauce,ml,105.0,Sum of forecast menu sales × recipe quantity
+2026-10-24T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM13,Sauce,ml,90.0,Sum of forecast menu sales × recipe quantity
+2026-10-18T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM14,Brownie batter,g,540.0,Sum of forecast menu sales × recipe quantity
+2026-10-19T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM14,Brownie batter,g,540.0,Sum of forecast menu sales × recipe quantity
+2026-10-20T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM14,Brownie batter,g,810.0,Sum of forecast menu sales × recipe quantity
+2026-10-21T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM14,Brownie batter,g,720.0,Sum of forecast menu sales × recipe quantity
+2026-10-22T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM14,Brownie batter,g,720.0,Sum of forecast menu sales × recipe quantity
+2026-10-23T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM14,Brownie batter,g,720.0,Sum of forecast menu sales × recipe quantity
+2026-10-24T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM14,Brownie batter,g,360.0,Sum of forecast menu sales × recipe quantity
+2026-10-18T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM15,Cocoa powder,g,48.0,Sum of forecast menu sales × recipe quantity
+2026-10-19T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM15,Cocoa powder,g,48.0,Sum of forecast menu sales × recipe quantity
+2026-10-20T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM15,Cocoa powder,g,72.0,Sum of forecast menu sales × recipe quantity
+2026-10-21T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM15,Cocoa powder,g,64.0,Sum of forecast menu sales × recipe quantity
+2026-10-22T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM15,Cocoa powder,g,64.0,Sum of forecast menu sales × recipe quantity
+2026-10-23T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM15,Cocoa powder,g,64.0,Sum of forecast menu sales × recipe quantity
+2026-10-24T00:00:00,CAFE01,Campus Corner Cafe (synthetic),RM15,Cocoa powder,g,32.0,Sum of forecast menu sales × recipe quantity
+2026-10-18T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM01,Frozen croissant dough,piece,13.0,Sum of forecast menu sales × recipe quantity
+2026-10-19T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM01,Frozen croissant dough,piece,11.0,Sum of forecast menu sales × recipe quantity
+2026-10-20T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM01,Frozen croissant dough,piece,8.0,Sum of forecast menu sales × recipe quantity
+2026-10-21T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM01,Frozen croissant dough,piece,9.0,Sum of forecast menu sales × recipe quantity
+2026-10-22T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM01,Frozen croissant dough,piece,10.0,Sum of forecast menu sales × recipe quantity
+2026-10-23T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM01,Frozen croissant dough,piece,8.0,Sum of forecast menu sales × recipe quantity
+2026-10-24T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM01,Frozen croissant dough,piece,13.0,Sum of forecast menu sales × recipe quantity
+2026-10-18T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM02,Butter,g,170.0,Sum of forecast menu sales × recipe quantity
+2026-10-19T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM02,Butter,g,130.0,Sum of forecast menu sales × recipe quantity
+2026-10-20T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM02,Butter,g,115.0,Sum of forecast menu sales × recipe quantity
+2026-10-21T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM02,Butter,g,135.0,Sum of forecast menu sales × recipe quantity
+2026-10-22T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM02,Butter,g,155.0,Sum of forecast menu sales × recipe quantity
+2026-10-23T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM02,Butter,g,130.0,Sum of forecast menu sales × recipe quantity
+2026-10-24T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM02,Butter,g,200.0,Sum of forecast menu sales × recipe quantity
+2026-10-18T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM03,Muffin premix,g,800.0,Sum of forecast menu sales × recipe quantity
+2026-10-19T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM03,Muffin premix,g,720.0,Sum of forecast menu sales × recipe quantity
+2026-10-20T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM03,Muffin premix,g,640.0,Sum of forecast menu sales × recipe quantity
+2026-10-21T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM03,Muffin premix,g,560.0,Sum of forecast menu sales × recipe quantity
+2026-10-22T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM03,Muffin premix,g,640.0,Sum of forecast menu sales × recipe quantity
+2026-10-23T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM03,Muffin premix,g,400.0,Sum of forecast menu sales × recipe quantity
+2026-10-24T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM03,Muffin premix,g,880.0,Sum of forecast menu sales × recipe quantity
+2026-10-18T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM04,Blueberries,g,150.0,Sum of forecast menu sales × recipe quantity
+2026-10-19T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM04,Blueberries,g,135.0,Sum of forecast menu sales × recipe quantity
+2026-10-20T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM04,Blueberries,g,120.0,Sum of forecast menu sales × recipe quantity
+2026-10-21T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM04,Blueberries,g,105.0,Sum of forecast menu sales × recipe quantity
+2026-10-22T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM04,Blueberries,g,120.0,Sum of forecast menu sales × recipe quantity
+2026-10-23T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM04,Blueberries,g,75.0,Sum of forecast menu sales × recipe quantity
+2026-10-24T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM04,Blueberries,g,165.0,Sum of forecast menu sales × recipe quantity
+2026-10-18T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM05,Eggs,piece,7.8,Sum of forecast menu sales × recipe quantity
+2026-10-19T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM05,Eggs,piece,6.5,Sum of forecast menu sales × recipe quantity
+2026-10-20T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM05,Eggs,piece,6.0,Sum of forecast menu sales × recipe quantity
+2026-10-21T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM05,Eggs,piece,5.9,Sum of forecast menu sales × recipe quantity
+2026-10-22T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM05,Eggs,piece,6.8,Sum of forecast menu sales × recipe quantity
+2026-10-23T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM05,Eggs,piece,4.9,Sum of forecast menu sales × recipe quantity
+2026-10-24T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM05,Eggs,piece,9.1,Sum of forecast menu sales × recipe quantity
+2026-10-18T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM06,Milk,ml,250.0,Sum of forecast menu sales × recipe quantity
+2026-10-19T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM06,Milk,ml,225.0,Sum of forecast menu sales × recipe quantity
+2026-10-20T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM06,Milk,ml,200.0,Sum of forecast menu sales × recipe quantity
+2026-10-21T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM06,Milk,ml,175.0,Sum of forecast menu sales × recipe quantity
+2026-10-22T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM06,Milk,ml,200.0,Sum of forecast menu sales × recipe quantity
+2026-10-23T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM06,Milk,ml,125.0,Sum of forecast menu sales × recipe quantity
+2026-10-24T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM06,Milk,ml,275.0,Sum of forecast menu sales × recipe quantity
+2026-10-18T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM07,Bread slices,slice,20.0,Sum of forecast menu sales × recipe quantity
+2026-10-19T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM07,Bread slices,slice,18.0,Sum of forecast menu sales × recipe quantity
+2026-10-20T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM07,Bread slices,slice,14.0,Sum of forecast menu sales × recipe quantity
+2026-10-21T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM07,Bread slices,slice,18.0,Sum of forecast menu sales × recipe quantity
+2026-10-22T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM07,Bread slices,slice,12.0,Sum of forecast menu sales × recipe quantity
+2026-10-23T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM07,Bread slices,slice,14.0,Sum of forecast menu sales × recipe quantity
+2026-10-24T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM07,Bread slices,slice,20.0,Sum of forecast menu sales × recipe quantity
+2026-10-18T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM08,Cheese,g,200.0,Sum of forecast menu sales × recipe quantity
+2026-10-19T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM08,Cheese,g,180.0,Sum of forecast menu sales × recipe quantity
+2026-10-20T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM08,Cheese,g,140.0,Sum of forecast menu sales × recipe quantity
+2026-10-21T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM08,Cheese,g,180.0,Sum of forecast menu sales × recipe quantity
+2026-10-22T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM08,Cheese,g,120.0,Sum of forecast menu sales × recipe quantity
+2026-10-23T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM08,Cheese,g,140.0,Sum of forecast menu sales × recipe quantity
+2026-10-24T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM08,Cheese,g,200.0,Sum of forecast menu sales × recipe quantity
+2026-10-18T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM09,Mixed vegetables,g,710.0,Sum of forecast menu sales × recipe quantity
+2026-10-19T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM09,Mixed vegetables,g,590.0,Sum of forecast menu sales × recipe quantity
+2026-10-20T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM09,Mixed vegetables,g,560.0,Sum of forecast menu sales × recipe quantity
+2026-10-21T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM09,Mixed vegetables,g,660.0,Sum of forecast menu sales × recipe quantity
+2026-10-22T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM09,Mixed vegetables,g,475.0,Sum of forecast menu sales × recipe quantity
+2026-10-23T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM09,Mixed vegetables,g,595.0,Sum of forecast menu sales × recipe quantity
+2026-10-24T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM09,Mixed vegetables,g,710.0,Sum of forecast menu sales × recipe quantity
+2026-10-18T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM10,Sandwich spread,g,120.0,Sum of forecast menu sales × recipe quantity
+2026-10-19T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM10,Sandwich spread,g,108.0,Sum of forecast menu sales × recipe quantity
+2026-10-20T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM10,Sandwich spread,g,84.0,Sum of forecast menu sales × recipe quantity
+2026-10-21T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM10,Sandwich spread,g,108.0,Sum of forecast menu sales × recipe quantity
+2026-10-22T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM10,Sandwich spread,g,72.0,Sum of forecast menu sales × recipe quantity
+2026-10-23T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM10,Sandwich spread,g,84.0,Sum of forecast menu sales × recipe quantity
+2026-10-24T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM10,Sandwich spread,g,120.0,Sum of forecast menu sales × recipe quantity
+2026-10-18T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM11,Tortilla wraps,piece,6.0,Sum of forecast menu sales × recipe quantity
+2026-10-19T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM11,Tortilla wraps,piece,4.0,Sum of forecast menu sales × recipe quantity
+2026-10-20T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM11,Tortilla wraps,piece,6.0,Sum of forecast menu sales × recipe quantity
+2026-10-21T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM11,Tortilla wraps,piece,6.0,Sum of forecast menu sales × recipe quantity
+2026-10-22T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM11,Tortilla wraps,piece,5.0,Sum of forecast menu sales × recipe quantity
+2026-10-23T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM11,Tortilla wraps,piece,7.0,Sum of forecast menu sales × recipe quantity
+2026-10-24T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM11,Tortilla wraps,piece,6.0,Sum of forecast menu sales × recipe quantity
+2026-10-18T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM12,Paneer,g,420.0,Sum of forecast menu sales × recipe quantity
+2026-10-19T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM12,Paneer,g,280.0,Sum of forecast menu sales × recipe quantity
+2026-10-20T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM12,Paneer,g,420.0,Sum of forecast menu sales × recipe quantity
+2026-10-21T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM12,Paneer,g,420.0,Sum of forecast menu sales × recipe quantity
+2026-10-22T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM12,Paneer,g,350.0,Sum of forecast menu sales × recipe quantity
+2026-10-23T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM12,Paneer,g,490.0,Sum of forecast menu sales × recipe quantity
+2026-10-24T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM12,Paneer,g,420.0,Sum of forecast menu sales × recipe quantity
+2026-10-18T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM13,Sauce,ml,90.0,Sum of forecast menu sales × recipe quantity
+2026-10-19T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM13,Sauce,ml,60.0,Sum of forecast menu sales × recipe quantity
+2026-10-20T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM13,Sauce,ml,90.0,Sum of forecast menu sales × recipe quantity
+2026-10-21T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM13,Sauce,ml,90.0,Sum of forecast menu sales × recipe quantity
+2026-10-22T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM13,Sauce,ml,75.0,Sum of forecast menu sales × recipe quantity
+2026-10-23T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM13,Sauce,ml,105.0,Sum of forecast menu sales × recipe quantity
+2026-10-24T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM13,Sauce,ml,90.0,Sum of forecast menu sales × recipe quantity
+2026-10-18T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM14,Brownie batter,g,630.0,Sum of forecast menu sales × recipe quantity
+2026-10-19T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM14,Brownie batter,g,450.0,Sum of forecast menu sales × recipe quantity
+2026-10-20T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM14,Brownie batter,g,450.0,Sum of forecast menu sales × recipe quantity
+2026-10-21T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM14,Brownie batter,g,540.0,Sum of forecast menu sales × recipe quantity
+2026-10-22T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM14,Brownie batter,g,630.0,Sum of forecast menu sales × recipe quantity
+2026-10-23T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM14,Brownie batter,g,540.0,Sum of forecast menu sales × recipe quantity
+2026-10-24T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM14,Brownie batter,g,810.0,Sum of forecast menu sales × recipe quantity
+2026-10-18T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM15,Cocoa powder,g,56.0,Sum of forecast menu sales × recipe quantity
+2026-10-19T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM15,Cocoa powder,g,40.0,Sum of forecast menu sales × recipe quantity
+2026-10-20T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM15,Cocoa powder,g,40.0,Sum of forecast menu sales × recipe quantity
+2026-10-21T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM15,Cocoa powder,g,48.0,Sum of forecast menu sales × recipe quantity
+2026-10-22T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM15,Cocoa powder,g,56.0,Sum of forecast menu sales × recipe quantity
+2026-10-23T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM15,Cocoa powder,g,48.0,Sum of forecast menu sales × recipe quantity
+2026-10-24T00:00:00,CAFE02,Neighbourhood Brew Cafe (synthetic),RM15,Cocoa powder,g,72.0,Sum of forecast menu sales × recipe quantity

@@ -34,6 +34,7 @@ import { allocateStock, DemandStatus } from '../../domain/allocation.js';
 import { createDecisionRecord } from '../../data/decisionStore.js';
 import { DecisionConfirmModal } from './DecisionConfirmModal.jsx';
 import { StatusBadge } from '../../components/StatusBadge.jsx';
+import { useAuth } from '../../lib/auth.js';
 
 export function SimulatorPage({
   batches = [],
@@ -42,6 +43,9 @@ export function SimulatorPage({
   onNavigateToDecisions,
   onNavigateToInventory
 }) {
+  const { profile, user } = useAuth();
+  const managerName = profile?.full_name || user?.email || 'Store Manager';
+
   const [selectedBatchId, setSelectedBatchId] = useState(
     initialBatchId || (batches.length > 0 ? batches[0].id : null)
   );
@@ -227,7 +231,7 @@ export function SimulatorPage({
           minAllowedPrice
         },
         recommendation: freshRecommendation,
-        managerName: 'Demo Manager'
+        managerName: managerName
       });
 
       // 5. Persist record via callback (which saves to localStorage and updates state)
@@ -245,6 +249,30 @@ export function SimulatorPage({
       setIsSaving(false);
     }
   };
+
+  if (!activeBatch) {
+    return (
+      <div className="space-y-6 animate-fadeIn">
+        <div className="bg-white rounded-2xl border border-[#EEDDD2] p-12 text-center shadow-xs">
+          <div className="w-16 h-16 rounded-2xl bg-[#FFF8F3] border border-[#EEDDD2] flex items-center justify-center mx-auto mb-4 text-[#D97757]">
+            <Calculator className="w-8 h-8" />
+          </div>
+          <h2 className="text-lg font-bold text-[#302722] mb-1">No batches available to simulate</h2>
+          <p className="text-xs text-[#76675F] max-w-md mx-auto mb-6">
+            Add or import an inventory batch first to run pricing simulations, contribution checks, and allocation forecasts.
+          </p>
+          {onNavigateToInventory && (
+            <button
+              onClick={onNavigateToInventory}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold bg-[#302722] hover:bg-black text-white shadow-xs transition-colors cursor-pointer"
+            >
+              Go to Inventory
+            </button>
+          )}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6 animate-fadeIn">
@@ -800,6 +828,7 @@ export function SimulatorPage({
         <DecisionConfirmModal
           batch={activeBatch}
           recommendation={recommendation}
+          managerName={managerName}
           onConfirm={handleCommitDecision}
           onClose={() => {
             if (!isSaving) {

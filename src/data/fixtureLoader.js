@@ -10,7 +10,6 @@
 
 import { validateBatch } from '../domain/validation.js';
 import { checkEligibility } from '../domain/eligibility.js';
-import { STORE_CATALOG_24 } from './storeCatalog.js';
 
 export const FIXTURE_PATH = '/Starter_Data/C30/fixture.json';
 
@@ -165,23 +164,4 @@ export async function loadOfficialFixture(url = FIXTURE_PATH, referenceTime = Da
       invalidRecords: []
     };
   }
-}
-
-/**
- * Loads the full 24-batch store catalog matching the mockup image.
- */
-export function loadStoreCatalogBatches(referenceTime = Date.now()) {
-  const { validBatches, invalidRecords } = normalizeBatches(STORE_CATALOG_24, { demand_assumption_units: 10 }, referenceTime);
-  return {
-    success: true,
-    metadata: {
-      caseId: 'C30',
-      synthetic: true,
-      dataVersion: 'v3.2',
-      currency: 'INR',
-      limit: 'Full store demonstration inventory catalog (24 batches).'
-    },
-    batches: validBatches,
-    invalidRecords
-  };
 }

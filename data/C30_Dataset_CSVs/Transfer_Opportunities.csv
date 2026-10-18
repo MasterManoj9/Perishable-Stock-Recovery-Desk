@@ -1,0 +1,6 @@
+Product_ID,Product_Name,Potential_Source_Location_ID,Potential_Source_Location,Potential_Receiving_Location_ID,Potential_Receiving_Location,Source_On_Hand,Receiver_On_Hand,Source_Target_Stock,Receiver_Target_Stock,Suggested_Transfer_Units,Recommended_Guardrail,Data_Status
+GRO01,Milk 1 L,GROC01,Green Basket Grocery (synthetic),GROC02,Metro Mini Mart (synthetic),110,40,66.43,53.14,0,No transfer recommended under current synthetic stock and forecast,Synthetic recommendation
+GRO02,Bread Loaf,GROC01,Green Basket Grocery (synthetic),GROC02,Metro Mini Mart (synthetic),66,88,48.86,34.71,0,No transfer recommended under current synthetic stock and forecast,Synthetic recommendation
+GRO03,Eggs (6-pack),GROC01,Green Basket Grocery (synthetic),GROC02,Metro Mini Mart (synthetic),61,50,45.71,33.71,0,No transfer recommended under current synthetic stock and forecast,Synthetic recommendation
+GRO04,Curd 500 g,GROC01,Green Basket Grocery (synthetic),GROC02,Metro Mini Mart (synthetic),81,29,38.57,30.0,1,"Same-day transfer review; confirm remaining shelf life, cold-chain and store approval",Synthetic recommendation; do not execute without human approval
+GRO05,Bananas 1 kg,GROC01,Green Basket Grocery (synthetic),GROC02,Metro Mini Mart (synthetic),50,30,48.43,35.57,0,No transfer recommended under current synthetic stock and forecast,Synthetic recommendation

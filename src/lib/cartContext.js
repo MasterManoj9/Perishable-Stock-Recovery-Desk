@@ -76,7 +76,7 @@ export function CartProvider({ children }) {
         maxQuantity: maxQty,
         expiryAt: product.expiryAt || null,
         expiryDisplay: product.expiryDisplay || '',
-        storeId: product.store_id || 'demo-store'
+        storeId: product.store_id || null
       }];
     });
 
@@ -130,11 +130,7 @@ export function CartProvider({ children }) {
     toggleDonation
   };
 
-  return (
-    <CartContext.Provider value={value}>
-      {children}
-    </CartContext.Provider>
-  );
+  return React.createElement(CartContext.Provider, { value }, children);
 }
 
 export function useCart() {

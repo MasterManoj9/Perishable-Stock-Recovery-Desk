@@ -330,7 +330,7 @@ export function DecisionDetailModal({
               <span>Immutable Audit Trail & Provenance</span>
             </div>
             <p className="text-slate-300 leading-relaxed">
-              Signed by <strong>{decision.managerName || 'Demo Manager'}</strong>.
+              Signed by <strong>{decision.managerName || 'Store Manager'}</strong>.
               Recorded under schema version <strong>{decision.schemaVersion || '1.0.0'}</strong>.
               Source: <em>{decision.provenance?.source || 'FYND_C30_SIMULATOR'}</em>.
             </p>

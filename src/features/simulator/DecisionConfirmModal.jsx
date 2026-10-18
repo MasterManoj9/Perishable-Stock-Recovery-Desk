@@ -14,6 +14,7 @@ export function DecisionConfirmModal({
   recommendation,
   onConfirm,
   onClose,
+  managerName = 'Store Manager',
   isSaving = false,
   saveError = null
 }) {
@@ -131,7 +132,7 @@ export function DecisionConfirmModal({
           <div className="p-3 bg-slate-50 rounded-xl text-xs text-slate-600 border border-slate-200/80 flex items-start gap-2.5">
             <FileCheck className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
             <p>
-              Signed by <strong className="text-slate-900">Demo Manager</strong>. This action will be immutably recorded in the local decision store for auditing.
+              Signed by <strong className="text-slate-900">{managerName}</strong>. This action will be immutably recorded in the decision audit trail.
             </p>
           </div>
         </div>

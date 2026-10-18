@@ -1,0 +1,19 @@
+Product_ID,Product_Name,Material_ID,Material_Name,Qty_Per_Product,Material_Unit,Notes
+CAF01,Butter Croissant,RM01,Frozen croissant dough,1.0,piece,Synthetic recipe assumption; replace with actual recipe/portion specification
+CAF01,Butter Croissant,RM02,Butter,5.0,g,Synthetic recipe assumption; replace with actual recipe/portion specification
+CAF02,Blueberry Muffin,RM03,Muffin premix,80.0,g,Synthetic recipe assumption; replace with actual recipe/portion specification
+CAF02,Blueberry Muffin,RM04,Blueberries,15.0,g,Synthetic recipe assumption; replace with actual recipe/portion specification
+CAF02,Blueberry Muffin,RM05,Eggs,0.5,piece,Synthetic recipe assumption; replace with actual recipe/portion specification
+CAF02,Blueberry Muffin,RM06,Milk,25.0,ml,Synthetic recipe assumption; replace with actual recipe/portion specification
+CAF03,Vegetable Sandwich,RM07,Bread slices,2.0,slice,Synthetic recipe assumption; replace with actual recipe/portion specification
+CAF03,Vegetable Sandwich,RM08,Cheese,20.0,g,Synthetic recipe assumption; replace with actual recipe/portion specification
+CAF03,Vegetable Sandwich,RM09,Mixed vegetables,50.0,g,Synthetic recipe assumption; replace with actual recipe/portion specification
+CAF03,Vegetable Sandwich,RM10,Sandwich spread,12.0,g,Synthetic recipe assumption; replace with actual recipe/portion specification
+CAF04,Paneer Wrap,RM11,Tortilla wraps,1.0,piece,Synthetic recipe assumption; replace with actual recipe/portion specification
+CAF04,Paneer Wrap,RM12,Paneer,70.0,g,Synthetic recipe assumption; replace with actual recipe/portion specification
+CAF04,Paneer Wrap,RM09,Mixed vegetables,35.0,g,Synthetic recipe assumption; replace with actual recipe/portion specification
+CAF04,Paneer Wrap,RM13,Sauce,15.0,ml,Synthetic recipe assumption; replace with actual recipe/portion specification
+CAF05,Chocolate Brownie,RM14,Brownie batter,90.0,g,Synthetic recipe assumption; replace with actual recipe/portion specification
+CAF05,Chocolate Brownie,RM15,Cocoa powder,8.0,g,Synthetic recipe assumption; replace with actual recipe/portion specification
+CAF05,Chocolate Brownie,RM02,Butter,15.0,g,Synthetic recipe assumption; replace with actual recipe/portion specification
+CAF05,Chocolate Brownie,RM05,Eggs,0.4,piece,Synthetic recipe assumption; replace with actual recipe/portion specification

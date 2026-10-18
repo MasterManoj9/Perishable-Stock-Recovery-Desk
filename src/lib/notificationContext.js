@@ -109,11 +109,7 @@ export function NotificationProvider({ children, userId }) {
     clearNotification
   };
 
-  return (
-    <NotificationContext.Provider value={value}>
-      {children}
-    </NotificationContext.Provider>
-  );
+  return React.createElement(NotificationContext.Provider, { value }, children);
 }
 
 export function useNotifications() {
