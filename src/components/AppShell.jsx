@@ -291,14 +291,30 @@ export function AppShell({
 
           {/* Search Bar */}
           <div className="hidden sm:flex items-center relative flex-1 max-w-md">
-            <Search className="w-4 h-4 text-[#76675F] absolute left-3.5 top-1/2 -translate-y-1/2" aria-hidden="true" />
+            <Search className="w-4 h-4 text-[#76675F] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" aria-hidden="true" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => onSearchChange && onSearchChange(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Escape' && onSearchChange) onSearchChange('');
+              }}
               placeholder="Search products, batches..."
-              className="w-full pl-10 pr-4 py-2 bg-[#FFF8F3] border border-[#EEDDD2] rounded-xl text-sm text-[#302722] placeholder:text-[#76675F] focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-[#D97757]/20 focus:border-[#D97757] transition-all"
+              aria-label="Search products and batches"
+              autoComplete="off"
+              className="w-full pl-10 pr-9 py-2 bg-[#FFF8F3] border border-[#EEDDD2] rounded-xl text-sm text-[#302722] placeholder:text-[#76675F] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#D97757]/30 focus:border-[#D97757] transition-all"
             />
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => onSearchChange && onSearchChange('')}
+                title="Clear search"
+                aria-label="Clear search"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 text-[#76675F] hover:text-[#302722] hover:bg-white rounded-md cursor-pointer transition-colors"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
           </div>
 
           {/* Right Header Items (Dataset Switcher & User Profile) */}

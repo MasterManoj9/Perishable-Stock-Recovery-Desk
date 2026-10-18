@@ -29,6 +29,7 @@ import { CartProvider } from '../lib/cartContext.js';
 import { LoadingState } from '../components/LoadingState.jsx';
 import { ErrorMessage } from '../components/ErrorMessage.jsx';
 import { getBatches, fetchDecisions, recordDecision, deleteBatch, saveBatch, updateBatch } from '../data/supabaseAdapter.js';
+import { getStoredDecisions, saveDecision, clearStoredDecisions } from '../data/decisionStore.js';
 import { BatchDetails } from '../features/inventory/BatchDetails.jsx';
 import { AddBatchModal } from '../features/inventory/AddBatchModal.jsx';
 import { DeleteProductModal } from '../features/inventory/DeleteProductModal.jsx';
@@ -178,7 +179,7 @@ function AppContent() {
         }}
       >
         {customerPage === 'shop' && (
-          <ShopPage batches={batches} onRefresh={() => loadData(datasetMode)} />
+          <ShopPage batches={batches} onRefresh={loadData} />
         )}
 
         {customerPage === 'cart' && (

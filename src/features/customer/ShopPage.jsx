@@ -5,8 +5,8 @@
  * sorting, and adding items to cart. Only shows eligible, non-expired products.
  */
 
-import React, { useState, useMemo, useEffect } from 'react';
-import { Search, SlidersHorizontal, ShoppingCart, Clock, Tag, TrendingDown, Star, Filter, ChevronDown, Plus, Minus, Check, RefreshCw } from 'lucide-react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
+import { Search, SlidersHorizontal, ShoppingCart, Clock, Tag, TrendingDown, Star, Filter, ChevronDown, Plus, Minus, Check, RefreshCw, X } from 'lucide-react';
 import { useCart } from '../../lib/cartContext.js';
 
 export function ShopPage({ batches = [], onRefresh = null }) {
@@ -16,30 +16,31 @@ export function ShopPage({ batches = [], onRefresh = null }) {
   const [sortBy, setSortBy] = useState('discount');
   const [priceRange, setPriceRange] = useState('all');
   const [addedFeedback, setAddedFeedback] = useState({});
+  const initialRefreshDone = useRef(false);
 
-  // Auto-refresh authoritative stock on mount to reflect any recent manager edits
+  // Auto-refresh authoritative stock once on mount to reflect any recent manager edits
   useEffect(() => {
-    if (onRefresh) {
+    if (onRefresh && !initialRefreshDone.current) {
+      initialRefreshDone.current = true;
       onRefresh();
     }
   }, [onRefresh]);
 
   // Filter only eligible, non-expired products for customers
   const availableProducts = useMemo(() => {
-    return batches.filter(b => 
-      !b.expired && 
-      b.eligibility?.eligible !== false && 
-      b.condition !== 'damaged' &&
-      b.coldChainStatus !== 'exception' &&
-      b.cold_chain_status !== 'exception' &&
-      b.qty > 0 &&
-      (!b.expiryAt || new Date(b.expiryAt) > new Date())
-    );
+    return batches.filter(b => {
+      const isExpired = b.expired === true || (b.expiryAt ? new Date(b.expiryAt).getTime() <= Date.now() : false);
+      const isDamaged = b.condition === 'damaged';
+      const isColdChainBlocked = b.coldChainStatus === 'exception' || b.cold_chain_status === 'exception';
+      const isEligible = b.eligibility ? b.eligibility.eligible !== false : true;
+      const qty = Number(b.qty !== undefined ? b.qty : (b.available_quantity || 0));
+      return !isExpired && !isDamaged && !isColdChainBlocked && isEligible && qty > 0;
+    });
   }, [batches]);
 
   // Extract categories
   const categories = useMemo(() => {
-    const cats = [...new Set(availableProducts.map(b => b.category))].sort();
+    const cats = [...new Set(availableProducts.map(b => b.category || 'General'))].filter(Boolean).sort();
     return ['all', ...cats];
   }, [availableProducts]);
 
@@ -47,14 +48,18 @@ export function ShopPage({ batches = [], onRefresh = null }) {
   const filteredProducts = useMemo(() => {
     let results = [...availableProducts];
 
-    // Search
-    if (searchQuery) {
-      const q = searchQuery.toLowerCase();
-      results = results.filter(b =>
-        b.productName?.toLowerCase().includes(q) ||
-        b.category?.toLowerCase().includes(q) ||
-        b.id?.toLowerCase().includes(q)
-      );
+    // Enhanced Multi-field Search
+    if (searchQuery && searchQuery.trim()) {
+      const cleanQuery = searchQuery.trim().toLowerCase();
+      const terms = cleanQuery.split(/\s+/).filter(Boolean);
+      results = results.filter(b => {
+        const pName = (b.productName || b.name || b.product?.name || '').toLowerCase();
+        const cat = (b.category || b.product?.category || '').toLowerCase();
+        const id = (b.id || b.batch_code || '').toLowerCase();
+        const desc = (b.description || b.product?.description || '').toLowerCase();
+        const combined = `${pName} ${cat} ${id} ${desc}`;
+        return terms.every(term => combined.includes(term));
+      });
     }
 
     // Category
@@ -142,14 +147,30 @@ export function ShopPage({ batches = [], onRefresh = null }) {
           </p>
           {/* Search */}
           <div className="relative max-w-lg">
-            <Search className="w-5 h-5 text-[#76675F] absolute left-4 top-1/2 -translate-y-1/2" />
+            <Search className="w-5 h-5 text-[#76675F] absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search products..."
-              className="w-full pl-12 pr-4 py-3 rounded-xl bg-white text-[#302722] text-sm placeholder:text-[#76675F] focus:outline-hidden focus:ring-2 focus:ring-white/60 shadow-xs border border-[#EEDDD2]"
+              onKeyDown={(e) => {
+                if (e.key === 'Escape') setSearchQuery('');
+              }}
+              placeholder="Search products by name, category, or ID..."
+              aria-label="Search products"
+              autoComplete="off"
+              className="w-full pl-12 pr-10 py-3 rounded-xl bg-white text-[#302722] text-sm placeholder:text-[#76675F] focus:outline-none focus:ring-2 focus:ring-[#D97757]/40 shadow-xs border border-[#EEDDD2] transition-all"
             />
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery('')}
+                title="Clear search"
+                aria-label="Clear search"
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 p-1 text-[#76675F] hover:text-[#302722] hover:bg-[#FFF8F3] rounded-lg cursor-pointer transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            )}
           </div>
         </div>
       </div>

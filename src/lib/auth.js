@@ -153,7 +153,11 @@ export function AuthProvider({ children }) {
 
       if (isSupabaseConfigured && supabase) {
         try {
-          const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+          const sessionPromise = supabase.auth.getSession();
+          const timeoutPromise = new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('Supabase auth session check timed out (3500ms)')), 3500)
+          );
+          const { data: { session }, error: sessionError } = await Promise.race([sessionPromise, timeoutPromise]);
           if (sessionError) throw sessionError;
 
           if (session?.user && mounted) {
@@ -162,8 +166,12 @@ export function AuthProvider({ children }) {
             if (mounted) setProfile(prof);
           }
         } catch (err) {
-          console.error('Session restore failed:', err);
-          if (mounted) setError(err.message);
+          console.warn('Supabase session restore failed or timed out, falling back to local demo session:', err);
+          const session = getDemoSession();
+          if (session && mounted) {
+            setUser(session);
+            setProfile(session);
+          }
         }
       } else {
         // Local mode fallback

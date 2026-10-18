@@ -10,6 +10,7 @@
 
 import { supabase, isSupabaseConfigured } from '../lib/supabase.js';
 import { loadOfficialFixture, getProductImage } from './fixtureLoader.js';
+import { STORE_CATALOG_24 } from './storeCatalog.js';
 import { checkEligibility, classifyExpiry, isSaleable, ExpiryStatus } from '../domain/eligibility.js';
 import { getStoredDecisions, saveDecision as saveLocalDecision, clearStoredDecisions } from './decisionStore.js';
 import {
@@ -72,140 +73,189 @@ export async function getBatches({ isManager = false, datasetMode = 'LIVE' } = {
   }
 
   if (isSupabaseConfigured && supabase) {
-    let query = supabase
-      .from('inventory_batches')
-      .select(`
-        *,
-        product:products(*)
-      `);
+    try {
+      let query = supabase
+        .from('inventory_batches')
+        .select(`
+          *,
+          product:products(*)
+        `);
 
-    // Customer safety filter at query level if RLS hasn't filtered
-    if (!isManager) {
-      query = query
-        .gt('expiry_at', new Date().toISOString())
-        .neq('condition', 'damaged')
-        .eq('cold_chain_status', 'compliant')
-        .gt('available_quantity', 0);
-    }
+      // Customer safety filter at query level if RLS hasn't filtered
+      if (!isManager) {
+        query = query
+          .gt('expiry_at', new Date().toISOString())
+          .neq('condition', 'damaged')
+          .eq('cold_chain_status', 'compliant')
+          .gt('available_quantity', 0);
+      }
 
-    const { data, error } = await query;
-    if (error) {
-      console.error('Supabase getBatches failed:', error);
-      throw new Error(`Database error: ${error.message || 'Failed to fetch inventory records'}`);
-    }
+      const queryPromise = query;
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Supabase getBatches timed out (4000ms)')), 4000)
+      );
 
-    if (Array.isArray(data)) {
-      // Exclude soft-deleted batches from active inventory
-      const activeBatches = data.filter(b => !b.deleted_at);
+      const { data, error } = await Promise.race([queryPromise, timeoutPromise]);
+      if (error) {
+        console.warn('Supabase getBatches returned error, falling back:', error);
+      } else if (Array.isArray(data) && data.length > 0) {
+        // Exclude soft-deleted batches from active inventory
+        const activeBatches = data.filter(b => !b.deleted_at);
 
-      // Read local user modifications/records to ensure user edits are never reverted
-      let localEdits = [];
-      try {
-        const raw = typeof localStorage !== 'undefined' ? localStorage.getItem('c30_user_batches') : null;
-        localEdits = raw ? JSON.parse(raw) : [];
-      } catch {}
+        // Read local user modifications/records to ensure user edits are never reverted
+        let localEdits = [];
+        try {
+          const raw = typeof localStorage !== 'undefined' ? localStorage.getItem('c30_user_batches') : null;
+          localEdits = raw ? JSON.parse(raw) : [];
+        } catch {}
 
-      const mapped = activeBatches.map(b => {
-        const originalPrice = (b.original_price_paise || 0) / 100;
-        const incrementalCost = (b.incremental_cost_paise || 0) / 100;
-        const currentPrice = (b.current_selling_price_paise || b.original_price_paise || 0) / 100;
-        const isExpired = new Date(b.expiry_at) <= new Date();
-        const productName = b.product?.name || b.batch_code;
+        const mapped = activeBatches.map(b => {
+          const originalPrice = (b.original_price_paise || 0) / 100;
+          const incrementalCost = (b.incremental_cost_paise || 0) / 100;
+          const currentPrice = (b.current_selling_price_paise || b.original_price_paise || 0) / 100;
+          const isExpired = new Date(b.expiry_at) <= new Date();
+          const productName = b.product?.name || b.batch_code;
 
-        let rawItem = {
-          id: b.batch_code,
-          productName,
-          category: b.product?.category || 'General',
-          qty: b.available_quantity,
-          originalPrice,
-          sale_price_inr: originalPrice,
-          incrementalCost,
-          incremental_cost_inr: incrementalCost,
-          currentPrice,
-          allowedMarkdownPercent: b.max_allowed_markdown_percent || 50,
-          allowed_markdown_percent: b.max_allowed_markdown_percent || 50,
-          expiryAt: b.expiry_at,
-          condition: b.condition || 'good',
-          coldChainStatus: b.cold_chain_status || 'compliant',
-          cold_chain_status: b.cold_chain_status || 'compliant',
-          expired: isExpired,
-          demandAssumption: b.available_quantity || 10,
-          demand_assumption_units: b.available_quantity || 10
-        };
-
-        const localMatch = localEdits.find(l => l.id === b.batch_code || (l.dbId && l.dbId === b.id));
-        if (localMatch) {
-          rawItem = {
-            ...rawItem,
-            ...localMatch,
-            id: localMatch.id || rawItem.id,
-            productName: localMatch.productName || rawItem.productName,
-            originalPrice: localMatch.originalPrice !== undefined ? localMatch.originalPrice : rawItem.originalPrice,
-            sale_price_inr: localMatch.originalPrice !== undefined ? localMatch.originalPrice : rawItem.originalPrice,
-            incrementalCost: localMatch.incrementalCost !== undefined ? localMatch.incrementalCost : rawItem.incrementalCost,
-            qty: localMatch.qty !== undefined ? localMatch.qty : rawItem.qty,
-            expiryAt: localMatch.expiryAt || rawItem.expiryAt,
-            condition: localMatch.condition || rawItem.condition,
-            coldChainStatus: localMatch.coldChainStatus || rawItem.coldChainStatus,
-            cold_chain_status: localMatch.coldChainStatus || rawItem.cold_chain_status,
-            imageUrl: localMatch.imageUrl || rawItem.imageUrl
+          let rawItem = {
+            id: b.batch_code,
+            productName,
+            category: b.product?.category || 'General',
+            qty: b.available_quantity,
+            originalPrice,
+            sale_price_inr: originalPrice,
+            incrementalCost,
+            incremental_cost_inr: incrementalCost,
+            currentPrice,
+            allowedMarkdownPercent: b.max_allowed_markdown_percent || 50,
+            allowed_markdown_percent: b.max_allowed_markdown_percent || 50,
+            expiryAt: b.expiry_at,
+            condition: b.condition || 'good',
+            coldChainStatus: b.cold_chain_status || 'compliant',
+            cold_chain_status: b.cold_chain_status || 'compliant',
+            expired: isExpired,
+            demandAssumption: b.available_quantity || 10,
+            demand_assumption_units: b.available_quantity || 10
           };
-        }
 
-        const expiryClassification = classifyExpiry(rawItem);
-        const eligibility = checkEligibility(rawItem);
+          const localMatch = localEdits.find(l => l.id === b.batch_code || (l.dbId && l.dbId === b.id));
+          if (localMatch) {
+            rawItem = {
+              ...rawItem,
+              ...localMatch,
+              id: localMatch.id || rawItem.id,
+              productName: localMatch.productName || rawItem.productName,
+              originalPrice: localMatch.originalPrice !== undefined ? localMatch.originalPrice : rawItem.originalPrice,
+              sale_price_inr: localMatch.originalPrice !== undefined ? localMatch.originalPrice : rawItem.originalPrice,
+              incrementalCost: localMatch.incrementalCost !== undefined ? localMatch.incrementalCost : rawItem.incrementalCost,
+              qty: localMatch.qty !== undefined ? localMatch.qty : rawItem.qty,
+              expiryAt: localMatch.expiryAt || rawItem.expiryAt,
+              condition: localMatch.condition || rawItem.condition,
+              coldChainStatus: localMatch.coldChainStatus || rawItem.coldChainStatus,
+              cold_chain_status: localMatch.coldChainStatus || rawItem.cold_chain_status,
+              imageUrl: localMatch.imageUrl || rawItem.imageUrl
+            };
+          }
 
-        return {
-          ...rawItem,
-          dbId: b.id,
-          productId: b.product_id,
-          image: rawItem.imageUrl ? null : (b.product?.image_emoji || getProductImage(b.batch_code, rawItem.productName)),
-          imageUrl: rawItem.imageUrl || b.product?.image_url || null,
-          store_id: b.store_id,
-          unitMargin: Math.round((rawItem.originalPrice - rawItem.incrementalCost) * 100) / 100,
-          daysUntilExpiry: expiryClassification.daysRemaining,
-          expiryClassification,
-          eligibility
-        };
-      });
+          const expiryClassification = classifyExpiry(rawItem);
+          const eligibility = checkEligibility(rawItem);
 
-      // Include any local-only batches not yet in Supabase
-      const missingFromDb = localEdits
-        .filter(l => !activeBatches.some(b => b.batch_code === l.id || (l.dbId && b.id === l.dbId)))
-        .map(b => {
-          const expiryClassification = classifyExpiry(b);
-          const eligibility = checkEligibility(b);
           return {
-            ...b,
+            ...rawItem,
+            dbId: b.id,
+            productId: b.product_id,
+            image: rawItem.imageUrl ? null : (b.product?.image_emoji || getProductImage(b.batch_code, rawItem.productName)),
+            imageUrl: rawItem.imageUrl || b.product?.image_url || null,
+            store_id: b.store_id,
+            unitMargin: Math.round((rawItem.originalPrice - rawItem.incrementalCost) * 100) / 100,
+            daysUntilExpiry: expiryClassification.daysRemaining,
             expiryClassification,
-            eligibility,
-            daysUntilExpiry: expiryClassification.daysRemaining
+            eligibility
           };
         });
 
-      const combined = [...mapped, ...missingFromDb];
-      if (!isManager) {
-        return combined.filter(b => !b.expired && b.eligibility?.eligible !== false && b.condition !== 'damaged' && b.coldChainStatus !== 'exception' && b.qty > 0);
+        // Include any local-only batches not yet in Supabase
+        const missingFromDb = localEdits
+          .filter(l => !activeBatches.some(b => b.batch_code === l.id || (l.dbId && b.id === l.dbId)))
+          .map(b => {
+            const expiryClassification = classifyExpiry(b);
+            const eligibility = checkEligibility(b);
+            return {
+              ...b,
+              expiryClassification,
+              eligibility,
+              daysUntilExpiry: expiryClassification.daysRemaining
+            };
+          });
+
+        const combined = [...mapped, ...missingFromDb];
+        if (!isManager) {
+          return combined.filter(b => !b.expired && b.eligibility?.eligible !== false && b.condition !== 'damaged' && b.coldChainStatus !== 'exception' && b.qty > 0);
+        }
+        return combined;
       }
-      return combined;
+    } catch (err) {
+      console.warn('Supabase query error, falling back to local storage and demo catalog:', err);
     }
   }
 
-  // If Supabase is not configured, load user-created local records (no hardcoded demo catalog)
+  // Fallback: load user-created local records (or demo catalog in DEMO mode)
   try {
     const raw = typeof localStorage !== 'undefined' ? localStorage.getItem('c30_user_batches') : null;
-    const userBatches = raw ? JSON.parse(raw) : [];
-    const enriched = userBatches.map(b => ({
-      ...b,
-      expired: new Date(b.expiryAt) <= new Date(),
-      eligibility: b.eligibility || checkEligibility(b)
-    }));
+    let sourceBatches = raw ? JSON.parse(raw) : [];
+    if (datasetMode === 'DEMO' && (!Array.isArray(sourceBatches) || sourceBatches.length === 0)) {
+      sourceBatches = STORE_CATALOG_24;
+    }
+
+    const enriched = sourceBatches.map(b => {
+      const isExpired = b.expired === true || (b.expiryAt ? new Date(b.expiryAt).getTime() <= Date.now() : false);
+      const condition = b.condition || 'good';
+      const coldChainStatus = b.coldChainStatus || b.cold_chain_status || 'compliant';
+      const originalPrice = b.originalPrice || b.sale_price_inr || 0;
+      const incrementalCost = b.incrementalCost || b.incremental_cost_inr || 0;
+      const allowedMarkdownPercent = b.allowedMarkdownPercent || b.allowed_markdown_percent || 40;
+      const qty = Number(b.qty !== undefined ? b.qty : (b.available_quantity || 10));
+      const productName = b.productName || b.name || b.id;
+
+      const rawItem = {
+        ...b,
+        id: b.id,
+        productName,
+        category: b.category || 'General',
+        qty,
+        originalPrice,
+        sale_price_inr: originalPrice,
+        incrementalCost,
+        incremental_cost_inr: incrementalCost,
+        currentPrice: b.currentPrice || originalPrice,
+        allowedMarkdownPercent,
+        allowed_markdown_percent: allowedMarkdownPercent,
+        condition,
+        coldChainStatus,
+        cold_chain_status: coldChainStatus,
+        expired: isExpired,
+        image: b.image || getProductImage(b.id, productName),
+        imageUrl: b.imageUrl || null
+      };
+
+      const expiryClassification = classifyExpiry(rawItem);
+      const eligibility = checkEligibility(rawItem);
+
+      return {
+        ...rawItem,
+        unitMargin: Math.round((originalPrice - incrementalCost) * 100) / 100,
+        daysUntilExpiry: expiryClassification.daysRemaining,
+        expiryClassification,
+        eligibility
+      };
+    });
+
     if (!isManager) {
       return enriched.filter(b => !b.expired && b.eligibility?.eligible !== false && b.condition !== 'damaged' && b.coldChainStatus !== 'exception' && b.qty > 0);
     }
     return enriched;
-  } catch {
-    return [];
+  } catch (err) {
+    console.warn('Fallback error, using default STORE_CATALOG_24:', err);
+    return isManager ? STORE_CATALOG_24 : STORE_CATALOG_24.filter(b => !b.expired && b.qty > 0);
   }
 }
 
