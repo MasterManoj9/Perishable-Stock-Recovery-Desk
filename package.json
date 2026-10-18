@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "node --test src/tests/*.test.js"
+    "test": "node --test src/tests/*.test.js",
+    "deploy:amplify": "node scripts/deploy-amplify.js"
   },
   "keywords": [
     "inventory",
@@ -27,6 +28,7 @@
     "recharts": "^3.10.1"
   },
   "devDependencies": {
+    "@aws-sdk/client-amplify": "^3.1152.0",
     "@tailwindcss/vite": "^4.3.3",
     "@vitejs/plugin-react": "^6.1.2",
     "autoprefixer": "^10.6.1",
