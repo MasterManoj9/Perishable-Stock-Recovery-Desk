@@ -15,8 +15,18 @@ import { EligibilityStatus } from '../domain/eligibility.js';
 export function StatusBadge({ status, label = null, className = '' }) {
   const normalized = String(status || '').toUpperCase().trim();
 
-  // Fresh / Eligible
-  if (normalized === 'ELIGIBLE' || normalized === 'FRESH' || normalized === 'GOOD') {
+  // Fresh (Green)
+  if (normalized === 'FRESH') {
+    return (
+      <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/80 ${className}`}>
+        <CheckCircle2 className="w-3 h-3 text-emerald-600 shrink-0" aria-hidden="true" />
+        <span>{label || 'Fresh'}</span>
+      </span>
+    );
+  }
+
+  // Eligible / Good
+  if (normalized === 'ELIGIBLE' || normalized === 'GOOD') {
     return (
       <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/80 ${className}`}>
         <CheckCircle2 className="w-3 h-3 text-emerald-600 shrink-0" aria-hidden="true" />
@@ -25,12 +35,12 @@ export function StatusBadge({ status, label = null, className = '' }) {
     );
   }
 
-  // Near Expiry / Expiring Soon
-  if (normalized === 'EXPIRING_SOON' || normalized === 'NEAR_EXPIRY') {
+  // Near to Expiry (Yellow)
+  if (normalized === 'EXPIRING_SOON' || normalized === 'NEAR_EXPIRY' || normalized === 'NEAR_TO_EXPIRY' || normalized === 'NEAR TO EXPIRY') {
     return (
       <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200/80 ${className}`}>
         <Clock className="w-3 h-3 text-amber-600 shrink-0" aria-hidden="true" />
-        <span>{label || 'Expiring Soon'}</span>
+        <span>{label || 'Near to Expiry'}</span>
       </span>
     );
   }

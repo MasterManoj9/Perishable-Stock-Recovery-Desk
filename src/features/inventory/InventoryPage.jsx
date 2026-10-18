@@ -3,7 +3,9 @@ import { Filter, RotateCcw, Plus, ChevronLeft, ChevronRight } from 'lucide-react
 import { InventoryTable } from './InventoryTable.jsx';
 import { BatchDetails } from './BatchDetails.jsx';
 import { DeleteProductModal } from './DeleteProductModal.jsx';
+import { EditBatchModal } from './EditBatchModal.jsx';
 import { EmptyState } from '../../components/EmptyState.jsx';
+import { classifyExpiry, isSaleable } from '../../domain/eligibility.js';
 
 const ITEMS_PER_PAGE = 10;
 
@@ -14,6 +16,8 @@ export function InventoryPage({
   globalSearchQuery = '',
   onOpenSimulator,
   onOpenAddBatch,
+  onEditBatch,
+  onUpdateBatch,
   onDeleteBatch
 }) {
   const [statusFilter, setStatusFilter] = useState('ALL');
@@ -21,6 +25,7 @@ export function InventoryPage({
   const [expiryFilter, setExpiryFilter] = useState('ALL');
   const [currentPage, setCurrentPage] = useState(1);
   const [batchToDelete, setBatchToDelete] = useState(null);
+  const [batchToEdit, setBatchToEdit] = useState(null);
 
   // Reset to page 1 whenever search, filters, or sorting change
   useEffect(() => {
@@ -41,14 +46,16 @@ export function InventoryPage({
     }
 
     // Status filter
-    if (statusFilter === 'ELIGIBLE') {
-      result = result.filter(b => b.eligibility?.eligible === true);
+    if (statusFilter === 'FRESH') {
+      result = result.filter(b => classifyExpiry(b).status === 'FRESH');
+    } else if (statusFilter === 'NEAR_EXPIRY') {
+      result = result.filter(b => classifyExpiry(b).status === 'NEAR_EXPIRY');
     } else if (statusFilter === 'EXPIRED') {
-      result = result.filter(b => b.expired === true);
-    } else if (statusFilter === 'EXPIRING_SOON') {
-      result = result.filter(b => b.expiringSoon === true);
+      result = result.filter(b => classifyExpiry(b).status === 'EXPIRED');
     } else if (statusFilter === 'COLD_CHAIN') {
-      result = result.filter(b => b.coldChainStatus === 'exception');
+      result = result.filter(b => b.coldChainStatus === 'exception' || b.cold_chain_status === 'exception');
+    } else if (statusFilter === 'ELIGIBLE') {
+      result = result.filter(b => isSaleable(b).saleable === true);
     }
 
     // Product Category filter
@@ -118,10 +125,11 @@ export function InventoryPage({
           aria-label="Filter by Status"
         >
           <option value="ALL">All Status</option>
-          <option value="ELIGIBLE">Eligible</option>
-          <option value="EXPIRING_SOON">Expiring Soon</option>
-          <option value="EXPIRED">Expired</option>
+          <option value="FRESH">Fresh (Green)</option>
+          <option value="NEAR_EXPIRY">Near to Expiry (Yellow)</option>
+          <option value="EXPIRED">Expired (Red)</option>
           <option value="COLD_CHAIN">Cold-chain Issue</option>
+          <option value="ELIGIBLE">Saleable / Eligible</option>
         </select>
 
         {/* Product Category Filter */}
@@ -198,6 +206,7 @@ export function InventoryPage({
             batches={paginatedBatches}
             selectedBatchId={selectedBatchId}
             onSelectBatch={onSelectBatch}
+            onEditBatch={(b) => setBatchToEdit(b)}
             onDeleteBatch={(b) => setBatchToDelete(b)}
           />
 
@@ -268,6 +277,10 @@ export function InventoryPage({
                 onSelectBatch(null);
                 if (onOpenSimulator) onOpenSimulator(b);
               }}
+              onEdit={(b) => {
+                onSelectBatch(null);
+                setBatchToEdit(b);
+              }}
               onDelete={(b) => {
                 onSelectBatch(null);
                 setBatchToDelete(b);
@@ -276,6 +289,19 @@ export function InventoryPage({
           </div>
         </div>
       )}
+
+      {/* Edit Product Modal */}
+      <EditBatchModal
+        isOpen={Boolean(batchToEdit)}
+        batch={batchToEdit}
+        onClose={() => setBatchToEdit(null)}
+        onUpdateBatch={async (updated) => {
+          if (onUpdateBatch) {
+            await onUpdateBatch(updated);
+          }
+          setBatchToEdit(null);
+        }}
+      />
 
       {/* Delete Confirmation Modal */}
       <DeleteProductModal

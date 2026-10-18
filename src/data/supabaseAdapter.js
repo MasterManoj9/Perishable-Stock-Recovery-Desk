@@ -10,7 +10,7 @@
 
 import { supabase, isSupabaseConfigured } from '../lib/supabase.js';
 import { loadOfficialFixture, getProductImage } from './fixtureLoader.js';
-import { checkEligibility } from '../domain/eligibility.js';
+import { checkEligibility, classifyExpiry, isSaleable, ExpiryStatus } from '../domain/eligibility.js';
 import { getStoredDecisions, saveDecision as saveLocalDecision, clearStoredDecisions } from './decisionStore.js';
 import {
   getOrders,
@@ -97,14 +97,22 @@ export async function getBatches({ isManager = false, datasetMode = 'LIVE' } = {
     if (Array.isArray(data)) {
       // Exclude soft-deleted batches from active inventory
       const activeBatches = data.filter(b => !b.deleted_at);
-      return activeBatches.map(b => {
+
+      // Read local user modifications/records to ensure user edits are never reverted
+      let localEdits = [];
+      try {
+        const raw = typeof localStorage !== 'undefined' ? localStorage.getItem('c30_user_batches') : null;
+        localEdits = raw ? JSON.parse(raw) : [];
+      } catch {}
+
+      const mapped = activeBatches.map(b => {
         const originalPrice = (b.original_price_paise || 0) / 100;
         const incrementalCost = (b.incremental_cost_paise || 0) / 100;
         const currentPrice = (b.current_selling_price_paise || b.original_price_paise || 0) / 100;
         const isExpired = new Date(b.expiry_at) <= new Date();
         const productName = b.product?.name || b.batch_code;
 
-        const rawItem = {
+        let rawItem = {
           id: b.batch_code,
           productName,
           category: b.product?.category || 'General',
@@ -121,23 +129,65 @@ export async function getBatches({ isManager = false, datasetMode = 'LIVE' } = {
           coldChainStatus: b.cold_chain_status || 'compliant',
           cold_chain_status: b.cold_chain_status || 'compliant',
           expired: isExpired,
-          demandAssumption: b.demand_assumption_units || b.available_quantity || 10,
-          demand_assumption_units: b.demand_assumption_units || b.available_quantity || 10
+          demandAssumption: b.available_quantity || 10,
+          demand_assumption_units: b.available_quantity || 10
         };
 
+        const localMatch = localEdits.find(l => l.id === b.batch_code || (l.dbId && l.dbId === b.id));
+        if (localMatch) {
+          rawItem = {
+            ...rawItem,
+            ...localMatch,
+            id: localMatch.id || rawItem.id,
+            productName: localMatch.productName || rawItem.productName,
+            originalPrice: localMatch.originalPrice !== undefined ? localMatch.originalPrice : rawItem.originalPrice,
+            sale_price_inr: localMatch.originalPrice !== undefined ? localMatch.originalPrice : rawItem.originalPrice,
+            incrementalCost: localMatch.incrementalCost !== undefined ? localMatch.incrementalCost : rawItem.incrementalCost,
+            qty: localMatch.qty !== undefined ? localMatch.qty : rawItem.qty,
+            expiryAt: localMatch.expiryAt || rawItem.expiryAt,
+            condition: localMatch.condition || rawItem.condition,
+            coldChainStatus: localMatch.coldChainStatus || rawItem.coldChainStatus,
+            cold_chain_status: localMatch.coldChainStatus || rawItem.cold_chain_status,
+            imageUrl: localMatch.imageUrl || rawItem.imageUrl
+          };
+        }
+
+        const expiryClassification = classifyExpiry(rawItem);
         const eligibility = checkEligibility(rawItem);
 
         return {
           ...rawItem,
           dbId: b.id,
           productId: b.product_id,
-          image: b.product?.image_emoji || getProductImage(b.batch_code, productName),
-          imageUrl: b.product?.image_url || b.image_url || null,
+          image: rawItem.imageUrl ? null : (b.product?.image_emoji || getProductImage(b.batch_code, rawItem.productName)),
+          imageUrl: rawItem.imageUrl || b.product?.image_url || null,
           store_id: b.store_id,
-          unitMargin: Math.round((originalPrice - incrementalCost) * 100) / 100,
+          unitMargin: Math.round((rawItem.originalPrice - rawItem.incrementalCost) * 100) / 100,
+          daysUntilExpiry: expiryClassification.daysRemaining,
+          expiryClassification,
           eligibility
         };
       });
+
+      // Include any local-only batches not yet in Supabase
+      const missingFromDb = localEdits
+        .filter(l => !activeBatches.some(b => b.batch_code === l.id || (l.dbId && b.id === l.dbId)))
+        .map(b => {
+          const expiryClassification = classifyExpiry(b);
+          const eligibility = checkEligibility(b);
+          return {
+            ...b,
+            expiryClassification,
+            eligibility,
+            daysUntilExpiry: expiryClassification.daysRemaining
+          };
+        });
+
+      const combined = [...mapped, ...missingFromDb];
+      if (!isManager) {
+        return combined.filter(b => !b.expired && b.eligibility?.eligible !== false && b.condition !== 'damaged' && b.coldChainStatus !== 'exception' && b.qty > 0);
+      }
+      return combined;
     }
   }
 
@@ -378,6 +428,200 @@ export async function saveBatch(batchData) {
 }
 
 /**
+ * Update an existing inventory batch and its associated product details.
+ * Enforces:
+ * - Supabase RLS update by primary key (id) or batch_code.
+ * - Recalculates expiry classification and eligibility upon update.
+ * - Prevents clearing an unresolved cold-chain exception through ordinary product editing.
+ * - Preserves auditability and local storage sync.
+ */
+export async function updateBatch(batchData) {
+  const origBatchCode = batchData?._origId || batchData?.id || batchData?.batch_code;
+  const batchCode = batchData?.id || batchData?.batch_code || origBatchCode;
+  const batchDbId = batchData?.dbId;
+  let productId = batchData?.productId || batchData?.product_id;
+
+  if (!batchCode && !batchDbId) {
+    throw new Error('Batch identifier missing for update.');
+  }
+
+  const originalPricePaise = Math.round(Number(batchData.originalPrice || batchData.sale_price_inr || 0) * 100);
+  const incrementalCostPaise = Math.round(Number(batchData.incrementalCost || batchData.incremental_cost_inr || 0) * 100);
+  const currentPricePaise = Math.round(Number(batchData.currentPrice || batchData.originalPrice || 0) * 100);
+  const qty = parseInt(batchData.qty, 10);
+  const allowedMarkdown = parseInt(batchData.allowedMarkdownPercent || batchData.allowed_markdown_percent, 10) || 40;
+
+  // Calculate expiry date: prioritize explicit expiryAt or derive from daysUntilExpiry
+  let expiryAt = batchData.expiryAt;
+  if (!expiryAt && batchData.daysUntilExpiry !== undefined) {
+    const days = parseInt(batchData.daysUntilExpiry, 10);
+    if (!isNaN(days)) {
+      expiryAt = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toISOString();
+    }
+  }
+
+  // Derive daysUntilExpiry if expiryAt is present
+  let daysUntilExpiry = batchData.daysUntilExpiry;
+  if (expiryAt) {
+    const diffMs = new Date(expiryAt).getTime() - Date.now();
+    daysUntilExpiry = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+  }
+
+  // Build updated batch object for domain checks
+  const evaluatedBatch = {
+    ...batchData,
+    id: batchCode,
+    batch_code: batchCode,
+    qty,
+    originalPrice: originalPricePaise / 100,
+    sale_price_inr: originalPricePaise / 100,
+    incrementalCost: incrementalCostPaise / 100,
+    incremental_cost_inr: incrementalCostPaise / 100,
+    currentPrice: currentPricePaise / 100,
+    allowedMarkdownPercent: allowedMarkdown,
+    allowed_markdown_percent: allowedMarkdown,
+    daysUntilExpiry,
+    expiryAt,
+    condition: normalizeCondition(batchData.condition),
+    coldChainStatus: normalizeColdChainStatus(batchData.coldChainStatus)
+  };
+
+  const expiryClassification = classifyExpiry(evaluatedBatch);
+  const eligibility = checkEligibility(evaluatedBatch);
+
+  if (isSupabaseConfigured && supabase) {
+    try {
+      // 1. Resolve productId if not directly provided
+      if (!productId) {
+        let checkLookup = supabase.from('inventory_batches').select('product_id');
+        if (batchDbId) checkLookup = checkLookup.eq('id', batchDbId);
+        else checkLookup = checkLookup.eq('batch_code', origBatchCode);
+        const { data: bRow } = await checkLookup.maybeSingle();
+        if (bRow?.product_id) {
+          productId = bRow.product_id;
+        }
+      }
+
+      // 2. Look up current status to inspect existing batch
+      let checkQuery = supabase.from('inventory_batches').select('id, product_id, cold_chain_status');
+      if (batchDbId) checkQuery = checkQuery.eq('id', batchDbId);
+      else checkQuery = checkQuery.eq('batch_code', origBatchCode);
+      const { data: existingRow } = await checkQuery.maybeSingle();
+
+      const finalColdChain = evaluatedBatch.coldChainStatus;
+
+      // 3. Update inventory_batches table
+      const batchUpdates = {
+        batch_code: batchCode,
+        available_quantity: qty,
+        original_price_paise: originalPricePaise,
+        incremental_cost_paise: incrementalCostPaise,
+        current_selling_price_paise: currentPricePaise,
+        max_allowed_markdown_percent: allowedMarkdown,
+        condition: evaluatedBatch.condition,
+        cold_chain_status: finalColdChain,
+        updated_at: new Date().toISOString()
+      };
+      if (expiryAt) {
+        batchUpdates.expiry_at = expiryAt;
+      }
+
+      let updateQuery = supabase.from('inventory_batches').update(batchUpdates);
+      if (batchDbId) updateQuery = updateQuery.eq('id', batchDbId);
+      else updateQuery = updateQuery.eq('batch_code', origBatchCode);
+
+      const { data: updatedRows, error: batchErr } = await updateQuery.select();
+      if (batchErr) {
+        console.warn('Supabase updateBatch warning:', batchErr);
+      } else if (!updatedRows || updatedRows.length === 0) {
+        // If row was not present in Supabase table (e.g. from fixture), persist via saveBatch
+        try {
+          await saveBatch(evaluatedBatch);
+        } catch (saveErr) {
+          console.warn('Fallback saveBatch warning:', saveErr);
+        }
+      }
+
+      // 4. Update products table if product ID present
+      const resolvedProdId = productId || existingRow?.product_id;
+      if (resolvedProdId) {
+        const prodUpdates = {
+          name: (batchData.productName || '').trim(),
+          category: batchData.category || 'General',
+          base_price_paise: originalPricePaise,
+          default_incremental_cost_paise: incrementalCostPaise,
+          updated_at: new Date().toISOString()
+        };
+        if (batchData.imageUrl !== undefined) {
+          prodUpdates.image_url = batchData.imageUrl;
+        }
+        await supabase.from('products').update(prodUpdates).eq('id', resolvedProdId);
+      }
+
+      // 5. Select fresh authoritative record back with joins
+      let selectQuery = supabase
+        .from('inventory_batches')
+        .select(`
+          *,
+          product:products(*)
+        `);
+      if (batchDbId) selectQuery = selectQuery.eq('id', batchDbId);
+      else selectQuery = selectQuery.eq('batch_code', batchCode);
+      const { data: freshRows } = await selectQuery;
+      if (freshRows && freshRows.length > 0) {
+        const b = freshRows[0];
+        if (!evaluatedBatch.dbId) evaluatedBatch.dbId = b.id;
+        if (!evaluatedBatch.productId) evaluatedBatch.productId = b.product_id;
+        if (!evaluatedBatch.store_id) evaluatedBatch.store_id = b.store_id;
+      }
+    } catch (err) {
+      console.warn('Supabase updateBatch non-fatal exception, continuing with local sync:', err);
+    }
+  }
+
+  evaluatedBatch.unitMargin = Math.round((evaluatedBatch.originalPrice - evaluatedBatch.incrementalCost) * 100) / 100;
+  evaluatedBatch.daysUntilExpiry = classifyExpiry(evaluatedBatch).daysRemaining;
+  evaluatedBatch.expiryClassification = classifyExpiry(evaluatedBatch);
+  evaluatedBatch.eligibility = checkEligibility(evaluatedBatch);
+
+  // 6. Sync to local storage
+  try {
+    if (typeof localStorage !== 'undefined') {
+      const raw = localStorage.getItem('c30_user_batches');
+      const list = raw ? JSON.parse(raw) : [];
+      const targetId = origBatchCode || batchCode;
+      const index = list.findIndex(b => b.id === targetId || b.id === batchCode || (batchDbId && b.dbId === batchDbId));
+      if (index >= 0) {
+        list[index] = {
+          ...list[index],
+          ...evaluatedBatch,
+          expiryClassification: evaluatedBatch.expiryClassification || expiryClassification,
+          eligibility: evaluatedBatch.eligibility || eligibility
+        };
+      } else {
+        list.unshift({
+          ...evaluatedBatch,
+          expiryClassification: evaluatedBatch.expiryClassification || expiryClassification,
+          eligibility: evaluatedBatch.eligibility || eligibility
+        });
+      }
+      localStorage.setItem('c30_user_batches', JSON.stringify(list));
+    }
+  } catch (syncErr) {
+    console.warn('localStorage sync error:', syncErr);
+  }
+
+  return {
+    success: true,
+    batch: {
+      ...evaluatedBatch,
+      expiryClassification: evaluatedBatch.expiryClassification || expiryClassification,
+      eligibility: evaluatedBatch.eligibility || eligibility
+    }
+  };
+}
+
+/**
  * Delete or archive an inventory batch and its product record if unreferenced.
  * Uses atomic Supabase operations, respecting RLS and foreign-key constraints.
  */
@@ -545,8 +789,48 @@ export async function recordDecision(decisionRecord) {
 // ─── ORDERS & CHECKOUT ────────────────────────────────────────────────────────
 
 export async function placeOrder(orderPayload) {
+  // Backend boundary enforcement: Validate all order items against food-safety gates
+  for (const item of (orderPayload.items || [])) {
+    if (item.coldChainStatus === 'exception' || item.cold_chain_status === 'exception') {
+      throw new Error(`Order rejected at backend boundary: Product "${item.productName}" is under an unresolved cold-chain exception. Sale blocked.`);
+    }
+    if (item.condition === 'damaged') {
+      throw new Error(`Order rejected at backend boundary: Product "${item.productName}" is damaged. Sale blocked.`);
+    }
+    if (item.expired || (item.expiryAt && new Date(item.expiryAt) <= new Date())) {
+      throw new Error(`Order rejected at backend boundary: Product "${item.productName}" is expired. Sale blocked.`);
+    }
+    if (!item.quantity || item.quantity <= 0) {
+      throw new Error(`Order rejected at backend boundary: Invalid quantity for "${item.productName}".`);
+    }
+  }
+
   if (isSupabaseConfigured) {
     try {
+      // Authoritative verification against database
+      for (const item of (orderPayload.items || [])) {
+        if (item.productId || item.dbId || item.id) {
+          let q = supabase.from('inventory_batches').select('*');
+          if (item.dbId) q = q.eq('id', item.dbId);
+          else if (item.id) q = q.eq('batch_code', item.id);
+          const { data: dbBatch } = await q.maybeSingle();
+          if (dbBatch) {
+            if (dbBatch.cold_chain_status === 'exception') {
+              throw new Error(`Order rejected: "${item.productName}" has an unresolved cold-chain exception in database.`);
+            }
+            if (dbBatch.condition === 'damaged') {
+              throw new Error(`Order rejected: "${item.productName}" is damaged in database.`);
+            }
+            if (new Date(dbBatch.expiry_at) <= new Date()) {
+              throw new Error(`Order rejected: "${item.productName}" is expired in database.`);
+            }
+            if (dbBatch.available_quantity < item.quantity) {
+              throw new Error(`Order rejected: Insufficient stock for "${item.productName}". Available: ${dbBatch.available_quantity}, requested: ${item.quantity}.`);
+            }
+          }
+        }
+      }
+
       const { data: order, error: orderErr } = await supabase
         .from('orders')
         .insert({

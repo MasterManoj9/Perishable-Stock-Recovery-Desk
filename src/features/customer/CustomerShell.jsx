@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
   Home, ShoppingBag, ShoppingCart, Bell, MessageSquare,
-  ClipboardList, User, LogOut, Search, Menu, X, Heart
+  ClipboardList, User, LogOut, Search, Menu, X, Heart, Headphones
 } from 'lucide-react';
 import { useAuth } from '../../lib/auth.js';
 import { useCart } from '../../lib/cartContext.js';
@@ -18,7 +18,7 @@ export function CustomerShell({ currentPage, onNavigate, children }) {
     { id: 'cart', label: 'Cart', icon: ShoppingCart, badge: itemCount > 0 ? itemCount : null },
     { id: 'orders', label: 'My Orders', icon: ClipboardList },
     { id: 'notifications', label: 'Notifications', icon: Bell, badge: unreadCount > 0 ? unreadCount : null },
-    { id: 'feedback', label: 'Feedback', icon: MessageSquare },
+    { id: 'support', label: 'User Support', icon: Headphones },
   ];
 
   return (
@@ -43,7 +43,7 @@ export function CustomerShell({ currentPage, onNavigate, children }) {
                   <span className="text-lg">🌿</span>
                 </div>
                 <div className="hidden sm:block">
-                  <h1 className="text-lg font-bold text-[#302722] leading-none">Fynd Fresh</h1>
+                  <h1 className="text-lg font-bold text-[#302722] leading-none">DE - FYND Fresh</h1>
                   <p className="text-[10px] text-[#76675F] font-medium mt-0.5">Save More, Waste Less</p>
                 </div>
               </button>

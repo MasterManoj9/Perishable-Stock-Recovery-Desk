@@ -5,17 +5,24 @@
  * sorting, and adding items to cart. Only shows eligible, non-expired products.
  */
 
-import React, { useState, useMemo } from 'react';
-import { Search, SlidersHorizontal, ShoppingCart, Clock, Tag, TrendingDown, Star, Filter, ChevronDown, Plus, Minus, Check } from 'lucide-react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { Search, SlidersHorizontal, ShoppingCart, Clock, Tag, TrendingDown, Star, Filter, ChevronDown, Plus, Minus, Check, RefreshCw } from 'lucide-react';
 import { useCart } from '../../lib/cartContext.js';
 
-export function ShopPage({ batches = [] }) {
+export function ShopPage({ batches = [], onRefresh = null }) {
   const { addItem, items: cartItems } = useCart();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [sortBy, setSortBy] = useState('discount');
   const [priceRange, setPriceRange] = useState('all');
   const [addedFeedback, setAddedFeedback] = useState({});
+
+  // Auto-refresh authoritative stock on mount to reflect any recent manager edits
+  useEffect(() => {
+    if (onRefresh) {
+      onRefresh();
+    }
+  }, [onRefresh]);
 
   // Filter only eligible, non-expired products for customers
   const availableProducts = useMemo(() => {
@@ -24,7 +31,9 @@ export function ShopPage({ batches = [] }) {
       b.eligibility?.eligible !== false && 
       b.condition !== 'damaged' &&
       b.coldChainStatus !== 'exception' &&
-      b.qty > 0
+      b.cold_chain_status !== 'exception' &&
+      b.qty > 0 &&
+      (!b.expiryAt || new Date(b.expiryAt) > new Date())
     );
   }, [batches]);
 

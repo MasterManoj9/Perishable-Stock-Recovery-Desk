@@ -113,7 +113,7 @@ export function LoginPage() {
               🌿
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-white tracking-tight">Fynd Recovery</h1>
+              <h1 className="text-3xl font-bold text-white tracking-tight">DE - FYND Recovery</h1>
               <p className="text-emerald-400 text-sm font-medium">Perishable Stock Recovery & Food Safety</p>
             </div>
           </div>

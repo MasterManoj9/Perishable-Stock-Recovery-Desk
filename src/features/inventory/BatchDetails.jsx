@@ -11,19 +11,19 @@ import {
   TrendingUp,
   Percent,
   ArrowRight,
-  Trash2
+  Trash2,
+  Edit2
 } from 'lucide-react';
 import { StatusBadge } from '../../components/StatusBadge.jsx';
+import { classifyExpiry } from '../../domain/eligibility.js';
 
-export function BatchDetails({ batch, onClose, onViewInInventory = null, onAction = null, onDelete = null }) {
+export function BatchDetails({ batch, onClose, onViewInInventory = null, onAction = null, onEdit = null, onDelete = null }) {
   if (!batch) return null;
 
-  const isEligible = batch.eligibility?.eligible === true;
-  const isExpired = batch.expired === true;
-  const isColdChain = batch.coldChainStatus === 'exception';
-
-  const statusLabel = isEligible ? 'Eligible for Sale' : isExpired ? 'Blocked: Expired' : isColdChain ? 'Blocked: Cold-chain Issue' : 'Blocked from Sale';
-  const statusType = isEligible ? 'ELIGIBLE' : isExpired ? 'EXPIRED' : isColdChain ? 'COLD_CHAIN_REVIEW' : 'DAMAGED';
+  const expiry = classifyExpiry(batch);
+  const isColdChain = batch.coldChainStatus === 'exception' || batch.cold_chain_status === 'exception';
+  const isDamaged = batch.condition === 'damaged';
+  const isEligible = batch.eligibility?.eligible === true && expiry.saleable && !isColdChain && !isDamaged;
 
   return (
     <div className="bg-white rounded-2xl border border-[#EEDDD2] shadow-xl overflow-hidden animate-fadeIn">
@@ -42,7 +42,10 @@ export function BatchDetails({ batch, onClose, onViewInInventory = null, onActio
           <div>
             <div className="flex items-center gap-2.5 flex-wrap">
               <h2 className="text-xl font-extrabold text-[#302722] tracking-tight">{batch.productName}</h2>
-              <StatusBadge status={statusType} label={statusLabel} />
+              <StatusBadge status={expiry.status} label={expiry.label} />
+              {isColdChain && (
+                <StatusBadge status="COLD_CHAIN_REVIEW" label="Cold-chain Issue" />
+              )}
             </div>
             <p className="text-xs font-mono text-[#76675F] mt-1">Batch ID: {batch.id}</p>
           </div>
@@ -154,25 +157,44 @@ export function BatchDetails({ batch, onClose, onViewInInventory = null, onActio
             <AlertOctagon className="w-5 h-5 text-rose-600 shrink-0 mt-0.5" />
           )}
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800">Eligibility Reason</h3>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800">Eligibility & Safety Reason</h3>
             <p className="text-xs font-medium text-slate-700 mt-1 leading-relaxed">
-              {batch.eligibility?.reason || (isEligible ? 'This batch is eligible for sale. No expiry, damage or cold-chain issues detected.' : 'Batch is blocked from sale under safety rules.')}
+              {isColdChain
+                ? 'Sale blocked: unresolved cold-chain exception. A valid expiry date does not establish product safety.'
+                : !expiry.saleable
+                ? `Sale blocked: product ${expiry.reason.toLowerCase()}`
+                : isDamaged
+                ? 'Sale blocked: stock condition is damaged or compromised.'
+                : (batch.eligibility?.reason || 'This batch is eligible for sale. No expiry, damage or cold-chain issues detected.')}
             </p>
           </div>
         </div>
 
         {/* Action Buttons at Bottom */}
         <div className="flex items-center justify-between gap-3 pt-2">
-          {onDelete ? (
-            <button
-              id="batch-details-delete-btn"
-              onClick={() => onDelete(batch)}
-              className="px-3.5 py-2 text-xs font-bold text-rose-600 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200/80 rounded-xl transition-colors cursor-pointer inline-flex items-center gap-1.5"
-            >
-              <Trash2 className="w-3.5 h-3.5 text-rose-500" />
-              <span>Delete Product</span>
-            </button>
-          ) : <div />}
+          <div className="flex items-center gap-2">
+            {onEdit && (
+              <button
+                id="batch-details-edit-btn"
+                onClick={() => onEdit(batch)}
+                className="px-3.5 py-2 text-xs font-bold text-[#302722] hover:bg-[#FFF8F3] bg-[#FFF8F3]/60 border border-[#EEDDD2] rounded-xl transition-colors cursor-pointer inline-flex items-center gap-1.5"
+              >
+                <Edit2 className="w-3.5 h-3.5 text-[#76675F]" />
+                <span>Edit Product</span>
+              </button>
+            )}
+
+            {onDelete && (
+              <button
+                id="batch-details-delete-btn"
+                onClick={() => onDelete(batch)}
+                className="px-3.5 py-2 text-xs font-bold text-rose-600 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200/80 rounded-xl transition-colors cursor-pointer inline-flex items-center gap-1.5"
+              >
+                <Trash2 className="w-3.5 h-3.5 text-rose-500" />
+                <span>Delete Product</span>
+              </button>
+            )}
+          </div>
 
           <div className="flex items-center gap-2">
             <button

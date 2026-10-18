@@ -28,7 +28,7 @@ import { CartProvider } from '../lib/cartContext.js';
 // Components & Domain
 import { LoadingState } from '../components/LoadingState.jsx';
 import { ErrorMessage } from '../components/ErrorMessage.jsx';
-import { getBatches, fetchDecisions, recordDecision, deleteBatch, saveBatch } from '../data/supabaseAdapter.js';
+import { getBatches, fetchDecisions, recordDecision, deleteBatch, saveBatch, updateBatch } from '../data/supabaseAdapter.js';
 import { BatchDetails } from '../features/inventory/BatchDetails.jsx';
 import { AddBatchModal } from '../features/inventory/AddBatchModal.jsx';
 import { DeleteProductModal } from '../features/inventory/DeleteProductModal.jsx';
@@ -125,6 +125,18 @@ function AppContent() {
     return saved;
   };
 
+  const handleUpdateBatch = async (updatedBatch) => {
+    const res = await updateBatch(updatedBatch);
+    if (!res?.success) {
+      throw new Error(res?.error || 'Failed to update product in database');
+    }
+    const saved = res.batch || updatedBatch;
+    const matchId = updatedBatch._origId || updatedBatch.id || saved.id;
+    setBatches(prev => prev.map(b => (b.id === matchId || b.id === saved.id || (saved.dbId && b.dbId === saved.dbId)) ? { ...b, ...saved } : b));
+    await loadData(datasetMode);
+    return saved;
+  };
+
   const handleDeleteBatch = async (targetBatch) => {
     if (!targetBatch) return;
     const res = await deleteBatch(targetBatch);
@@ -158,10 +170,15 @@ function AppContent() {
     return (
       <CustomerShell
         currentPage={customerPage}
-        onNavigate={setCustomerPage}
+        onNavigate={(page) => {
+          setCustomerPage(page);
+          if (page === 'shop' || page === 'cart') {
+            loadData(datasetMode);
+          }
+        }}
       >
         {customerPage === 'shop' && (
-          <ShopPage batches={batches} />
+          <ShopPage batches={batches} onRefresh={() => loadData(datasetMode)} />
         )}
 
         {customerPage === 'cart' && (
@@ -176,7 +193,7 @@ function AppContent() {
           <CustomerNotificationsPage />
         )}
 
-        {customerPage === 'feedback' && (
+        {(customerPage === 'feedback' || customerPage === 'support') && (
           <CustomerFeedbackPage />
         )}
       </CustomerShell>
@@ -218,7 +235,10 @@ function AppContent() {
             {currentPage === 'dashboard' && (
               <DashboardPage
                 batches={batches}
-                onSelectBatch={handleSelectBatch}
+                onSelectBatch={(id) => {
+                  handleSelectBatch(id);
+                  setCurrentPage('inventory');
+                }}
                 onNavigateToInventory={() => setCurrentPage('inventory')}
                 onOpenAddBatch={() => setIsAddBatchOpen(true)}
               />
@@ -232,6 +252,7 @@ function AppContent() {
                 globalSearchQuery={searchQuery}
                 onOpenSimulator={handleOpenSimulator}
                 onOpenAddBatch={() => setIsAddBatchOpen(true)}
+                onUpdateBatch={handleUpdateBatch}
                 onDeleteBatch={handleDeleteBatch}
               />
             )}

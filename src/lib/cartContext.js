@@ -45,8 +45,27 @@ export function CartProvider({ children }) {
   }, [items, donationEnabled]);
 
   const addItem = useCallback((product, quantity = 1) => {
-    if (!product || product.expired || product.eligibility?.eligible === false) {
-      return { success: false, error: 'This product is not available for purchase' };
+    if (!product) {
+      return { success: false, error: 'Invalid product record' };
+    }
+
+    if (product.coldChainStatus === 'exception' || product.cold_chain_status === 'exception') {
+      return {
+        success: false,
+        error: 'Sale blocked: unresolved cold-chain exception. A valid expiry date does not establish product safety.'
+      };
+    }
+
+    if (product.condition === 'damaged') {
+      return { success: false, error: 'Product is damaged and blocked from sale under safety rules.' };
+    }
+
+    if (product.expired === true || (product.expiryAt && new Date(product.expiryAt) <= new Date())) {
+      return { success: false, error: 'Product has expired and is not saleable.' };
+    }
+
+    if (product.eligibility?.eligible === false) {
+      return { success: false, error: product.eligibility?.reason || 'This product is not available for purchase.' };
     }
 
     setItems(prev => {

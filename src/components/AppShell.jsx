@@ -111,7 +111,7 @@ export function AppShell({
     },
     {
       id: 'feedback',
-      label: 'Feedback',
+      label: 'User Support & Feedback',
       icon: MessageSquare,
       enabled: true
     }
@@ -133,13 +133,13 @@ export function AppShell({
       >
         {/* Brand Header */}
         <div className="p-4 pb-3 flex items-center justify-between border-b border-slate-800/60">
-          <div className={`flex items-center ${isCollapsed ? 'justify-center w-full' : 'gap-3'}`} title="Fynd — Perishable Stock Recovery Desk">
+          <div className={`flex items-center ${isCollapsed ? 'justify-center w-full' : 'gap-3'}`} title="DE - FYND — Perishable Stock Recovery Desk">
             <div className="w-10 h-10 rounded-xl bg-emerald-500 flex items-center justify-center text-slate-950 font-black shadow-md shadow-emerald-500/20 shrink-0">
               <span className="text-xl">🌿</span>
             </div>
             {!isCollapsed && (
               <div className="overflow-hidden">
-                <h1 className="text-xl font-bold text-white tracking-tight leading-none">Fynd</h1>
+                <h1 className="text-xl font-bold text-white tracking-tight leading-none">DE - FYND</h1>
                 <p className="text-[11px] text-slate-400 font-medium mt-1 leading-tight">
                   Perishable Stock<br />Recovery Desk
                 </p>
@@ -233,7 +233,7 @@ export function AppShell({
             <div className="flex flex-col items-center gap-2 py-2">
               <div
                 className="p-2 bg-slate-900 rounded-xl border border-slate-800 text-emerald-400"
-                title="FYND × NMIMS C30"
+                title="DE - FYND × NMIMS C30"
               >
                 <Box className="w-4 h-4" />
               </div>
@@ -254,7 +254,7 @@ export function AppShell({
                   <Box className="w-4 h-4 text-emerald-400" />
                 </div>
                 <div className="text-left">
-                  <p className="text-xs font-bold text-white leading-tight">FYND × NMIMS</p>
+                  <p className="text-xs font-bold text-white leading-tight">DE - FYND × NMIMS</p>
                   <p className="text-[10px] font-semibold text-slate-400">C30</p>
                   <p className="text-[10px] text-slate-500">{datasetMode === 'OFFICIAL' ? 'Official Fixture' : 'Live Database'}</p>
                 </div>
@@ -286,7 +286,7 @@ export function AppShell({
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
-            <span className="font-bold text-[#302722] text-base">Fynd Recovery</span>
+            <span className="font-bold text-[#302722] text-base">DE - FYND Recovery</span>
           </div>
 
           {/* Search Bar */}

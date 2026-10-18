@@ -219,13 +219,15 @@ export function getFeedback(filterFn = null) {
 export function submitFeedback({
   customerId,
   customerName,
+  customerEmail = '',
+  customerPhone = '',
   storeId = 'demo-store',
   orderId = null,
-  rating,
+  rating = 5,
   category = 'general',
   message
 }) {
-  if (!rating || rating < 1 || rating > 5) {
+  if (rating !== undefined && rating !== null && (rating < 1 || rating > 5)) {
     throw new Error('Rating must be between 1 and 5');
   }
   if (!message || message.trim().length < 5) {
@@ -233,16 +235,19 @@ export function submitFeedback({
   }
 
   const feedback = {
-    id: `FB-${Date.now()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`,
+    id: `SUP-${Date.now()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`,
     customerId,
-    customerName,
+    customerName: customerName || 'Customer',
+    customerEmail: customerEmail || '',
+    customerPhone: customerPhone || '',
     storeId,
     orderId,
-    rating: Number(rating),
+    rating: Number(rating || 5),
     category,
     message: message.trim(),
     status: 'submitted',
     managerResponse: null,
+    managerRespondedAt: null,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString()
   };
@@ -260,6 +265,7 @@ export function respondToFeedback(feedbackId, response) {
   if (idx === -1) return null;
 
   allFeedback[idx].managerResponse = response;
+  allFeedback[idx].managerRespondedAt = new Date().toISOString();
   allFeedback[idx].status = 'reviewed';
   allFeedback[idx].updated_at = new Date().toISOString();
 
