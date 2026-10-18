@@ -13,7 +13,7 @@ import { useNotifications } from '../../lib/notificationContext.js';
 import { createOrder, updateOrderStatus, recordPayment, recordDonation } from '../../data/orderStore.js';
 import { placeOrder } from '../../data/supabaseAdapter.js';
 
-export function CartPage({ onNavigate, batches = [] }) {
+export function CartPage({ onNavigate, batches = [], onRefresh }) {
   const { items, subtotal, totalDiscount, donationEnabled, donationAmount, total, updateQuantity, removeItem, clearCart, toggleDonation, itemCount } = useCart();
   const { user, profile } = useAuth();
   const { addNotification } = useNotifications();
@@ -41,6 +41,15 @@ export function CartPage({ onNavigate, batches = [] }) {
 
       const res = await placeOrder(orderPayload);
       const order = res?.order || createOrder(orderPayload);
+
+      // Refresh inventory data immediately so any open screens/state reflect updated stock
+      if (typeof onRefresh === 'function') {
+        try {
+          await onRefresh();
+        } catch (e) {
+          console.warn('onRefresh error:', e);
+        }
+      }
 
       // 2. Verified payment processing
       await new Promise(resolve => setTimeout(resolve, 800));

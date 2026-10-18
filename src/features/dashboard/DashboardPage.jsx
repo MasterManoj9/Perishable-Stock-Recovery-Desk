@@ -10,7 +10,8 @@ import {
   Layers,
   Plus,
   Package,
-  Coins
+  Coins,
+  FileSpreadsheet
 } from 'lucide-react';
 import { StatusBadge } from '../../components/StatusBadge.jsx';
 
@@ -18,7 +19,8 @@ export function DashboardPage({
   batches = [],
   onSelectBatch,
   onNavigateToInventory,
-  onOpenAddBatch
+  onOpenAddBatch,
+  onOpenBulkUpload
 }) {
   const totalBatches = batches.length;
   const totalUnits = batches.reduce((sum, b) => sum + (b.qty || 0), 0);
@@ -98,15 +100,27 @@ export function DashboardPage({
             <h1 className="text-3xl font-extrabold text-[#302722] tracking-tight">Dashboard</h1>
             <p className="text-sm text-[#76675F] mt-1">An overview of your perishable inventory and key actions.</p>
           </div>
-          {onOpenAddBatch && (
-            <button
-              onClick={onOpenAddBatch}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold bg-[#302722] hover:bg-black text-white shadow-xs transition-colors cursor-pointer"
-            >
-              <Plus className="w-4 h-4 text-emerald-400" />
-              <span>Add Product</span>
-            </button>
-          )}
+          <div className="flex items-center gap-2.5 flex-wrap">
+            {onOpenBulkUpload && (
+              <button
+                onClick={onOpenBulkUpload}
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 shadow-xs transition-colors cursor-pointer"
+                title="Upload multiple products via CSV file"
+              >
+                <FileSpreadsheet className="w-4 h-4 text-emerald-600" />
+                <span>Bulk Add (CSV)</span>
+              </button>
+            )}
+            {onOpenAddBatch && (
+              <button
+                onClick={onOpenAddBatch}
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold bg-[#302722] hover:bg-black text-white shadow-xs transition-colors cursor-pointer"
+              >
+                <Plus className="w-4 h-4 text-emerald-400" />
+                <span>Add Product</span>
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Empty State Card */}
@@ -118,15 +132,26 @@ export function DashboardPage({
           <p className="text-xs text-[#76675F] max-w-md mx-auto mb-6">
             Get started by recording a perishable inventory item with its expiry timeline, quantity, and cost to enable markdown recovery and intelligent forecasting.
           </p>
-          {onOpenAddBatch && (
-            <button
-              onClick={onOpenAddBatch}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold bg-[#D97757] hover:bg-[#c66545] text-white shadow-sm transition-colors cursor-pointer"
-            >
-              <Plus className="w-4 h-4" />
-              <span>Add First Product</span>
-            </button>
-          )}
+          <div className="flex items-center justify-center gap-3 flex-wrap">
+            {onOpenBulkUpload && (
+              <button
+                onClick={onOpenBulkUpload}
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 shadow-sm transition-colors cursor-pointer"
+              >
+                <FileSpreadsheet className="w-4 h-4 text-emerald-600" />
+                <span>Bulk Add (CSV)</span>
+              </button>
+            )}
+            {onOpenAddBatch && (
+              <button
+                onClick={onOpenAddBatch}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold bg-[#D97757] hover:bg-[#c66545] text-white shadow-sm transition-colors cursor-pointer"
+              >
+                <Plus className="w-4 h-4" />
+                <span>Add First Product</span>
+              </button>
+            )}
+          </div>
         </div>
       </div>
     );
@@ -143,6 +168,17 @@ export function DashboardPage({
 
         {/* Action Controls */}
         <div className="flex items-center gap-3 flex-wrap">
+          {onOpenBulkUpload && (
+            <button
+              onClick={onOpenBulkUpload}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 shadow-xs transition-colors cursor-pointer"
+              title="Upload multiple products via CSV file"
+            >
+              <FileSpreadsheet className="w-4 h-4 text-emerald-600" />
+              <span>Bulk Add (CSV)</span>
+            </button>
+          )}
+
           {onOpenAddBatch && (
             <button
               onClick={onOpenAddBatch}

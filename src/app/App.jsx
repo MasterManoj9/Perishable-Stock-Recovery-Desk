@@ -33,6 +33,7 @@ import { getStoredDecisions, saveDecision, clearStoredDecisions } from '../data/
 import { BatchDetails } from '../features/inventory/BatchDetails.jsx';
 import { AddBatchModal } from '../features/inventory/AddBatchModal.jsx';
 import { DeleteProductModal } from '../features/inventory/DeleteProductModal.jsx';
+import { BulkUploadModal } from '../features/inventory/BulkUploadModal.jsx';
 
 function AppContent() {
   const { user, profile, loading: authLoading, isAuthenticated, isManager, isCustomer, isAdmin, signOut } = useAuth();
@@ -51,6 +52,7 @@ function AppContent() {
   const [batches, setBatches] = useState([]);
   const [decisions, setDecisions] = useState([]);
   const [isAddBatchOpen, setIsAddBatchOpen] = useState(false);
+  const [isBulkUploadOpen, setIsBulkUploadOpen] = useState(false);
   const [batchToDelete, setBatchToDelete] = useState(null);
 
   // Load stored decisions on mount
@@ -84,6 +86,19 @@ function AppContent() {
       loadData(datasetMode);
     }
   }, [datasetMode, isAuthenticated, loadData]);
+
+  // Listen for real-time inventory deduction events and cross-tab storage changes
+  useEffect(() => {
+    const handleInventorySync = () => {
+      loadData(datasetMode);
+    };
+    window.addEventListener('c30_inventory_updated', handleInventorySync);
+    window.addEventListener('storage', handleInventorySync);
+    return () => {
+      window.removeEventListener('c30_inventory_updated', handleInventorySync);
+      window.removeEventListener('storage', handleInventorySync);
+    };
+  }, [datasetMode, loadData]);
 
   const handleToggleDataset = () => {
     const nextMode = datasetMode === 'LIVE' ? 'OFFICIAL' : 'LIVE';
@@ -124,6 +139,30 @@ function AppContent() {
     // Immediately reload authoritative data in background to ensure 100% sync
     loadData(datasetMode);
     return saved;
+  };
+
+  const handleBulkAddBatches = async (newBatches) => {
+    let count = 0;
+    const addedList = [];
+    for (const b of newBatches) {
+      try {
+        const res = await saveBatch(b);
+        if (res?.success) {
+          count++;
+          addedList.push(res.batch || b);
+        }
+      } catch (err) {
+        console.warn('Error saving bulk batch row:', err);
+      }
+    }
+    if (addedList.length > 0) {
+      setBatches(prev => {
+        const newIds = new Set(addedList.map(item => item.id));
+        return [...addedList, ...prev.filter(p => !newIds.has(p.id))];
+      });
+      await loadData(datasetMode);
+    }
+    return { count };
   };
 
   const handleUpdateBatch = async (updatedBatch) => {
@@ -183,7 +222,7 @@ function AppContent() {
         )}
 
         {customerPage === 'cart' && (
-          <CartPage onNavigate={setCustomerPage} batches={batches} />
+          <CartPage onNavigate={setCustomerPage} batches={batches} onRefresh={() => loadData(datasetMode)} />
         )}
 
         {customerPage === 'orders' && (
@@ -242,6 +281,7 @@ function AppContent() {
                 }}
                 onNavigateToInventory={() => setCurrentPage('inventory')}
                 onOpenAddBatch={() => setIsAddBatchOpen(true)}
+                onOpenBulkUpload={() => setIsBulkUploadOpen(true)}
               />
             )}
 
@@ -253,6 +293,7 @@ function AppContent() {
                 globalSearchQuery={searchQuery}
                 onOpenSimulator={handleOpenSimulator}
                 onOpenAddBatch={() => setIsAddBatchOpen(true)}
+                onOpenBulkUpload={() => setIsBulkUploadOpen(true)}
                 onUpdateBatch={handleUpdateBatch}
                 onDeleteBatch={handleDeleteBatch}
               />
@@ -335,6 +376,13 @@ function AppContent() {
               isOpen={isAddBatchOpen}
               onClose={() => setIsAddBatchOpen(false)}
               onAddBatch={handleAddBatch}
+            />
+
+            {/* Bulk Upload CSV Modal */}
+            <BulkUploadModal
+              isOpen={isBulkUploadOpen}
+              onClose={() => setIsBulkUploadOpen(false)}
+              onBulkAdd={handleBulkAddBatches}
             />
 
             {/* Delete Product Confirmation Modal */}

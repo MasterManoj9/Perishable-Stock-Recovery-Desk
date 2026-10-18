@@ -921,6 +921,9 @@ export async function placeOrder(orderPayload) {
           });
         }
 
+        // Deduct inventory stock for purchased items
+        await decrementInventoryStock(orderPayload.items);
+
         return { success: true, order };
       }
     } catch (err) {
@@ -947,7 +950,147 @@ export async function placeOrder(orderPayload) {
     });
   }
 
+  // Deduct inventory stock for purchased items
+  await decrementInventoryStock(orderPayload.items);
+
   return { success: true, order };
+}
+
+/**
+ * Safely decrements stock in both Supabase (inventory_batches) and local cache (c30_user_batches).
+ * When a customer purchases e.g. 2 units of bread from a 5 unit batch,
+ * this updates available_quantity to 3 units across database and local state.
+ */
+export async function decrementInventoryStock(items = []) {
+  if (!items || items.length === 0) return { success: true };
+
+  const isUuid = (val) => typeof val === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(val);
+
+  // 1. Supabase database decrement
+  if (isSupabaseConfigured && supabase) {
+    try {
+      for (const item of items) {
+        const qtyToDeduct = Math.max(1, Number(item.quantity) || 1);
+        let matchedRow = null;
+
+        // Try lookup by UUID dbId
+        if (item.dbId && isUuid(item.dbId)) {
+          const { data: dbRow } = await supabase
+            .from('inventory_batches')
+            .select('id, batch_code, available_quantity')
+            .eq('id', item.dbId)
+            .maybeSingle();
+          if (dbRow) matchedRow = dbRow;
+        }
+
+        // Try lookup by batch_code or productId
+        const codeCandidate = item.batch_code || item.id || item.productId;
+        if (!matchedRow && codeCandidate) {
+          const { data: dbRow } = await supabase
+            .from('inventory_batches')
+            .select('id, batch_code, available_quantity')
+            .eq('batch_code', codeCandidate)
+            .maybeSingle();
+          if (dbRow) matchedRow = dbRow;
+        }
+
+        // Try lookup by product name
+        if (!matchedRow && item.productName) {
+          const { data: candidateBatches } = await supabase
+            .from('inventory_batches')
+            .select('id, batch_code, available_quantity, product:products(name)')
+            .gt('available_quantity', 0);
+
+          if (candidateBatches && candidateBatches.length > 0) {
+            matchedRow = candidateBatches.find(b =>
+              b.product?.name?.toLowerCase().trim() === item.productName.toLowerCase().trim()
+            ) || null;
+          }
+        }
+
+        if (matchedRow) {
+          const currentQty = Number(matchedRow.available_quantity) || 0;
+          const newQty = Math.max(0, currentQty - qtyToDeduct);
+          await supabase
+            .from('inventory_batches')
+            .update({
+              available_quantity: newQty,
+              updated_at: new Date().toISOString()
+            })
+            .eq('id', matchedRow.id);
+        }
+      }
+    } catch (dbErr) {
+      console.warn('decrementInventoryStock Supabase error:', dbErr);
+    }
+  }
+
+  // 2. Local storage cache decrement (c30_user_batches)
+  try {
+    if (typeof localStorage !== 'undefined') {
+      const raw = localStorage.getItem('c30_user_batches');
+      let list = raw ? JSON.parse(raw) : [];
+      let didModify = false;
+
+      for (const item of items) {
+        const qtyToDeduct = Math.max(1, Number(item.quantity) || 1);
+        const codeCandidate = item.batch_code || item.id || item.productId;
+        const nameCandidate = (item.productName || item.name || '').toLowerCase().trim();
+
+        const matchIndex = list.findIndex(b => {
+          if (item.dbId && b.dbId === item.dbId) return true;
+          if (codeCandidate && (b.id === codeCandidate || b.batch_code === codeCandidate)) return true;
+          if (nameCandidate && (b.productName?.toLowerCase().trim() === nameCandidate || b.name?.toLowerCase().trim() === nameCandidate)) return true;
+          return false;
+        });
+
+        if (matchIndex >= 0) {
+          const currentQty = Number(list[matchIndex].qty !== undefined ? list[matchIndex].qty : (list[matchIndex].available_quantity || 0));
+          const newQty = Math.max(0, currentQty - qtyToDeduct);
+          list[matchIndex] = {
+            ...list[matchIndex],
+            qty: newQty,
+            available_quantity: newQty
+          };
+          didModify = true;
+        } else {
+          // If item came from STORE_CATALOG_24 in DEMO mode, persist decremented entry
+          const catalogItem = STORE_CATALOG_24.find(c => {
+            if (codeCandidate && c.id === codeCandidate) return true;
+            if (nameCandidate && (c.productName?.toLowerCase().trim() === nameCandidate || c.name?.toLowerCase().trim() === nameCandidate)) return true;
+            return false;
+          });
+          if (catalogItem) {
+            const currentQty = Number(catalogItem.qty || 10);
+            const newQty = Math.max(0, currentQty - qtyToDeduct);
+            list.unshift({
+              ...catalogItem,
+              qty: newQty,
+              available_quantity: newQty
+            });
+            didModify = true;
+          }
+        }
+      }
+
+      if (didModify) {
+        localStorage.setItem('c30_user_batches', JSON.stringify(list));
+      }
+    }
+  } catch (storageErr) {
+    console.warn('decrementInventoryStock localStorage error:', storageErr);
+  }
+
+  // 3. Dispatch global browser event for instant UI re-render across views and tabs
+  try {
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('c30_inventory_updated', { detail: { items } }));
+    }
+  } catch {
+    // Ignore in non-browser environments
+  }
+
+  return { success: true };
 }
 
 export {
@@ -958,3 +1101,4 @@ export {
   respondLocalFeedback as respondToFeedback,
   getOrderAnalytics
 };
+

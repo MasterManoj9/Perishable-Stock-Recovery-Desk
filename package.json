@@ -29,6 +29,8 @@
   },
   "devDependencies": {
     "@aws-sdk/client-amplify": "^3.1152.0",
+    "@aws-sdk/client-iam": "^3.1152.0",
+    "@aws-sdk/client-s3": "^3.1152.0",
     "@tailwindcss/vite": "^4.3.3",
     "@vitejs/plugin-react": "^6.1.2",
     "autoprefixer": "^10.6.1",

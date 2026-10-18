@@ -85,6 +85,9 @@ export function CartProvider({ children }) {
 
       return [...prev, {
         productId: product.id,
+        id: product.id,
+        dbId: product.dbId || null,
+        batch_code: product.batch_code || product.id,
         productName: product.productName || product.name,
         image: product.image || '📦',
         category: product.category || 'General',
@@ -93,6 +96,8 @@ export function CartProvider({ children }) {
         discount,
         quantity: Math.min(quantity, maxQty),
         maxQuantity: maxQty,
+        condition: product.condition || 'good',
+        coldChainStatus: product.coldChainStatus || product.cold_chain_status || 'compliant',
         expiryAt: product.expiryAt || null,
         expiryDisplay: product.expiryDisplay || '',
         storeId: product.store_id || null

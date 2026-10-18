@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { Filter, RotateCcw, Plus, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Filter, RotateCcw, Plus, ChevronLeft, ChevronRight, FileSpreadsheet } from 'lucide-react';
 import { InventoryTable } from './InventoryTable.jsx';
 import { BatchDetails } from './BatchDetails.jsx';
 import { DeleteProductModal } from './DeleteProductModal.jsx';
@@ -16,6 +16,7 @@ export function InventoryPage({
   globalSearchQuery = '',
   onOpenSimulator,
   onOpenAddBatch,
+  onOpenBulkUpload,
   onEditBatch,
   onUpdateBatch,
   onDeleteBatch
@@ -104,15 +105,28 @@ export function InventoryPage({
           <p className="text-sm text-[#76675F] mt-1">View and manage all batches. Select a batch to see details and simulate markdowns.</p>
         </div>
 
-        {onOpenAddBatch && (
-          <button
-            onClick={onOpenAddBatch}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-[#302722] hover:bg-black text-white shadow-xs transition-colors cursor-pointer"
-          >
-            <Plus className="w-4 h-4 text-emerald-400" />
-            <span>Add Product to Inventory</span>
-          </button>
-        )}
+        <div className="flex items-center gap-2.5 flex-wrap">
+          {onOpenBulkUpload && (
+            <button
+              onClick={onOpenBulkUpload}
+              className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 shadow-xs transition-colors cursor-pointer"
+              title="Upload products via CSV file"
+            >
+              <FileSpreadsheet className="w-4 h-4 text-emerald-600" />
+              <span>Bulk Add (CSV)</span>
+            </button>
+          )}
+
+          {onOpenAddBatch && (
+            <button
+              onClick={onOpenAddBatch}
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-[#302722] hover:bg-black text-white shadow-xs transition-colors cursor-pointer"
+            >
+              <Plus className="w-4 h-4 text-emerald-400" />
+              <span>Add Product to Inventory</span>
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Filter Bar */}
@@ -177,14 +191,25 @@ export function InventoryPage({
           title="No products added yet"
           description="Your inventory is empty. Add your first perishable product to begin tracking expiry timelines and recovery opportunities."
           action={
-            onOpenAddBatch && (
-              <button
-                onClick={onOpenAddBatch}
-                className="px-4 py-2 text-xs font-bold rounded-xl bg-[#302722] hover:bg-black text-white cursor-pointer"
-              >
-                Add Product to Inventory
-              </button>
-            )
+            <div className="flex items-center gap-2.5 flex-wrap justify-center">
+              {onOpenBulkUpload && (
+                <button
+                  onClick={onOpenBulkUpload}
+                  className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 cursor-pointer shadow-xs"
+                >
+                  <FileSpreadsheet className="w-4 h-4 text-emerald-600" />
+                  <span>Bulk Add (CSV)</span>
+                </button>
+              )}
+              {onOpenAddBatch && (
+                <button
+                  onClick={onOpenAddBatch}
+                  className="px-4 py-2 text-xs font-bold rounded-xl bg-[#302722] hover:bg-black text-white cursor-pointer shadow-xs"
+                >
+                  Add Product to Inventory
+                </button>
+              )}
+            </div>
           }
         />
       ) : filteredBatches.length === 0 ? (
