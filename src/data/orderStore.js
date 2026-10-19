@@ -15,6 +15,7 @@ const ORDERS_KEY = 'c30_orders';
 const PAYMENTS_KEY = 'c30_payments';
 const DONATIONS_KEY = 'c30_donations';
 const FEEDBACK_KEY = 'c30_feedback';
+const ORPHANAGE_DONATIONS_KEY = 'c30_orphanage_donations';
 
 const memoryStore = {};
 
@@ -202,6 +203,68 @@ export function recordDonation({
   setItem(DONATIONS_KEY, JSON.stringify(donations));
 
   return donation;
+}
+
+// ─── Orphanage Donations ─────────────────────────────────────────
+
+export function getOrphanageDonations() {
+  try {
+    const raw = getItem(ORPHANAGE_DONATIONS_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+export function recordOrphanageBatchDonation({
+  batchId,
+  productName,
+  quantity,
+  originalPrice = 0,
+  location = 'General Area',
+  orphanageName = 'Central Orphanage Food Network'
+}) {
+  const list = getOrphanageDonations();
+  const estimatedValue = Math.round((Number(quantity) || 0) * (Number(originalPrice) || 0) * 100) / 100;
+
+  const record = {
+    id: `ORPH-DON-${Date.now()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`,
+    batchId,
+    productName,
+    quantity: Number(quantity) || 0,
+    originalPrice: Number(originalPrice) || 0,
+    estimatedValue,
+    location,
+    orphanageName,
+    donated_at: new Date().toISOString()
+  };
+
+  list.unshift(record);
+  setItem(ORPHANAGE_DONATIONS_KEY, JSON.stringify(list));
+  return record;
+}
+
+export function getOrphanageMetrics() {
+  const customerDonations = getDonations();
+  const batchDonations = getOrphanageDonations();
+
+  // Baseline from customer checkout ₹1 donations
+  const rupeeOneCount = customerDonations.length;
+  const rupeeOneTotal = customerDonations.reduce((sum, d) => sum + (Number(d.amount) || 1), 0);
+
+  // Total batches & units donated to orphanages
+  const totalBatchesDonated = batchDonations.length;
+  const totalUnitsDonated = batchDonations.reduce((sum, b) => sum + (Number(b.quantity) || 0), 0);
+  const totalBatchValue = batchDonations.reduce((sum, b) => sum + (Number(b.estimatedValue) || 0), 0);
+
+  return {
+    rupeeOneCount,
+    rupeeOneTotal,
+    totalBatchesDonated,
+    totalUnitsDonated,
+    totalDonatedValue: totalBatchValue + rupeeOneTotal,
+    batchDonations
+  };
 }
 
 // ─── Feedback ───────────────────────────────────────────────────

@@ -282,6 +282,8 @@ function AppContent() {
                 onNavigateToInventory={() => setCurrentPage('inventory')}
                 onOpenAddBatch={() => setIsAddBatchOpen(true)}
                 onOpenBulkUpload={() => setIsBulkUploadOpen(true)}
+                onUpdateBatch={handleUpdateBatch}
+                onRefresh={() => loadData(datasetMode)}
               />
             )}
 

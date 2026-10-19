@@ -12,12 +12,23 @@ import {
   Percent,
   ArrowRight,
   Trash2,
-  Edit2
+  Edit2,
+  Heart,
+  TrendingDown
 } from 'lucide-react';
 import { StatusBadge } from '../../components/StatusBadge.jsx';
 import { classifyExpiry } from '../../domain/eligibility.js';
 
-export function BatchDetails({ batch, onClose, onViewInInventory = null, onAction = null, onEdit = null, onDelete = null }) {
+export function BatchDetails({
+  batch,
+  onClose,
+  onViewInInventory = null,
+  onAction = null,
+  onEdit = null,
+  onDelete = null,
+  onDonate = null,
+  onDiscount = null
+}) {
   if (!batch) return null;
 
   const expiry = classifyExpiry(batch);
@@ -181,6 +192,32 @@ export function BatchDetails({ batch, onClose, onViewInInventory = null, onActio
               >
                 <Edit2 className="w-3.5 h-3.5 text-[#76675F]" />
                 <span>Edit Product</span>
+              </button>
+            )}
+
+            {onDonate && (
+              <button
+                type="button"
+                id="batch-details-donate-btn"
+                onClick={() => onDonate(batch)}
+                className="px-3 py-2 text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 rounded-xl transition-colors cursor-pointer inline-flex items-center gap-1.5"
+                title="Donate stock to orphanages"
+              >
+                <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500/20" />
+                <span>Donate to Orphans</span>
+              </button>
+            )}
+
+            {onDiscount && (
+              <button
+                type="button"
+                id="batch-details-discount-btn"
+                onClick={() => onDiscount(batch)}
+                className="px-3 py-2 text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-xl transition-colors cursor-pointer inline-flex items-center gap-1.5"
+                title="Adjust markdown discount"
+              >
+                <TrendingDown className="w-3.5 h-3.5 text-emerald-600" />
+                <span>Keep More Discount</span>
               </button>
             )}
 
