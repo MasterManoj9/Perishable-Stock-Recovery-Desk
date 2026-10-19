@@ -1,13 +1,16 @@
 # FYND × NMIMS Hyderabad — C30 Perishable Stock Recovery Desk
 
-[![Automated Tests](https://img.shields.io/badge/tests-145%2F145%20passing-brightgreen.svg)]()
+[![Automated Tests](https://img.shields.io/badge/tests-200%2F200%20passing-brightgreen.svg)]()
 [![Case Outcome Checks](https://img.shields.io/badge/case%20checks-25%2F25%20pts-emerald.svg)]()
-[![Production Build](https://img.shields.io/badge/build-passing%20(735ms)-blue.svg)]()
+[![Production Build](https://img.shields.io/badge/build-passing%20(Vite)-blue.svg)]()
+[![Deployment](https://img.shields.io/badge/deployed-AWS%20Amplify-FF9900.svg)](https://main.d383abo9k5jug.amplifyapp.com/)
 [![Database](https://img.shields.io/badge/database-Supabase%20PostgreSQL-3ECF8E.svg)]()
 [![Node Runtime](https://img.shields.io/badge/node-v22.13.1-blue.svg)]()
 [![License](https://img.shields.io/badge/license-UNLICENSED-lightgrey.svg)]()
 
-> **Intelligent decision-support & recovery platform for café and small grocery managers to inspect ageing inventory, simulate markdown prices and demand scenarios, enforce strict food-safety gates, commit auditable recovery decisions, and sell discounted near-expiry products directly to customers with community food donations and real-time business insights.**
+> **Intelligent decision-support & recovery platform for café and small grocery managers to inspect ageing inventory, simulate markdown prices and demand scenarios, enforce strict food-safety gates, commit auditable recovery decisions, sell discounted near-expiry products directly to customers with community food donations, route inventory to partner orphanages, and analyze real-time business insights.**
+>
+> 🌐 **Live Web Application:** [https://main.d383abo9k5jug.amplifyapp.com/](https://main.d383abo9k5jug.amplifyapp.com/)
 
 ---
 
@@ -47,70 +50,81 @@ Executed directly in pure domain logic and verified live in the UI (`/reports` v
 ## 3. Technology Stack & Full-Stack Architecture
 
 - **Frontend Framework:** React 19.3.1 (JavaScript, ES Modules)
-- **Build Tool & Dev Server:** Vite 8.3.4 (HMR, minified production build in ~735ms)
+- **Build Tool & Dev Server:** Vite 8.3.4 (HMR, minified production build in ~8.5s)
 - **Styling:** Tailwind CSS 4.3.3 + Custom CSS Tokens (Sleek dark theme `#0f172a`, glassmorphism, accent colors)
-- **Charts & Visualizations:** Recharts 2.15.4 (Area Charts, Responsive Containers, Pie & Donut Charts)
-- **Icons:** Lucide React 1.16.0
-- **Database Backend:** Supabase PostgreSQL 15+ with Row Level Security (RLS) policies
+- **Charts & Visualizations:** Recharts 3.10.1 (Area Charts, Responsive Containers, Pie & Donut Charts)
+- **Icons:** Lucide React 1.59.0
+- **Database Backend:** Supabase PostgreSQL 15+ with Row Level Security (RLS) policies & 7 migrations
 - **Monetary Representation:** Integer paise (`BIGINT` in DB, e.g. ₹40.00 = 4000 paise) preventing floating-point rounding errors
 - **Payments:** Razorpay Checkout simulation with idempotent stock deductions and webhook verification
-- **Test Runner:** Node.js native test runner (`node:test`, `node:assert/strict`) — 145 tests, 50 suites
+- **Test Runner:** Node.js native test runner (`node:test`, `node:assert/strict`) — **200 tests, 54 suites (100% passing)**
 - **Dual Runtime Support:** Client-side Web Storage fallback (`localStorage`) + cloud Supabase PostgreSQL adapter
 
 ### Codebase Organization
 
 ```
 f:\FYND X GENESIS\
-├── Starter_Data/C30/fixture.json       # Authoritative official fixture (B1, B2) — UNTOUCHED
-├── supabase/                           # Production PostgreSQL Migrations
+├── Starter_Data/C30/fixture.json               # Authoritative official fixture (B1, B2) — UNTOUCHED
+├── supabase/                                   # Production PostgreSQL Migrations & Setup
+│   ├── COMBINED_SETUP.sql                      # All-in-one idempotent setup script (Migrations 001-007)
 │   └── migrations/
-│       ├── 001_initial_schema.sql      # 12 core tables with integer paise & foreign keys
-│       ├── 002_row_level_security.sql  # Food safety RLS policies & role isolation
-│       └── 003_seed_data.sql           # Store profile, products, & C30 test fixtures
+│       ├── 001_initial_schema.sql              # 12 core tables with integer paise & foreign keys
+│       ├── 002_row_level_security.sql          # Food safety RLS policies & role isolation
+│       ├── 003_seed_data.sql                   # Store profile, products, & C30 test fixtures
+│       ├── 004_predict_forecasting.sql         # Dynamic demand estimation & forecasting procedures
+│       ├── 005_product_deletion_and_archive.sql# Soft deletion & compliance auditing
+│       ├── 006_auto_decrement_inventory_stock.sql # Automated trigger for customer order stock deduction
+│       └── 007_orphanage_donations_and_clearance.sql # Orphanage routing, clearance markdown, & ₹1 donation tracking
 ├── src/
-│   ├── domain/                         # Pure ES Modules (Decoupled from UI)
-│   │   ├── validation.js               # Defensive boundary & schema validators
-│   │   ├── eligibility.js              # Centralized food safety & cold-chain gate
-│   │   ├── economics.js                # Financial contribution & markdown policies
-│   │   ├── allocation.js               # Demand-capped stock allocation & balance
-│   │   ├── recommendations.js          # Deterministic decision orchestration
-│   │   └── caseChecksRunner.js         # Single source of truth for the 3 case checks
+│   ├── domain/                                 # Pure ES Modules (Decoupled from UI)
+│   │   ├── validation.js                       # Defensive boundary & schema validators
+│   │   ├── eligibility.js                      # Centralized food safety & cold-chain gate
+│   │   ├── economics.js                        # Financial contribution & markdown policies
+│   │   ├── allocation.js                       # Demand-capped stock allocation & balance
+│   │   ├── recommendations.js                  # Deterministic decision orchestration
+│   │   └── caseChecksRunner.js                 # Single source of truth for the 3 case checks
 │   ├── data/
-│   │   ├── fixtureLoader.js            # Normalization layer (24-batch demo & official fixture)
-│   │   ├── storeCatalog.js             # Realistic 24-batch café store demo inventory
-│   │   ├── decisionStore.js            # Decision audit log & RFC 4180 CSV export
-│   │   ├── orderStore.js               # Orders, payments, donations, feedback, analytics
-│   │   └── supabaseAdapter.js          # Unified cloud/local storage database bridge
+│   │   ├── fixtureLoader.js                    # Normalization layer (24-batch demo & official fixture)
+│   │   ├── storeCatalog.js                     # Realistic 24-batch café store demo inventory
+│   │   ├── decisionStore.js                    # Decision audit log & RFC 4180 CSV export
+│   │   ├── orderStore.js                       # Orders, payments, donations, orphanage tracking, feedback
+│   │   └── supabaseAdapter.js                  # Unified cloud/local storage database bridge
 │   ├── lib/
-│   │   ├── auth.js                     # Authentication context & user session provider
-│   │   ├── cartContext.js              # Customer cart provider with quantity bounds
-│   │   ├── notificationContext.js      # Real-time multi-role notification store
-│   │   ├── paymentGateway.js           # Razorpay checkout & payment processing engine
-│   │   └── supabase.js                 # Supabase client initializer
-│   ├── components/                     # Reusable design system components
-│   │   ├── AppShell.jsx                # Manager dark sidebar shell with role switcher
-│   │   ├── ProtectedRoute.jsx          # Role-based route authorization guard
-│   │   ├── StatusBadge.jsx             # Visual safety badges (Eligible, Expired, Cold Chain)
-│   │   ├── EmptyState.jsx              # Zero-state handler
-│   │   ├── ErrorMessage.jsx            # Error recovery card with retry trigger
-│   │   └── LoadingState.jsx            # Non-blocking loading indicator
+│   │   ├── auth.js                             # Authentication context & user session provider
+│   │   ├── cartContext.js                      # Customer cart provider with quantity bounds
+│   │   ├── notificationContext.js              # Real-time multi-role notification store
+│   │   ├── paymentGateway.js                   # Razorpay checkout & payment processing engine
+│   │   └── supabase.js                         # Supabase client initializer
+│   ├── components/                             # Reusable design system components
+│   │   ├── AppShell.jsx                        # Manager dark sidebar shell with role switcher
+│   │   ├── ProtectedRoute.jsx                  # Role-based route authorization guard
+│   │   ├── StatusBadge.jsx                     # Visual safety badges (Eligible, Expired, Cold Chain)
+│   │   ├── EmptyState.jsx                      # Zero-state handler
+│   │   ├── ErrorMessage.jsx                    # Error recovery card with retry trigger
+│   │   └── LoadingState.jsx                    # Non-blocking loading indicator
 │   ├── features/
-│   │   ├── dashboard/                  # Manager Dashboard: KPIs, Donut chart, Attention feed
-│   │   ├── inventory/                  # Inventory Table, multi-facet filters, Batch modal
-│   │   ├── simulator/                  # Markdown Simulator, price slider, confirm modal
-│   │   ├── decisions/                  # Decision audit log, RFC 4180 CSV & JSON export
-│   │   ├── reports/                    # 25-pt case checks runner & MBA feedback
-│   │   ├── insights/                   # Business Insights: Recharts analytics, 6 date filters
-│   │   ├── notifications/              # Manager operational alert center
-│   │   ├── feedback/                   # Customer reviews & manager response portal
-│   │   └── customer/                   # Customer Experience:
-│   │       ├── ShopPage.jsx            # Discounted catalog with safety gating
-│   │       ├── CartPage.jsx            # Cart with ₹1 food donation & Razorpay checkout
-│   │       ├── OrdersPage.jsx          # Customer order history & tracking
-│   │       ├── CustomerFeedbackPage.jsx# Customer star ratings & category reviews
-│   │       ├── CustomerNotificationsPage.jsx # In-app customer alerts
-│   │       └── CustomerShell.jsx       # Customer header with "Manager Desk" toggle
-│   └── tests/                          # 145 automated unit & integration tests
+│   │   ├── dashboard/                          # Manager Dashboard: KPIs, Donut chart, Needs Immediate Action
+│   │   │   ├── DashboardPage.jsx               # 2-section immediate action panel (Expiring Soon & Low Sale Rate)
+│   │   │   ├── OrphanageDonationModal.jsx      # Orphanage routing, location selector, ₹1 micro-donation counter
+│   │   │   └── AdjustDiscountModal.jsx         # Interactive markdown clearance slider bar (5%-90%)
+│   │   ├── inventory/                          # Inventory Table, multi-facet filters, Batch modal
+│   │   │   ├── InventoryPage.jsx               # Inventory management with bulk operations
+│   │   │   ├── BatchDetails.jsx                # Batch modal with donate & discount clearance triggers
+│   │   │   └── BulkUploadModal.jsx             # CSV bulk upload with flexible header mapping & auto-validation
+│   │   ├── simulator/                          # Markdown Simulator, price slider, confirm modal
+│   │   ├── decisions/                          # Decision audit log, RFC 4180 CSV & JSON export
+│   │   ├── reports/                            # 25-pt case checks runner & MBA feedback
+│   │   ├── insights/                           # Business Insights: Recharts analytics, 6 date filters
+│   │   ├── notifications/                      # Manager operational alert center
+│   │   ├── feedback/                           # Customer reviews & manager response portal
+│   │   └── customer/                           # Customer Experience:
+│   │       ├── ShopPage.jsx                    # Discounted catalog with instant markdown reflection
+│   │       ├── CartPage.jsx                    # Cart with ₹1 food donation & Razorpay checkout
+│   │       ├── OrdersPage.jsx                  # Customer order history & tracking
+│   │       ├── CustomerFeedbackPage.jsx        # Customer star ratings & category reviews
+│   │       ├── CustomerNotificationsPage.jsx   # In-app customer alerts
+│   │       └── CustomerShell.jsx               # Customer header with "Manager Desk" toggle
+│   └── tests/                                  # 200 automated unit & integration tests
 │       ├── validation.test.js
 │       ├── eligibility.test.js
 │       ├── economics.test.js
@@ -122,8 +136,10 @@ f:\FYND X GENESIS\
 │       ├── decisionStore.test.js
 │       ├── simulator.test.js
 │       ├── reliabilityEdgeCases.test.js
-│       ├── businessInsights.test.js    # Analytics date filters, repeat purchases, waste ratios
-│       └── orderAndDonation.test.js    # Price snapshots, donation verification, feedback constraints
+│       ├── businessInsights.test.js            # Analytics date filters, repeat purchases, waste ratios
+│       ├── orderAndDonation.test.js            # Price snapshots, donation verification, feedback constraints
+│       ├── stockDeductionWorkflow.test.js      # Bi-directional inventory deductions & CSV bulk upload
+│       └── immediateActionDonationAndDiscount.test.js # Needs Immediate Action 2-section & clearance tests
 ```
 
 ---
@@ -133,13 +149,27 @@ f:\FYND X GENESIS\
 ### 4.1 Manager Decision Desk
 1. **Executive Dashboard (`/`):**
    - 4 executive KPI cards: Total Batches, Eligible for Sale, Blocked from Sale, Expiring Soon.
-   - SVG Stock Status Donut Chart with live batch percentages.
-   - Immediate Attention Required feed linking directly to batch details or the simulator.
+   - SVG Stock Status Donut Chart with live batch percentages and Inventory Stock Valuation strip.
+   - **Needs Immediate Action Card (Dual-Section Workspace):**
+     - **🚨 Expiring within 3 Days:** Isolates safe, non-expired inventory expiring within 72 hours (`daysUntilExpiry <= 3`).
+     - **📉 Low Sale Rate:** Identifies slow-moving or low-demand velocity inventory batches (`demandAssumption < qty` or `demandEvidence === 'None'/'Available (Low)'`).
+     - **Action 1: 🎁 Donate to Orphans:**
+       - Location-based Orphanage selector (*"Select Orphanage through Location"* across major metro hubs).
+       - Transparent onboarding empty-state with a `+ Request Orphanage Onboarding` trigger.
+       - Customer ₹1 micro-donation transparent tracker: Displays count and rupee total of ₹1 checkout contributions collected till now.
+       - Total Donated Metric: Real-time sum of ₹1 customer micro-funds + retail food valuation of all donated batches.
+       - Quantity selector to donate batch units or zero out entire inventory, logging to `orphanage_batch_donations`.
+     - **Action 2: 🏷️ Keep More Discount:**
+       - Interactive clearance discount range slider bar (**5% to 90%**) plus quick preset pills (25%, 40%, 50%, 60%, 70%, 80%).
+       - Live financial breakdown: Original Price vs. New Selling Price, Customer Savings (₹), and Unit Margin check.
+       - **Immediate Cross-System Reflection:** Instantly reflects in Manager Inventory and Customer Shop (`/shop`), updating customer product cards and cart prices in real time.
 2. **Inventory Management (`/inventory`):**
+   - **Bulk CSV Product Upload:** Upload multiple batches simultaneously from CSV files with flexible column matching (`productName`, `category`, `qty`, `originalPrice`, `incrementalCost`, `expiryAt`, `condition`, `coldChainStatus`).
+   - **Bi-Directional Real-Time Stock Deduction:** Adding stock (e.g., Bread 5 units) reflects in the customer shop; when a customer purchases 2 units, stock automatically decrements to 3 units in the manager inventory across tabs and PostgreSQL tables.
    - Multi-facet filters: Safety Status, Product Category, Expiry Window.
    - Live search across Batch ID and Product Name.
    - Sortable columns: Batch ID, Product, Expiry, Price, Cost, Margin, Stock Qty, Safety Status.
-   - Batch Details modal with 4-metric grid, 4-attribute grid, and direct transition to the simulator.
+   - Batch Details modal with 4-metric grid, 4-attribute grid, and direct transition to simulator or quick donation/discount actions.
    - Manual batch creation form for ad-hoc inventory entry.
 3. **Interactive Markdown Simulator (`/simulator`):**
    - Dynamic price slider and numeric input bounded by cost $C$ and markdown caps.
@@ -178,13 +208,14 @@ f:\FYND X GENESIS\
    - Browse near-expiry perishable products marked down for rapid recovery.
    - Strict food safety filtering: Expired (`B2`) and damaged (`B3`) batches are **never** visible to customers.
    - Visual tags displaying remaining shelf life ("Expires in 6h"), original price, discounted price, and % off.
+   - Real-time price updates whenever manager adjusts clearance discounts.
 2. **Cart & Community Donation (`/cart`):**
    - Line-item quantity controls strictly bounded by available batch stock.
-   - **₹1 Community Food Recovery Donation:** Optional checkbox adding exactly 100 paise to support local hunger relief NGOs.
+   - **₹1 Community Food Recovery Donation:** Optional checkbox adding exactly 100 paise to support local hunger relief NGOs and orphanages.
    - Immutable price snapshotting: Cart items lock in the exact markdown price at checkout time.
 3. **Razorpay Checkout Flow:**
    - Simulated payment modal with Card, UPI, and Netbanking options.
-   - Idempotent stock deduction: Confirmed payments atomically deduct stock from the inventory catalog.
+   - Idempotent stock deduction: Confirmed payments atomically deduct stock from the inventory catalog and Supabase database.
    - Immediate order confirmation with unique `ORD-...` tracking identifiers.
 4. **Order History (`/orders`):**
    - View past recovery purchases, delivery statuses, and payment receipts.
@@ -210,12 +241,18 @@ npm install
 ```bash
 npm test
 ```
-*Expected Output: 145 tests across 50 suites passing in <250ms (0 failures, 0 skipped).*
+*Expected Output: **200 tests across 54 suites passing in <380ms (0 failures, 0 skipped, 100% compliant)**.*
 
 ### 3. Run Specific Test Suites
 ```bash
 # Run mandatory 25-point case checks:
 node --test src/tests/caseChecks.test.js
+
+# Run Immediate Action (Orphanage Donation & Clearance Discount) tests:
+node --test src/tests/immediateActionDonationAndDiscount.test.js
+
+# Run Stock Deduction & CSV Bulk Upload workflow tests:
+node --test src/tests/stockDeductionWorkflow.test.js
 
 # Run Business Insights analytics tests:
 node --test src/tests/businessInsights.test.js
@@ -228,7 +265,7 @@ node --test src/tests/orderAndDonation.test.js
 ```bash
 npm run build
 ```
-*Expected Output: Zero errors; optimized bundle generated in `dist/` in <800ms.*
+*Expected Output: Zero errors; optimized bundle generated in `dist/` with zero warnings.*
 
 ### 5. Run Local Preview / Development Server
 ```bash
@@ -250,10 +287,16 @@ The platform is designed with a hybrid persistence architecture:
 
 To connect to live Supabase:
 1. Follow the step-by-step instructions in [`SUPABASE_SETUP.md`](./SUPABASE_SETUP.md).
-2. Execute the migrations in order:
-   - `supabase/migrations/001_initial_schema.sql`
-   - `supabase/migrations/002_row_level_security.sql`
-   - `supabase/migrations/003_seed_data.sql`
+2. Either execute the all-in-one setup script in the Supabase SQL Editor:
+   - `supabase/COMBINED_SETUP.sql`
+   Or run the individual migrations in order:
+   - `supabase/migrations/001_initial_schema.sql` (12 core tables & foreign keys)
+   - `supabase/migrations/002_row_level_security.sql` (Food safety RLS & customer isolation)
+   - `supabase/migrations/003_seed_data.sql` (Catalog products & baseline fixtures)
+   - `supabase/migrations/004_predict_forecasting.sql` (Predictive demand forecasting engine)
+   - `supabase/migrations/005_product_deletion_and_archive.sql` (Audit-safe product archiving)
+   - `supabase/migrations/006_auto_decrement_inventory_stock.sql` (Atomic order stock deduction trigger)
+   - `supabase/migrations/007_orphanage_donations_and_clearance.sql` (Orphanage routing & clearance discounts)
 3. Create a `.env` file with your credentials:
    ```env
    VITE_SUPABASE_URL=https://your-project.supabase.co
@@ -272,7 +315,7 @@ To connect to live Supabase:
 - [FEATURE_GAP_AUDIT.md](./FEATURE_GAP_AUDIT.md): Comprehensive feature audit matrix comparing prototype vs. production full-stack implementation.
 - [PAYMENT_GATEWAY_SETUP.md](./PAYMENT_GATEWAY_SETUP.md): Razorpay checkout integration, payment verification, and idempotent stock updates.
 - [BUSINESS_INSIGHTS_METHODOLOGY.md](./BUSINESS_INSIGHTS_METHODOLOGY.md): Financial analytics formulas, repeat purchase rate, and recovery ratios.
-- [TESTING_REPORT.md](./TESTING_REPORT.md): Complete test suite verification report (145/145 passing tests, 25/25 case checks).
+- [TESTING_REPORT.md](./TESTING_REPORT.md): Complete test suite verification report (200/200 passing tests across 54 suites, 25/25 case checks).
 
 ### Business Model & Commercial Readiness
 - [FYND_C30_Project_Requirements.md](./FYND_C30_Project_Requirements.md): Core requirements, formulas, and constraints.
